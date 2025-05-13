@@ -1,0 +1,186 @@
+/* Publications page specific styles */
+
+.page-title {
+    margin-bottom: 2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.publication-section {
+    margin-bottom: 3rem;
+    opacity: 0;
+}
+
+#journal-articles {
+    animation-delay: 0.1s;
+}
+
+#conference-papers {
+    animation-delay: 0.3s;
+}
+
+#workshops-posters {
+    animation-delay: 0.5s;
+}
+
+.publication-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.publication-item {
+    display: flex;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;  /* 추가: DOI 오버레이를 위한 상대적 위치 */
+}
+
+.publication-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 새로 추가: DOI 오버레이 */
+.doi-overlay {
+    position: absolute;
+    right: -100px;  /* 초기에는 화면 바깥에 위치 */
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--accent-color);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 500;
+    opacity: 0;
+    transition: right 0.3s ease, opacity 0.3s ease;
+    pointer-events: none;  /* 초기에는 클릭 불가능 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    z-index: 10;
+}
+
+.publication-item:hover .doi-overlay {
+    right: 20px;  /* 호버 시 오른쪽에서 나타남 */
+    opacity: 1;
+    pointer-events: auto;  /* 호버 시 클릭 가능하게 */
+}
+
+.publication-year {
+    flex: 0 0 100px;
+    background-color: var(--accent-color);
+    color: white;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+}
+
+.publication-content {
+    flex: 1;
+    padding: 1.25rem;
+}
+
+.authors {
+    color: #555;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.authors strong {
+    color: var(--accent-color);  /* 이름 강조 스타일 */
+    font-weight: 700;
+}
+
+.title {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.venue {
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.75rem;
+    font-style: italic;
+}
+
+.award {
+    margin-bottom: 0.75rem;
+}
+
+.award-tag {
+    display: inline-block;
+    background: linear-gradient(135deg, #ffd700, #f8c851);
+    color: #5c4200;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e6c145;
+    text-shadow: 0 1px 1px rgba(255, 255, 255, 0.5);
+    letter-spacing: 0.5px;
+}
+
+.publication-links {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.pub-link {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border: 1px solid var(--accent-color);
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--accent-color);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.pub-link:hover {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+/* 새로 추가: hidden-doi 클래스 */
+.hidden-doi {
+    display: none;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .publication-item {
+        flex-direction: column;
+    }
+    
+    .publication-year {
+        width: 100%;
+        padding: 0.5rem;
+        flex: 0;
+    }
+    
+    .title {
+        font-size: 1rem;
+    }
+    
+    .doi-overlay {
+        position: static;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        display: none;
+        opacity: 1;
+        transform: none;
+        text-align: center;
+        width: 100%;
+    }
+    
+    .publication-item:hover .doi-overlay {
+        display: block;
+        right: auto;
+    }
+}

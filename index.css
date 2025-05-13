@@ -1,0 +1,49 @@
+/* Index page specific styles */
+
+/* Biography section specific styling */
+.bio-text {
+    font-size: 1rem;
+    line-height: 1.7;
+}
+
+/* Timeline elements specific to index page */
+.timeline-item:last-child {
+    margin-bottom: 0;
+}
+
+/* Animation delays for sections */
+#biography {
+    animation-delay: 0.1s;
+}
+
+#work-experience {
+    animation-delay: 0.3s;
+}
+
+#education {
+    animation-delay: 0.5s;
+}
+
+#fellowships {
+    animation-delay: 0.7s;
+}
+
+/* Timeline items specific styling */
+.timeline-content p {
+    color: var(--dark-gray);
+    margin-bottom: 0.25rem;
+    font-size: 0.95rem;
+}
+
+/* Add a light background to the sections */
+#work-experience, #education, #fellowships {
+    position: relative;
+}
+
+/* Responsive adjustments specific to index page */
+@media (max-width: 768px) {
+    .bio-text {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+}
