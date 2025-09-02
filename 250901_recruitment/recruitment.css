@@ -307,6 +307,15 @@ footer {
         padding: 12px 15px;
         font-size: 0.9rem;
     }
+    
+    .illustration-container-inline {
+        margin: 20px 20px;
+        padding: 15px;
+    }
+    
+    .main-illustration-inline {
+        width: calc(100% - 40px);
+    }
 }
 
 @media (max-width: 480px) {
@@ -334,6 +343,15 @@ footer {
     .register-btn {
         padding: 12px 30px;
         font-size: 1rem;
+    }
+    
+    .illustration-container-inline {
+        margin: 15px 10px;
+        padding: 10px;
+    }
+    
+    .main-illustration-inline {
+        width: calc(100% - 20px);
     }
 }
 
@@ -368,11 +386,8 @@ html {
 /* Inline Illustration Styles */
 .illustration-container-inline {
     text-align: center;
-    margin: 20px 0;
-    padding: 15px;
-    background: linear-gradient(145deg, #fafbfc, #f3f4f6);
-    border-radius: 12px;
-    border: 1px solid rgba(0,0,0,0.04);
+    margin: 25px 40px;
+    padding: 20px;
 }
 
 @keyframes floatAnimation {
@@ -399,8 +414,8 @@ html {
 }
 
 .main-illustration-inline {
-    width: 100%;
-    max-width: 280px;
+    width: calc(100% - 80px);
+    max-width: 100%;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.08);
