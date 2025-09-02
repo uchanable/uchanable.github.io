@@ -42,6 +42,13 @@ document.addEventListener('DOMContentLoaded', function() {
     sections.forEach(section => {
         observer.observe(section);
     });
+    
+    // Add animation to illustration container
+    const illustrationContainer = document.querySelector('.illustration-container');
+    if (illustrationContainer) {
+        illustrationContainer.classList.add('fade-in-section');
+        observer.observe(illustrationContainer);
+    }
 
     // Smooth parallax effect for header
     let ticking = false;
