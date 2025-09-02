@@ -368,8 +368,8 @@ html {
 /* Inline Illustration Styles */
 .illustration-container-inline {
     text-align: center;
-    margin: 25px 0;
-    padding: 20px;
+    margin: 20px 0;
+    padding: 15px;
     background: linear-gradient(145deg, #fafbfc, #f3f4f6);
     border-radius: 12px;
     border: 1px solid rgba(0,0,0,0.04);
@@ -400,11 +400,13 @@ html {
 
 .main-illustration-inline {
     width: 100%;
-    max-width: 400px;
+    max-width: 280px;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.08);
     transition: transform 0.3s ease;
+    margin: 0 auto;
+    display: block;
 }
 
 .main-illustration-inline:hover {
@@ -412,11 +414,7 @@ html {
 }
 
 .illustration-caption {
-    margin-top: 20px;
-    font-size: 0.95rem;
-    color: #718096;
-    font-style: italic;
-    letter-spacing: -0.2px;
+    display: none;
 }
 
 /* Scroll Animations */
