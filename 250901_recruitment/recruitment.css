@@ -94,7 +94,6 @@ section h2 {
 
 .content-placeholder p {
     color: #666;
-    font-style: italic;
     margin: 10px 0;
 }
 
@@ -102,7 +101,6 @@ section h2 {
 .content-placeholder ol {
     margin-left: 20px;
     color: #666;
-    font-style: italic;
 }
 
 .content-placeholder li {
