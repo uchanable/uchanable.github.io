@@ -314,7 +314,8 @@ footer {
     }
     
     .main-illustration-inline {
-        width: calc(100% - 40px);
+        width: 100%;
+        max-width: none;
     }
 }
 
@@ -346,12 +347,13 @@ footer {
     }
     
     .illustration-container-inline {
-        margin: 15px 10px;
+        margin: 15px 0;
         padding: 10px;
     }
     
     .main-illustration-inline {
-        width: calc(100% - 20px);
+        width: 100%;
+        max-width: none;
     }
 }
 
@@ -414,8 +416,8 @@ html {
 }
 
 .main-illustration-inline {
-    width: calc(100% - 80px);
-    max-width: 100%;
+    width: 100%;
+    max-width: 500px;
     height: auto;
     border-radius: 12px;
     box-shadow: 0 3px 12px rgba(0,0,0,0.08);
