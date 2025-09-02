@@ -307,12 +307,7 @@ footer {
         padding: 12px 15px;
         font-size: 0.9rem;
     }
-    
-    .illustration-container-inline {
-        margin: 20px 20px;
-        padding: 15px;
-    }
-    
+       
     .main-illustration-inline {
         width: 100%;
         max-width: none;
@@ -345,12 +340,7 @@ footer {
         padding: 12px 30px;
         font-size: 1rem;
     }
-    
-    .illustration-container-inline {
-        margin: 15px 0;
-        padding: 10px;
-    }
-    
+        
     .main-illustration-inline {
         width: 100%;
         max-width: none;
@@ -376,8 +366,8 @@ html {
 /* Illustration Styles */
 .illustration-container {
     text-align: center;
-    margin: 40px auto;
-    padding: 30px;
+    /* margin: 40px auto; */
+    /* padding: 30px; */
     background: linear-gradient(145deg, #ffffff, #fafbfc);
     border-radius: 20px;
     box-shadow: 0 8px 24px rgba(0,0,0,0.06);
@@ -388,8 +378,8 @@ html {
 /* Inline Illustration Styles */
 .illustration-container-inline {
     text-align: center;
-    margin: 25px 40px;
-    padding: 20px;
+    /* margin: 25px 40px; */
+    /* padding: 20px; */
 }
 
 @keyframes floatAnimation {
