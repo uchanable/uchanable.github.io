@@ -327,8 +327,8 @@
         .def-card {
             border: 1px solid var(--border);
             padding: 20px;
-            display: flex;
-            flex-direction: column;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
         }
 
         .def-card h4 {
@@ -339,13 +339,14 @@
             color: var(--text);
             text-transform: none;
             letter-spacing: -0.01em;
+            border-left: none;
+            padding-left: 0;
         }
 
         .def-card .def-desc {
             font-size: 0.88rem;
             color: var(--text-2);
             line-height: 1.6;
-            flex: 1;
         }
 
         .def-card .def-eq {
@@ -354,6 +355,12 @@
             border-top: 1px solid var(--border);
             text-align: center;
             overflow-x: auto;
+            font-size: 0.85rem;
+            align-self: end;
+        }
+
+        .def-card .def-eq .MathJax {
+            font-size: 0.88em !important;
         }
 
         @media (max-width: 640px) {
@@ -798,32 +805,32 @@
                 <div class="def-card">
                     <h4>Mean</h4>
                     <div class="def-desc">Global measure of how closely the controller maintains the target force on average.</div>
-                    <div class="def-eq">$$\overline{F} = \frac{1}{n}\sum_{i=1}^{n} F_i$$</div>
+                    <div class="def-eq">$$\frac{1}{n}\sum_{i=1}^{n} F_i$$</div>
                 </div>
                 <div class="def-card">
                     <h4>RMSE</h4>
                     <div class="def-desc">Magnitude of force deviation from the target. Squaring amplifies large errors, making it sensitive to transient force spikes.</div>
-                    <div class="def-eq">$$\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(F_i - F_{\text{target}})^2}$$</div>
+                    <div class="def-eq">$$\sqrt{\frac{1}{n}\sum_{i=1}^{n}(F_i - F_{\text{target}})^2}$$</div>
                 </div>
                 <div class="def-card">
                     <h4>MAE</h4>
                     <div class="def-desc">Average absolute deviation from the target force. Less sensitive to outliers than RMSE; reported as a complementary accuracy metric.</div>
-                    <div class="def-eq">$$\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|F_i - F_{\text{target}}|$$</div>
+                    <div class="def-eq">$$\frac{1}{n}\sum_{i=1}^{n}|F_i - F_{\text{target}}|$$</div>
                 </div>
                 <div class="def-card">
                     <h4>CV</h4>
                     <div class="def-desc">Force variability normalized by the mean, enabling fair comparison across conditions with slightly different mean forces.</div>
-                    <div class="def-eq">$$\text{CV} = \frac{\text{SD}(F)}{\overline{F}} \times 100$$</div>
+                    <div class="def-eq">$$\frac{\text{SD}(F)}{\overline{F}} \times 100$$</div>
                 </div>
                 <div class="def-card">
                     <h4>$\Delta F$ (Hysteresis)</h4>
                     <div class="def-desc">Absolute difference in mean force between forward and backward strokes. Lower values indicate more consistent bidirectional force delivery.</div>
-                    <div class="def-eq">$$\Delta F = |\overline{F}_\text{fwd} - \overline{F}_\text{bwd}|$$</div>
+                    <div class="def-eq">$$|\overline{F}_\text{fwd} - \overline{F}_\text{bwd}|$$</div>
                 </div>
                 <div class="def-card">
                     <h4>MASD</h4>
                     <div class="def-desc">Force smoothness: average absolute sample-to-sample changes within each cycle, then averaged across $K=10$ cycles. Lower MASD = smoother delivery.</div>
-                    <div class="def-eq">$$\text{MASD} = \frac{1}{K}\sum_{k=1}^{K}\!\left(\frac{1}{n_k\!-\!1}\sum_{i=2}^{n_k}|F_i^{(k)}\!-\!F_{i-1}^{(k)}|\right)$$</div>
+                    <div class="def-eq">$$\frac{1}{K}\sum_{k=1}^{K}\!\left(\frac{1}{n_k\!-\!1}\sum_{i=2}^{n_k}|F_i^{(k)}\!-\!F_{i-1}^{(k)}|\right)$$</div>
                 </div>
             </div>
         </div>
