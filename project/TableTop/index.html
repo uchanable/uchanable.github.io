@@ -40,10 +40,27 @@
         }
 
         /* ── Header ── */
+        .header-wrap {
+            position: relative;
+            background: url('source/figure/hp_header.png') center/cover no-repeat;
+            min-height: 320px;
+            display: flex;
+            align-items: flex-end;
+        }
+
+        .header-wrap::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
         header {
+            position: relative;
             max-width: var(--w-wide);
             margin: 0 auto;
-            padding: 80px 24px 0;
+            padding: 60px 24px 48px;
+            width: 100%;
         }
 
         header h1 {
@@ -53,48 +70,48 @@
             line-height: 1.2;
             letter-spacing: -0.02em;
             margin-bottom: 16px;
+            color: #fff;
         }
 
         header .meta {
-            color: var(--text-2);
+            color: rgba(255,255,255,0.75);
             font-size: 0.95rem;
             line-height: 1.8;
             margin-bottom: 28px;
         }
 
         header .meta a {
-            color: var(--text);
+            color: rgba(255,255,255,0.9);
             text-decoration: none;
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid rgba(255,255,255,0.3);
         }
 
-        header .meta a:hover { border-color: var(--text); }
+        header .meta a:hover { border-color: rgba(255,255,255,0.7); }
 
         .links {
             display: flex;
             gap: 20px;
             flex-wrap: wrap;
-            margin-bottom: 48px;
         }
 
         .links a {
             font-size: 0.88rem;
             font-weight: 500;
-            color: var(--text);
+            color: #fff;
             text-decoration: none;
             padding-bottom: 2px;
-            border-bottom: 1.5px solid var(--text);
+            border-bottom: 1.5px solid rgba(255,255,255,0.6);
             transition: opacity 0.15s;
         }
 
-        .links a:hover { opacity: 0.6; }
+        .links a:hover { opacity: 0.7; }
 
         .link-disabled {
             font-size: 0.88rem;
             font-weight: 500;
-            color: var(--text-3);
+            color: rgba(255,255,255,0.4);
             padding-bottom: 2px;
-            border-bottom: 1.5px solid var(--border);
+            border-bottom: 1.5px solid rgba(255,255,255,0.2);
             cursor: default;
         }
 
@@ -444,6 +461,7 @@
 <body>
 
 <!-- ── Header ── -->
+<div class="header-wrap">
 <header>
     <h1>A Tabletop Mobile Robot<br>for CT-Optimal Touch</h1>
     <div class="meta">
@@ -459,13 +477,6 @@
         <a href="#videos">Video</a>
     </div>
 </header>
-
-<!-- ── Hero image ── -->
-<div class="hero-img">
-    <figure>
-        <img src="source/figure/overview/system_overview.png" alt="System overview">
-        <figcaption>The tabletop mobile robot (94 &times; 137 &times; 72 mm) delivers CT-optimal touch to the forearm during desk work, using a motorized parallel-linkage stroking module with real-time force control.</figcaption>
-    </figure>
 </div>
 
 <!-- ── Nav ── -->
@@ -531,11 +542,16 @@
     <h2>System Overview</h2>
 
     <figure>
+        <img src="source/figure/overview/system_overview.png" alt="System overview">
+        <figcaption><strong>Figure 1.</strong> The tabletop mobile robot (94 &times; 137 &times; 72 mm) delivers CT-optimal touch to the forearm during desk work.</figcaption>
+    </figure>
+
+    <figure>
         <img src="source/figure/overview/mobile_robot_detail.png" alt="Robot detail">
         <figcaption><strong>Figure 2.</strong> Stroking module with parallel-linkage mechanism, holonomic mobile base with three omniwheels, and control electronics.</figcaption>
     </figure>
 
-    <figure class="fig-narrow">
+    <figure>
         <img src="source/figure/overview/control_block_2.png" alt="Control block diagram">
         <figcaption><strong>Figure 3.</strong> FF+PID control architecture. The feedforward component provides a pre-learned angle map $\theta_{\text{FF}}(y)$; the PID controller corrects residual errors in real time.</figcaption>
     </figure>
