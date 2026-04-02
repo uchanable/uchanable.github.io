@@ -786,7 +786,7 @@
     <p>20 participants performed a within-subjects experiment (2 directions &times; 2 controllers = 4 conditions, counterbalanced). Each condition consisted of 10 round-trip stroking cycles at 3 cm/s with a target force of 0.4 N.</p>
 
     <h3 id="experiment-pipeline">Data Processing Pipeline</h3>
-    <details>
+    <details open>
         <summary>Three-stage filtering</summary>
         <div class="expand-body">
             <p>The force data were extracted from raw stroking recordings using a three-stage filtering pipeline. Each stroke cycle consists of: stop &rarr; acceleration &rarr; <strong>steady (analyzed)</strong> &rarr; deceleration &rarr; stop.</p>
@@ -801,7 +801,7 @@
 
     <h3 id="experiment-eval">Evaluation Method</h3>
 
-    <details>
+    <details open>
         <summary>Force metric definitions</summary>
         <div class="expand-body">
             <p>All metrics computed over steady-state data for each participant&ndash;condition pair (10 cycles pooled). Target force $F_{\text{target}} = 0.4$ N.</p>
@@ -840,7 +840,7 @@
         </div>
     </details>
 
-    <details>
+    <details open>
         <summary>Perceptual questionnaire</summary>
         <div class="expand-body">
             <p>After each 10-cycle condition, participants rated three 7-point Likert scales (1 = not at all, 7 = very much):</p>
@@ -853,7 +853,7 @@
         </div>
     </details>
 
-    <details>
+    <details open>
         <summary>EDA measurement</summary>
         <div class="expand-body">
             <p>BITalino (r)evolution board at 10 Hz. Ag/AgCl electrodes on left index and middle fingertips. 5-minute stabilization period. S18 excluded ($n = 19$) due to near-zero SCL.</p>
@@ -871,7 +871,9 @@
 <!-- ════════════════════════════════════════════════════════════ -->
 <section id="results">
 <div class="w">
-    <h2>Detailed Results</h2>
+    <details>
+    <summary style="font-family: var(--serif); font-size: 1.4rem; font-weight: 600; padding: 16px 0; list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px;">Detailed Results</summary>
+    <div class="expand-body">
 
     <!-- Force Control -->
     <h3 id="results-force">Force Control</h3>
@@ -1207,6 +1209,8 @@
         </div>
     </details>
 </div>
+    </div>
+    </details>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════ -->
