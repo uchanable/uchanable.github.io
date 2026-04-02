@@ -746,36 +746,22 @@
     <h3 id="algorithms-detail">Calibration Algorithms</h3>
     <p>Two-phase per-participant calibration adapts $\boldsymbol{\theta}_{\text{FF}}(y)$ to each participant's forearm geometry. Key parameters: $N = 5$ measurement points, $K = 5$ learning trials, $\alpha = 1.0$, $F^* = 0.4$ N.</p>
 
-    <div>
-    <details>
-        <summary>Algorithm S1 &mdash; Static Surface Scan</summary>
-        <div class="expand-body">
-            <div class="algo">
-                <img src="source/algorithm/1.png" alt="Algorithm S1">
-            </div>
-            <p>Measures motor angles at 5 points in both forward (unloading) and backward (loading) directions, then linearly interpolates to form initial angle maps.</p>
+    <div class="def-grid">
+        <div class="def-card">
+            <h4>Algorithm S1</h4>
+            <div class="def-desc">Phase 1 &mdash; Static Surface Scan. Measures motor angles at 5 points in both forward (unloading) and backward (loading) directions, then linearly interpolates to form initial angle maps.</div>
+            <div class="def-eq"><a href="source/algorithm/algorithm.pdf" download>Download PDF &darr;</a></div>
         </div>
-    </details>
-
-    <details>
-        <summary>Algorithm S2/S3 &mdash; Dynamic Learning + Monotonicity Filter</summary>
-        <div class="expand-body">
-            <div class="algo">
-                <img src="source/algorithm/2.png" alt="Algorithm S2 and S3">
-            </div>
-            <p>Update: $\theta^{(k)}(y_i) = \theta^{(k-1)}(y_i) + \alpha \cdot u_{\text{PID}}(y_i)$ when $|e| \geq 0.05$ N. 5 trials refine the map. Monotonicity filter ensures physically consistent angle values along the stroke path.</p>
+        <div class="def-card">
+            <h4>Algorithm S2/S3</h4>
+            <div class="def-desc">Phase 2 &mdash; Dynamic Learning + Monotonicity Filter. Iterative refinement over K=5 trials. Update rule applies PID correction to the angle map when error exceeds dead zone. Monotonicity filter ensures physically consistent angle values.</div>
+            <div class="def-eq"><a href="source/algorithm/algorithm.pdf" download>Download PDF &darr;</a></div>
         </div>
-    </details>
-
-    <details>
-        <summary>Algorithm S4 &mdash; Real-Time FF+PID Control</summary>
-        <div class="expand-body">
-            <div class="algo">
-                <img src="source/algorithm/3.png" alt="Algorithm S4">
-            </div>
-            <p>$\theta_{\text{cmd}} = \theta_{\text{FF}}(y) - u_{\text{PID}}$. Gains: $K_p = 0.3$, $K_i = K_d = 0.03$. Force: 20 ms sampling (5-pt moving avg). PID: 50 ms update. Logging: 100 ms. 10 round trips per condition.</p>
+        <div class="def-card">
+            <h4>Algorithm S4</h4>
+            <div class="def-desc">Real-Time FF+PID Control. Motor command $\theta_{\text{cmd}} = \theta_{\text{FF}}(y) - u_{\text{PID}}$. PID gains: $K_p = 0.3$, $K_i = K_d = 0.03$. Force sampled every 20 ms, PID updated every 50 ms, 10 round trips per condition.</div>
+            <div class="def-eq"><a href="source/algorithm/algorithm.pdf" download>Download PDF &darr;</a></div>
         </div>
-    </details>
     </div>
 </div>
 </section>
