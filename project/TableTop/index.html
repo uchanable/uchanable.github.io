@@ -232,7 +232,7 @@
             font-family: var(--sans);
             font-size: 0.88rem;
             font-weight: 600;
-            margin: 28px 0 8px;
+            margin: 14px 0 8px;
             padding: 4px 0;
             color: var(--text);
             border-bottom: 1px solid var(--border);
@@ -925,7 +925,7 @@
             <p>Orthogonal MASD is higher than parallel (0.019 vs 0.007) despite lower RMSE, due to ~11 data points per cycle vs ~74. Cross-direction comparison is inappropriate; only within-direction comparisons are meaningful.</p>
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 2.</strong> Sampling characteristics comparison between parallel and orthogonal stroking (FF+PID condition, measured values).</p>
-                <div class="tbl-img"><img src="source/table/2.png" alt="Table 2" style="max-width:50%"></div>
+                <div class="tbl-img"><img src="source/table/2.png" alt="Table 2" style="max-width:70%"></div>
             </div>
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 3.</strong> Statistical test results for MASD (FF+PID vs PID-only) by direction.</p>
@@ -975,13 +975,16 @@
     <details>
         <summary>Intraclass Correlation (ICC)</summary>
         <div class="expand-body">
-            <div class="tbl">
-                <p class="tbl-cap"><strong>Table 6.</strong> ICC interpretation criteria (Koo &amp; Li, 2016).</p>
-                <div class="tbl-img"><img src="source/table/5.png" alt="Table 6" style="max-width:30%"></div>
-            </div>
+            <p>ICC interpretation criteria (Koo &amp; Li, 2016):</p>
+            <ul>
+                <li>$&lt; 0.50$ &mdash; Poor</li>
+                <li>$0.50$&ndash;$0.75$ &mdash; Moderate</li>
+                <li>$0.75$&ndash;$0.90$ &mdash; Good</li>
+                <li>$&gt; 0.90$ &mdash; Excellent</li>
+            </ul>
             <div class="tbl" style="max-width:70%">
-                <p class="tbl-cap"><strong>Table 7.</strong> Intraclass Correlation Coefficients (ICC) for RMSE Across 10 Stroking Cycles. ICC(3,$k$): two-way mixed model, average measures, consistency.</p>
-                <div class="tbl-img"><img src="source/table/6.png" alt="Table 7" style="max-width:50%"></div>
+                <p class="tbl-cap"><strong>Table 6.</strong> Intraclass Correlation Coefficients (ICC) for RMSE Across 10 Stroking Cycles. ICC(3,$k$): two-way mixed model, average measures, consistency.</p>
+                <div class="tbl-img"><img src="source/table/6.png" alt="Table 6" style="max-width:70%"></div>
                 <div class="tbl-note"><ul>
                     <li>All conditions: ICC 0.855&ndash;0.998 ("good" to "excellent"). FF+PID yielded higher ICC with non-overlapping 95% CIs.</li>
                 </ul></div>
@@ -993,31 +996,31 @@
         <summary>Cycle Trend Distribution</summary>
         <div class="expand-body">
             <div class="tbl" style="max-width:70%">
-                <p class="tbl-cap"><strong>Table 8.</strong> Cycle Trend Distribution. The balanced distribution confirms no systematic learning or fatigue effects.</p>
-                <div class="tbl-img"><img src="source/table/7.png" alt="Table 8"></div>
+                <p class="tbl-cap"><strong>Table 7.</strong> Cycle Trend Distribution. The balanced distribution confirms no systematic learning or fatigue effects.</p>
+                <div class="tbl-img"><img src="source/table/7.png" alt="Table 7" style="max-width:70%"></div>
             </div>
             <div class="tbl" style="max-width:70%">
-                <p class="tbl-cap"><strong>Table 9.</strong> Spearman $\rho$ frequency distribution across all 80 participant&ndash;condition pairs.</p>
-                <div class="tbl-img"><img src="source/table/8.png" alt="Table 9"></div>
+                <p class="tbl-cap"><strong>Table 8.</strong> Spearman $\rho$ frequency distribution across all 80 participant&ndash;condition pairs.</p>
+                <div class="tbl-img"><img src="source/table/8.png" alt="Table 8" style="max-width:70%"></div>
             </div>
             <figure>
-                <img src="source/figure/force/cycle_trend_distribution.png" alt="Cycle trends">
+                <img src="source/figure/force/cycle_trend_distribution.png" alt="Cycle trends" style="max-width:70%">
                 <figcaption><strong>Figure 7.</strong> Spearman $\rho$ distribution across 80 participant&ndash;condition pairs.</figcaption>
             </figure>
             <h4>Parallel FF+PID worsening</h4>
             <p>Concentrated worsening (14/20, $p = 0.0002$), but Within-P SD = 0.002 N (0.5% of target)&mdash;floor-effect regime.</p>
             <h4>X-axis drift</h4>
             <div class="tbl" style="max-width:70%">
-                <p class="tbl-cap"><strong>Table 10.</strong> X-Axis Drift Analysis for the Parallel FF+PID Condition.</p>
-                <div class="tbl-img"><img src="source/table/9.png" alt="Table 10"></div>
+                <p class="tbl-cap"><strong>Table 9.</strong> X-Axis Drift Analysis for the Parallel FF+PID Condition.</p>
+                <div class="tbl-img"><img src="source/table/9.png" alt="Table 9"></div>
                 <div class="tbl-note"><ul>
                     <li>X drift universal (range: $-0.96$ to $-1.53$ cm), ~0.135 cm/cycle.</li>
                     <li>Worsening statistically significant ($p = 0.0002$) but practically negligible (SD $= 0.002$ N).</li>
                 </ul></div>
             </div>
             <div class="tbl" style="max-width:70%">
-                <p class="tbl-cap"><strong>Table 11.</strong> Forward/Backward X-Axis Displacement per Half-Cycle.</p>
-                <div class="tbl-img"><img src="source/table/10.png" alt="Table 11"></div>
+                <p class="tbl-cap"><strong>Table 10.</strong> Forward/Backward X-Axis Displacement per Half-Cycle.</p>
+                <div class="tbl-img"><img src="source/table/10.png" alt="Table 10"></div>
                 <div class="tbl-note"><ul>
                     <li>100% of backward half-cycles exhibited negative $\Delta X$; forward positive in nearly all cases.</li>
                     <li>Asymmetric |BWD|/|FWD| ratio &approx; 3 produces net negative drift per cycle.</li>
@@ -1030,19 +1033,19 @@
         <summary>Calibration BWD[0] Analysis</summary>
         <div class="expand-body">
             <div class="tbl" style="max-width:55%">
-                <p class="tbl-cap"><strong>Table 12.</strong> Per-participant BWD[0] turnaround angles for the parallel direction.</p>
-                <div class="tbl-img"><img src="source/table/12.png" alt="Table 12"></div>
+                <p class="tbl-cap"><strong>Table 11.</strong> Per-participant BWD[0] turnaround angles for the parallel direction.</p>
+                <div class="tbl-img"><img src="source/table/12.png" alt="Table 11"></div>
                 <div class="tbl-note"><ul>
                     <li>Mean $= 58.6^\circ$, Median $= 56.0^\circ$, SD $= 20.7^\circ$, Range $= 29.5^\circ$&ndash;$110.0^\circ$.</li>
                 </ul></div>
             </div>
             <div class="tbl" style="max-width:55%">
-                <p class="tbl-cap"><strong>Table 13.</strong> Correlation between BWD[0] turnaround angle and parallel RMSE.</p>
-                <div class="tbl-img"><img src="source/table/13.png" alt="Table 13"></div>
+                <p class="tbl-cap"><strong>Table 12.</strong> Correlation between BWD[0] turnaround angle and parallel RMSE.</p>
+                <div class="tbl-img"><img src="source/table/13.png" alt="Table 12"></div>
             </div>
             <div class="tbl" style="max-width:55%">
-                <p class="tbl-cap"><strong>Table 14.</strong> RMSE comparison: BWD[0] outliers vs remaining participants.</p>
-                <div class="tbl-img"><img src="source/table/14.png" alt="Table 14"></div>
+                <p class="tbl-cap"><strong>Table 13.</strong> RMSE comparison: BWD[0] outliers vs remaining participants.</p>
+                <div class="tbl-img"><img src="source/table/14.png" alt="Table 13"></div>
             </div>
             <p>Four outlier participants (S12, S14, S16, S18) showed modestly higher RMSE but did not change the FF+PID superiority pattern. Forearm anatomy is identified as a system limitation addressable through adaptive calibration.</p>
         </div>
@@ -1055,8 +1058,8 @@
         <summary>Results</summary>
         <div class="expand-body">
             <div class="tbl" style="max-width:90%">
-                <p class="tbl-cap"><strong>Table 15.</strong> Perceptual Questionnaire Results ($n = 20$, 7-point Likert scale). No significant differences (all $p > 0.05$).</p>
-                <div class="tbl-img"><img src="source/table/15.png" alt="Table 15"></div>
+                <p class="tbl-cap"><strong>Table 14.</strong> Perceptual Questionnaire Results ($n = 20$, 7-point Likert scale). No significant differences (all $p > 0.05$).</p>
+                <div class="tbl-img"><img src="source/table/15.png" alt="Table 14"></div>
                 <div class="tbl-note"><ul>
                     <li>Mdn = Median; IQR = Interquartile Range [Q1&ndash;Q3]; $r = Z/\sqrt{N}$ (effect size).</li>
                     <li>$^\dagger$Marginal trend ($p = 0.081$, medium effect $r = 0.39$).</li>
@@ -1084,8 +1087,8 @@
         <div class="expand-body">
             <h4>Parallel</h4>
             <div class="tbl" style="max-width:60%">
-                <p class="tbl-cap"><strong>Table 16.</strong> EDA Results, Parallel Direction ($n = 19$; S18 excluded). No significant differences (all $p > 0.4$, $|d| &lt; 0.2$).</p>
-                <div class="tbl-img"><img src="source/table/16.png" alt="Table 16"></div>
+                <p class="tbl-cap"><strong>Table 15.</strong> EDA Results, Parallel Direction ($n = 19$; S18 excluded). No significant differences (all $p > 0.4$, $|d| &lt; 0.2$).</p>
+                <div class="tbl-img"><img src="source/table/16.png" alt="Table 15"></div>
                 <div class="tbl-note"><ul>
                     <li>$t$ = paired $t$-test, $W$ = Wilcoxon. SCL = tonic (raw); SCR = phasic (bandpass 0.05&ndash;3.0 Hz).</li>
                     <li>SCR AUC baseline-corrected ($-5$ to $0$ s pre-stroking).</li>
@@ -1093,10 +1096,10 @@
             </div>
             <h4>Orthogonal</h4>
             <div class="tbl" style="max-width:60%">
-                <p class="tbl-cap"><strong>Table 17.</strong> EDA Results, Orthogonal Direction ($n = 19$; S18 excluded). All four SCL metrics significant with medium-to-large effect sizes.</p>
-                <div class="tbl-img"><img src="source/table/17.png" alt="Table 17"></div>
+                <p class="tbl-cap"><strong>Table 16.</strong> EDA Results, Orthogonal Direction ($n = 19$; S18 excluded). All four SCL metrics significant with medium-to-large effect sizes.</p>
+                <div class="tbl-img"><img src="source/table/17.png" alt="Table 16"></div>
                 <div class="tbl-note"><ul>
-                    <li>Test selection as in Table 16.</li>
+                    <li>Test selection as in Table 15.</li>
                     <li>The significant SCL differences ($|d| = 0.636$&ndash;$0.787$) align with variance decomposition: orthogonal PID had the highest within-participant SD (0.010 N).</li>
                 </ul></div>
             </div>
@@ -1157,8 +1160,8 @@
         <summary>Force Metrics</summary>
         <div class="expand-body">
             <div class="tbl" style="max-width:70%">
-                <p class="tbl-cap"><strong>Table 19.</strong> Post-hoc Power Analysis for All Force Control Metrics ($n=20$, $\alpha = 0.05$, two-tailed).</p>
-                <div class="tbl-img"><img src="source/table/19.png" alt="Table 19"></div>
+                <p class="tbl-cap"><strong>Table 17.</strong> Post-hoc Power Analysis for All Force Control Metrics ($n=20$, $\alpha = 0.05$, two-tailed).</p>
+                <div class="tbl-img"><img src="source/table/19.png" alt="Table 17"></div>
                 <div class="tbl-note"><ul>
                     <li>Power calculated as $\Phi(|d| \sqrt{n} - z_{\alpha/2})$.</li>
                     <li>All significant metrics achieved power $> 0.85$.</li>
@@ -1172,8 +1175,8 @@
         <summary>Perceptual Questionnaire</summary>
         <div class="expand-body">
             <div class="tbl" style="max-width:70%">
-                <p class="tbl-cap"><strong>Table 20.</strong> Post-hoc Power Analysis, Perceptual Questionnaire ($n = 20$).</p>
-                <div class="tbl-img"><img src="source/table/20.png" alt="Table 20" style="max-width:70%"></div>
+                <p class="tbl-cap"><strong>Table 18.</strong> Post-hoc Power Analysis, Perceptual Questionnaire ($n = 20$).</p>
+                <div class="tbl-img"><img src="source/table/20.png" alt="Table 18" style="max-width:70%"></div>
                 <div class="tbl-note"><ul>
                     <li>Effect sizes small ($r &lt; 0.4$): non-significance reflects genuinely minimal differences.</li>
                 </ul></div>
@@ -1185,8 +1188,8 @@
         <summary>EDA</summary>
         <div class="expand-body">
             <div class="tbl" style="max-width:50%">
-                <p class="tbl-cap"><strong>Table 21.</strong> Post-hoc Power Analysis, EDA ($n = 19$; S18 excluded).</p>
-                <div class="tbl-img"><img src="source/table/21.png" alt="Table 21"></div>
+                <p class="tbl-cap"><strong>Table 19.</strong> Post-hoc Power Analysis, EDA ($n = 19$; S18 excluded).</p>
+                <div class="tbl-img"><img src="source/table/21.png" alt="Table 19"></div>
                 <div class="tbl-note"><ul>
                     <li>Significant orthogonal SCL: power $\geq 0.75$. SCL Mean and AUC exceeded 0.80.</li>
                     <li>$n_{80\%}$: minimum $n$ for 80% power. Dashes = negligible effects.</li>
