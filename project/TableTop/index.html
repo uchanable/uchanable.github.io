@@ -233,10 +233,12 @@
 
         h4 {
             font-family: var(--sans);
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin: 28px 0 8px;
-            color: var(--text);
+            font-size: 0.82rem;
+            font-weight: 500;
+            margin: 24px 0 6px;
+            color: var(--text-2);
+            padding-left: 12px;
+            border-left: 2px solid var(--border);
         }
 
         p { margin-bottom: 16px; }
@@ -672,6 +674,7 @@
 <div class="w">
     <h2>Overview</h2>
 
+    <h3>Device</h3>
     <figure>
         <img src="source/figure/hp_header.png" alt="Design concept (left) and actual device (right)">
         <figcaption><strong>Figure 1.</strong> Design concept (left) and the actual tabletop mobile robot (right, 94 &times; 137 &times; 72 mm) delivering CT-optimal touch to the forearm during desk work.</figcaption>
@@ -703,14 +706,16 @@
 <div class="w">
     <h2>Calibration Method</h2>
 
+    <h3>Control Architecture</h3>
     <figure>
         <img src="source/figure/overview/control_block_2.png" alt="Control block diagram">
         <figcaption><strong>Figure 3.</strong> FF+PID control architecture. The feedforward component provides a pre-learned angle map $\theta_{\text{FF}}(y)$; the PID controller corrects residual errors in real time. <a href="#resources">Source code &rarr;</a></figcaption>
     </figure>
 
+    <h3 id="algorithms-detail">Calibration Algorithms</h3>
     <p>Two-phase per-participant calibration adapts $\boldsymbol{\theta}_{\text{FF}}(y)$ to each participant's forearm geometry. Key parameters: $N = 5$ measurement points, $K = 5$ learning trials, $\alpha = 1.0$, $F^* = 0.4$ N.</p>
 
-    <div id="algorithms-detail">
+    <div>
     <details>
         <summary>Algorithm S1 &mdash; Static Surface Scan</summary>
         <div class="expand-body">
