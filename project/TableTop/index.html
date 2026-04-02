@@ -168,6 +168,40 @@
 
         nav a:hover, nav a.active { color: var(--text); }
 
+        /* Dropdown */
+        nav .dropdown {
+            position: relative;
+        }
+
+        nav .dropdown > a::after {
+            content: ' \25BE';
+            font-size: 0.7rem;
+        }
+
+        nav .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            min-width: 220px;
+            z-index: 200;
+            padding: 6px 0;
+        }
+
+        nav .dropdown:hover .dropdown-menu { display: block; }
+
+        nav .dropdown-menu a {
+            display: block;
+            padding: 8px 20px;
+            font-size: 0.82rem;
+            border-bottom: none;
+        }
+
+        nav .dropdown-menu a:hover { background: var(--bg-2); }
+
         /* ── Content ── */
         .w { max-width: var(--w); margin: 0 auto; padding: 0 24px; }
         .w-wide { max-width: var(--w-wide); margin: 0 auto; padding: 0 24px; }
@@ -239,6 +273,7 @@
         }
 
         .fig-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+        .fig-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
 
         .fig-grid figure { margin: 0; }
 
@@ -432,29 +467,36 @@
             margin: 28px 0;
         }
 
+        .res-list {
+            display: grid;
+            grid-template-columns: 180px 1fr auto;
+            border-top: 1px solid var(--border);
+        }
+
         .res-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
+            display: contents;
+        }
+
+        .res-item .label,
+        .res-item .desc,
+        .res-item .link-cell {
             padding: 14px 0;
             border-bottom: 1px solid var(--border);
         }
 
-        .res-item:first-child { border-top: 1px solid var(--border); }
-
         .res-item .label {
             font-weight: 600;
             font-size: 0.95rem;
+            padding-right: 20px;
         }
 
         .res-item .desc {
-            color: var(--text-3);
-            font-size: 0.85rem;
-            flex: 1;
-            margin: 0 20px;
+            color: var(--text-2);
+            font-size: 0.88rem;
+            padding-right: 20px;
         }
 
-        .res-item a {
+        .res-item .link-cell a {
             font-size: 0.85rem;
             color: var(--text);
             font-weight: 500;
@@ -463,10 +505,10 @@
             white-space: nowrap;
         }
 
-        .res-item a:hover { border-color: var(--text); }
+        .res-item .link-cell a:hover { border-color: var(--text); }
 
-        .res-item .soon {
-            font-size: 0.78rem;
+        .res-item .link-cell .soon {
+            font-size: 0.82rem;
             color: var(--text-3);
             font-style: italic;
         }
@@ -499,9 +541,12 @@
             .vid-grid { grid-template-columns: 1fr; }
             .fig-grid { grid-template-columns: 1fr; }
             .fig-grid.cols-3 { grid-template-columns: 1fr; }
+            .fig-grid.cols-4 { grid-template-columns: 1fr 1fr; }
             nav a { padding: 10px 12px; }
-            .res-item { flex-direction: column; gap: 4px; }
-            .res-item .desc { margin: 0; }
+            .res-list { grid-template-columns: 1fr; }
+            .res-item .label { padding-bottom: 0; border-bottom: none; }
+            .res-item .desc { padding-top: 0; padding-bottom: 0; border-bottom: none; }
+            .res-item .link-cell { padding-top: 0; }
         }
 
         html { scroll-behavior: smooth; scroll-padding-top: 50px; }
@@ -534,14 +579,18 @@
         <li><a href="#abstract">Abstract</a></li>
         <li><a href="#videos">Videos</a></li>
         <li><a href="#overview">Overview</a></li>
-        <li><a href="#force">Force Metrics</a></li>
-        <li><a href="#reliability">Reliability</a></li>
-        <li><a href="#questionnaire">Questionnaire</a></li>
-        <li><a href="#eda">EDA</a></li>
-        <li><a href="#power">Power</a></li>
-        <li><a href="#algorithms">Algorithms</a></li>
-        <li><a href="#code">Code</a></li>
-        <!-- <li><a href="#citation">Citation</a></li> -->
+        <li class="dropdown">
+            <a href="#force">Detailed Analysis</a>
+            <div class="dropdown-menu">
+                <a href="#force">S1. Force Metrics</a>
+                <a href="#reliability">S2. Measurement Reliability</a>
+                <a href="#questionnaire">S3. Subjective Evaluation</a>
+                <a href="#eda">S4. EDA</a>
+                <a href="#power">S5. Statistical Power</a>
+                <a href="#algorithms">S6. Calibration Algorithms</a>
+            </div>
+        </li>
+        <li><a href="#code">Code &amp; Data</a></li>
     </ul>
 </nav>
 
@@ -607,20 +656,22 @@
 </div>
 </section>
 
-<!-- ── Force Metrics ── -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S1. Force Metrics -->
+<!-- ══════════════════════════════════════════════════════════════ -->
 <section id="force">
 <div class="w">
-    <h2>Force Metrics</h2>
+    <h2>S1. Force Metrics</h2>
 
     <details>
-        <summary>Data processing pipeline</summary>
+        <summary>Data Processing</summary>
         <div class="expand-body">
             <p>Force data extracted via three-stage filtering: stroke direction filter, moving-point filter, and steady-state filter. Only constant-velocity, steady-state samples during active stroking are analyzed.</p>
         </div>
     </details>
 
     <details>
-        <summary>Metric definitions</summary>
+        <summary>Metric Definitions</summary>
         <div class="expand-body">
             <p>All metrics computed over steady-state data for each participant&ndash;condition pair (10 cycles pooled). Target force $F_{\text{target}} = 0.4$ N.</p>
 
@@ -667,6 +718,12 @@
                 <p><strong>Table S1.</strong> Force control performance ($n = 20$). FF+PID vs PID-only across both stroking directions.</p>
             </div>
 
+            <h4>Parallel</h4>
+            <p>FF+PID was significantly superior across all six metrics with large effect sizes ($|d| > 0.85$). CV ($d = -2.476$) and RMSE ($d = -1.749$) showed the largest effects. For Mean, FF+PID produced a slightly higher value (0.424 N vs 0.415 N), but both were within 0.025 N of the 0.4 N target.</p>
+
+            <h4>Orthogonal</h4>
+            <p>FF+PID was significantly superior for five of six metrics. $\Delta F$ was the sole exception ($p = 0.933$, $d = 0.019$): both conditions exhibited minimal hysteresis (~0.03 N) because the motor axis is perpendicular to the stroking direction.</p>
+
             <h4>Force time series</h4>
             <figure>
                 <img src="source/figure/force/force_timeseries.png" alt="Force time series">
@@ -703,15 +760,15 @@
             <figcaption><strong>Figure S2.</strong> Raincloud plots for all six force metrics. FF+PID (blue) vs PID-only (orange). $^{*}p &lt; 0.05$, $^{**}p &lt; 0.01$.</figcaption>
         </div>
     </details>
-</div>
 
-<div class="w">
     <details>
         <summary>Discussion</summary>
         <div class="expand-body">
-            <p>FF+PID consistently improved force control across both directions. The sole exception&mdash;orthogonal $\Delta F$&mdash;reflects the robot's kinematics (motor axis perpendicular to stroke), not a controller limitation.</p>
+            <h4>Overall</h4>
+            <p>FF+PID consistently improved force control across both directions with large effect sizes ($|d| > 0.85$ for 11/12 comparisons). The sole exception&mdash;orthogonal $\Delta F$&mdash;reflects the robot's kinematics, not a controller limitation. The consistency across two mechanically distinct directions (parallel: 12 cm along motor axis; orthogonal: 2 cm perpendicular) supports generalizability.</p>
+
             <h4>MASD analysis</h4>
-            <p>Orthogonal MASD is higher than parallel (0.019 vs 0.007) despite lower RMSE, due to structural differences: ~11 data points per cycle vs ~74, and ~2&times; longer sample interval. Cross-direction MASD comparison is inappropriate; only within-direction comparisons are meaningful.</p>
+            <p>Orthogonal MASD is higher than parallel (0.019 vs 0.007) despite lower RMSE, due to structural differences: ~11 data points per cycle vs ~74, and ~2&times; longer sample interval (259 vs 133 ms). Cross-direction MASD comparison is inappropriate; only within-direction comparisons are meaningful.</p>
             <div class="tbl">
                 <img src="source/table/tab_sampling_characteristics.png" alt="Sampling characteristics">
                 <p><strong>Table S2.</strong> Sampling characteristics between parallel and orthogonal stroking.</p>
@@ -720,21 +777,26 @@
     </details>
 
     <details>
-        <summary>Forward/backward separated analysis</summary>
+        <summary>Forward/Backward Separated Analysis</summary>
         <div class="expand-body">
-            <p>Parallel: FF+PID significantly reduced hysteresis ($p &lt; 0.001$, $d = -1.047$). Orthogonal: minimal hysteresis (~0.03 N) in both conditions. Combined RMSE inflation from hysteresis: max 5.3%. FF+PID superiority unchanged when strokes are analyzed separately.</p>
+            <p>Forward-only and backward-only RMSE were computed separately to assess whether $\Delta F$ inflates the combined RMSE.</p>
+            <p>Parallel: FF+PID significantly reduced hysteresis ($p &lt; 0.001$, $d = -1.047$), correcting directional asymmetry from friction, inertia, and backlash. Orthogonal: both conditions already exhibited minimal hysteresis (~0.03 N). Combined RMSE inflation from hysteresis: max 5.3%. FF+PID superiority is unchanged when strokes are analyzed separately.</p>
         </div>
     </details>
 </div>
 </section>
 
-<!-- ── Reliability ── -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S2. Measurement Reliability -->
+<!-- ══════════════════════════════════════════════════════════════ -->
 <section id="reliability">
 <div class="w">
-    <h2>Measurement Reliability</h2>
+    <h2>S2. Measurement Reliability</h2>
+
+    <p>Three complementary analyses evaluate the reliability of the 10-cycle repeated RMSE measurements: variance decomposition, ICC, and cycle trend analysis.</p>
 
     <details>
-        <summary>Variance decomposition</summary>
+        <summary>Variance Decomposition</summary>
         <div class="expand-body">
             <p>FF+PID: higher Between/Within SD ratios (6.66 vs 2.76 for parallel), confirming anatomy-driven variability rather than controller instability.</p>
             <div class="tbl">
@@ -745,7 +807,7 @@
     </details>
 
     <details>
-        <summary>Intraclass correlation (ICC)</summary>
+        <summary>Intraclass Correlation Coefficients (ICC)</summary>
         <div class="expand-body">
             <p>All conditions: ICC 0.855&ndash;0.998 ("good" to "excellent"). FF+PID yielded higher ICC with non-overlapping 95% CIs.</p>
             <div class="tbl">
@@ -756,144 +818,177 @@
     </details>
 
     <details>
-        <summary>Cycle trend distribution</summary>
+        <summary>Cycle Trend Distribution</summary>
         <div class="expand-body">
             <p>Improving 26%, Stable 44%, Worsening 30%&mdash;balanced distribution confirms no systematic learning or fatigue effects.</p>
-            <figure class="fig-narrow">
+            <figure>
                 <img src="source/figure/force/cycle_trend_distribution.png" alt="Cycle trends">
                 <figcaption><strong>Figure S3.</strong> Spearman $\rho$ distribution across 80 participant&ndash;condition pairs.</figcaption>
             </figure>
-        </div>
-    </details>
 
-    <details>
-        <summary>X-axis drift analysis</summary>
-        <div class="expand-body">
+            <h4>Parallel FF+PID worsening</h4>
+            <p>Parallel FF+PID showed concentrated worsening (14/20, Wilcoxon $p = 0.0002$), but Within-P SD is only 0.002 N (0.5% of target)&mdash;a floor-effect regime.</p>
+
+            <h4>X-axis drift analysis</h4>
             <p>All 20 participants: systematic drift ~0.135 cm/cycle (friction-induced heading PID overcorrection). Independent of FF compensation; negligible impact (within-participant RMSE SD = 0.002 N, &lt;0.5% of target).</p>
             <div class="tbl">
                 <img src="source/table/tab_x_drift.png" alt="X-axis drift">
                 <p><strong>Table S5.</strong> X-axis drift per participant.</p>
             </div>
+
+            <h4>X-axis drift mechanism</h4>
+            <p>Contact friction creates lateral force &rarr; IMU interprets as heading perturbation &rarr; PID overcorrects asymmetrically (|BWD|/|FWD| ratio &approx; 3). The drift is independent of FF compensation and has negligible practical impact.</p>
         </div>
     </details>
 
     <details>
-        <summary>Calibration BWD[0] analysis</summary>
+        <summary>Calibration BWD[0] Analysis</summary>
         <div class="expand-body">
-            <p>BWD[0] angle correlates with forearm anatomy and parallel RMSE ($r = 0.606$, $p = 0.005$). Four outlier participants showed modestly higher RMSE but did not change the FF+PID superiority pattern. Identifies forearm anatomy as a system limitation addressable through adaptive calibration.</p>
+            <p>The BWD[0] turnaround angle is the motor angle at which the robot reverses direction during calibration. Higher BWD[0] indicates a thicker forearm requiring greater motor rotation. Mean $= 58.6^\circ$, SD $= 20.7^\circ$, Range $= 29.5^\circ$&ndash;$110.0^\circ$.</p>
+
+            <h4>Correlation with parallel RMSE</h4>
+            <p>FF+PID: significant correlation ($r = 0.606$, $p = 0.005$)&mdash;extreme forearm anatomy produces less accurate FF calibration profiles. PID-only: weaker ($r = 0.438$, $p = 0.053$).</p>
+
+            <h4>Impact assessment</h4>
+            <p>Four outlier participants (S12, S14, S16, S18) showed modestly higher RMSE but remained within the overall distribution. Excluding them does not change the FF+PID superiority pattern. Forearm anatomy is identified as a system limitation addressable through adaptive calibration.</p>
         </div>
     </details>
 </div>
 </section>
 
-<!-- ── Questionnaire ── -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S5. Subjective Evaluation -->
+<!-- ══════════════════════════════════════════════════════════════ -->
 <section id="questionnaire">
 <div class="w">
-    <h2>Subjective Evaluation</h2>
-    <p>After each condition, participants rated comfort, naturalness, and consistency on a 7-point Likert scale.</p>
-
-    <div class="tbl">
-        <img src="source/table/tab_questionnaire.png" alt="Questionnaire results">
-        <p><strong>Table S6.</strong> No significant differences (all $p > 0.05$). Sub-hundred millinewton-level differences fall below the tactile detection threshold.</p>
-    </div>
-</div>
-
-<div class="w-wide">
-    <figure class="fig-narrow">
-        <img src="source/figure/force/questionnaire.png" alt="Questionnaire raincloud">
-        <figcaption><strong>Figure S4.</strong> Questionnaire responses. Blue = FF+PID, orange = PID-only.</figcaption>
-    </figure>
-</div>
-</section>
-
-<!-- ── EDA ── -->
-<section id="eda">
-<div class="w">
-    <h2>Electrodermal Activity</h2>
-
-    <p>BITalino at 10 Hz. Ag/AgCl electrodes on left index and middle fingertips. S18 excluded ($n = 19$).</p>
-
-    <p class="hl">Orthogonal direction: all four SCL metrics significantly lower under FF+PID ($|d| = 0.636$&ndash;$0.787$), indicating reduced physiological arousal. Parallel: no differences.</p>
+    <h2>S3. Subjective Evaluation</h2>
 
     <details>
-        <summary>Parallel results</summary>
+        <summary>Method</summary>
         <div class="expand-body">
-            <div class="tbl">
-                <img src="source/table/tab_eda_parallel.png" alt="EDA parallel">
-                <p><strong>Table S7.</strong> No significant differences (all $p > 0.4$, $|d| &lt; 0.2$).</p>
-            </div>
+            <p>After each 10-cycle condition, participants rated three 7-point Likert scales: <strong>Comfort</strong> (<em>kaiteki</em>), <strong>Naturalness</strong> (<em>shizen</em>), and <strong>Consistency</strong> (<em>ittei</em>). Wilcoxon signed-rank test for paired comparisons; effect size $r = Z / \sqrt{N}$.</p>
         </div>
     </details>
 
     <details open>
-        <summary>Orthogonal results</summary>
+        <summary>Results</summary>
         <div class="expand-body">
             <div class="tbl">
-                <img src="source/table/tab_eda_orthogonal.png" alt="EDA orthogonal">
-                <p><strong>Table S8.</strong> All SCL metrics significant with medium-to-large effect sizes.</p>
+                <img src="source/table/tab_questionnaire.png" alt="Questionnaire results">
+                <p><strong>Table S6.</strong> No significant differences for any scale (all $p > 0.05$). Orthogonal consistency showed a marginal trend ($p = 0.081$, $r = 0.39$).</p>
             </div>
+            <figure>
+                <img src="source/figure/force/questionnaire.png" alt="Questionnaire raincloud">
+                <figcaption><strong>Figure S4.</strong> Questionnaire responses. Blue = FF+PID, orange = PID-only. Responses clustered around 4&ndash;6.</figcaption>
+            </figure>
         </div>
     </details>
-</div>
 
-<div class="w-wide">
-    <h3>Time series</h3>
-    <div class="fig-grid">
-        <figure>
-            <img src="source/figure/eda/eda_scl_timeseries.png" alt="SCL">
-            <figcaption>(a) SCL (tonic)</figcaption>
-        </figure>
-        <figure>
-            <img src="source/figure/eda/eda_scr_timeseries.png" alt="SCR">
-            <figcaption>(b) SCR (phasic)</figcaption>
-        </figure>
-    </div>
-    <figcaption><strong>Figure S5.</strong> EDA time series (mean &plusmn; SEM, $n = 19$).</figcaption>
-
-    <h3>SCL raincloud plots</h3>
-    <div class="fig-grid">
-        <figure>
-            <img src="source/figure/eda/eda_scl_comparison.png" alt="SCL Mean">
-            <figcaption>(a) Mean</figcaption>
-        </figure>
-        <figure>
-            <img src="source/figure/eda/eda_scl_sd_comparison.png" alt="SCL SD">
-            <figcaption>(b) SD</figcaption>
-        </figure>
-        <figure>
-            <img src="source/figure/eda/eda_scl_range_comparison.png" alt="SCL Range">
-            <figcaption>(c) Range</figcaption>
-        </figure>
-        <figure>
-            <img src="source/figure/eda/eda_scl_auc_comparison.png" alt="SCL AUC">
-            <figcaption>(d) AUC</figcaption>
-        </figure>
-    </div>
-    <figcaption><strong>Figure S6.</strong> SCL raincloud plots ($n = 19$).</figcaption>
-
-    <h3>SCR raincloud plots</h3>
-    <div class="fig-grid cols-3">
-        <figure>
-            <img src="source/figure/eda/eda_scr_amplitude_comparison.png" alt="SCR Amp">
-            <figcaption>(a) Amplitude</figcaption>
-        </figure>
-        <figure>
-            <img src="source/figure/eda/eda_scr_count_comparison.png" alt="SCR Count">
-            <figcaption>(b) Count</figcaption>
-        </figure>
-        <figure>
-            <img src="source/figure/eda/eda_scr_auc_comparison.png" alt="SCR AUC">
-            <figcaption>(c) AUC</figcaption>
-        </figure>
-    </div>
-    <figcaption><strong>Figure S7.</strong> SCR raincloud plots ($n = 19$). No significant differences.</figcaption>
-</div>
-
-<div class="w">
     <details>
         <summary>Interpretation</summary>
         <div class="expand-body">
-            <p>The orthogonal SCL finding connects to variance decomposition: orthogonal PID had the highest within-participant RMSE variability (SD = 0.010 N). While not consciously detected, the force inconsistency registered at an unconscious physiological level.</p>
+            <p>The absence of differences in subjective evaluation despite significant objective force improvements indicates that sub-hundred millinewton-level control differences fall below the human tactile detection threshold. FF compensation improves objective performance without degrading the subjective experience.</p>
+        </div>
+    </details>
+</div>
+</section>
+
+<!-- ══════════════════════════════════════════════════════════════ -->
+<!-- S6. Electrodermal Activity (EDA) -->
+<!-- ══════════════════════════════════════════════════════════════ -->
+<section id="eda">
+<div class="w">
+    <h2>S4. Electrodermal Activity (EDA)</h2>
+
+    <details>
+        <summary>Measurement Setup</summary>
+        <div class="expand-body">
+            <p>BITalino (r)evolution board at 10 Hz. Ag/AgCl electrodes on left index and middle fingertips. 5-minute stabilization period. S18 excluded ($n = 19$) due to near-zero SCL (0.47&ndash;0.65 $\mu$S vs group ~9&ndash;10 $\mu$S).</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>Signal Processing</summary>
+        <div class="expand-body">
+            <h4>SCL (Tonic)</h4>
+            <p>Raw conductance values used directly. Metrics: Mean, SD, Range, AUC ($\mu$S&middot;s via trapezoidal integration).</p>
+            <h4>SCR (Phasic)</h4>
+            <p>2nd-order Butterworth bandpass (0.05&ndash;3.0 Hz, zero-phase). Metrics: Amplitude, Count, AUC (baseline-corrected, 5 s pre-stroking).</p>
+        </div>
+    </details>
+
+    <details open>
+        <summary>Results</summary>
+        <div class="expand-body">
+            <h4>Parallel</h4>
+            <div class="tbl">
+                <img src="source/table/tab_eda_parallel.png" alt="EDA parallel">
+                <p><strong>Table S7.</strong> No significant differences (all $p > 0.4$, $|d| &lt; 0.2$).</p>
+            </div>
+
+            <h4>Orthogonal</h4>
+            <div class="tbl">
+                <img src="source/table/tab_eda_orthogonal.png" alt="EDA orthogonal">
+                <p><strong>Table S8.</strong> All four SCL metrics significant with medium-to-large effect sizes ($|d| = 0.636$&ndash;$0.787$).</p>
+            </div>
+
+            <h4>Time series</h4>
+            <div class="fig-grid">
+                <figure>
+                    <img src="source/figure/eda/eda_scl_timeseries.png" alt="SCL">
+                    <figcaption>(a) SCL (tonic)</figcaption>
+                </figure>
+                <figure>
+                    <img src="source/figure/eda/eda_scr_timeseries.png" alt="SCR">
+                    <figcaption>(b) SCR (phasic)</figcaption>
+                </figure>
+            </div>
+            <figcaption><strong>Figure S5.</strong> EDA time series (mean &plusmn; SEM, $n = 19$).</figcaption>
+
+            <h4>SCL raincloud plots</h4>
+            <div class="fig-grid cols-4">
+                <figure>
+                    <img src="source/figure/eda/eda_scl_comparison.png" alt="SCL Mean">
+                    <figcaption>(a) Mean</figcaption>
+                </figure>
+                <figure>
+                    <img src="source/figure/eda/eda_scl_sd_comparison.png" alt="SCL SD">
+                    <figcaption>(b) SD</figcaption>
+                </figure>
+                <figure>
+                    <img src="source/figure/eda/eda_scl_range_comparison.png" alt="SCL Range">
+                    <figcaption>(c) Range</figcaption>
+                </figure>
+                <figure>
+                    <img src="source/figure/eda/eda_scl_auc_comparison.png" alt="SCL AUC">
+                    <figcaption>(d) AUC</figcaption>
+                </figure>
+            </div>
+            <figcaption><strong>Figure S6.</strong> SCL raincloud plots ($n = 19$).</figcaption>
+
+            <h4>SCR raincloud plots</h4>
+            <div class="fig-grid cols-3">
+                <figure>
+                    <img src="source/figure/eda/eda_scr_amplitude_comparison.png" alt="SCR Amp">
+                    <figcaption>(a) Amplitude</figcaption>
+                </figure>
+                <figure>
+                    <img src="source/figure/eda/eda_scr_count_comparison.png" alt="SCR Count">
+                    <figcaption>(b) Count</figcaption>
+                </figure>
+                <figure>
+                    <img src="source/figure/eda/eda_scr_auc_comparison.png" alt="SCR AUC">
+                    <figcaption>(c) AUC</figcaption>
+                </figure>
+            </div>
+            <figcaption><strong>Figure S7.</strong> SCR raincloud plots ($n = 19$). No significant differences.</figcaption>
+        </div>
+    </details>
+
+    <details>
+        <summary>Interpretation</summary>
+        <div class="expand-body">
+            <p>The orthogonal SCL finding connects to variance decomposition: orthogonal PID had the highest within-participant RMSE variability (SD = 0.010 N). While not consciously detected (Section S5), the force inconsistency was registered at an unconscious physiological level&mdash;elevated tonic arousal without conscious awareness.</p>
         </div>
     </details>
 </div>
@@ -902,7 +997,7 @@
 <!-- ── Power ── -->
 <section id="power">
 <div class="w">
-    <h2>Statistical Power Analysis</h2>
+    <h2>S5. Statistical Power Analysis</h2>
 
     <div class="tbl">
         <img src="source/table/tab_power_analysis.png" alt="Power analysis">
@@ -926,7 +1021,7 @@
 <!-- ── Algorithms ── -->
 <section id="algorithms">
 <div class="w">
-    <h2>Calibration Algorithms</h2>
+    <h2>S6. Calibration Algorithms</h2>
     <p>Two-phase calibration adapts $\boldsymbol{\theta}_{\text{FF}}(y)$ to each participant's forearm. $N = 5$ points, $K = 5$ trials, $\alpha = 1.0$, $F^* = 0.4$ N.</p>
 
     <details>
@@ -973,22 +1068,22 @@
         <div class="res-item">
             <span class="label">Robot control software</span>
             <span class="desc">Holonomic base, IMU heading PID, FF+PID force control, calibration</span>
-            <span class="soon">coming soon</span>
+            <span class="link-cell"><span class="soon">coming soon</span></span>
         </div>
         <div class="res-item">
             <span class="label">Experiment raw data</span>
             <span class="desc">Force recordings, EDA signals, questionnaire responses ($n = 20$)</span>
-            <span class="soon">coming soon</span>
+            <span class="link-cell"><span class="soon">coming soon</span></span>
         </div>
         <div class="res-item">
             <span class="label">CAD data</span>
             <span class="desc">Robot chassis, stroking module, parallel-linkage mechanism</span>
-            <span class="soon">coming soon</span>
+            <span class="link-cell"><span class="soon">coming soon</span></span>
         </div>
         <div class="res-item">
             <span class="label">3D forearm scans</span>
             <span class="desc">20 participants' surface scans (OBJ)</span>
-            <span class="soon">coming soon</span>
+            <span class="link-cell"><span class="soon">coming soon</span></span>
         </div>
     </div>
 </div>
