@@ -191,10 +191,13 @@
         }
 
         h4 {
-            font-size: 0.92rem;
+            font-family: var(--sans);
+            font-size: 0.85rem;
             font-weight: 600;
             margin: 28px 0 8px;
-            letter-spacing: 0.02em;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            color: var(--text-3);
         }
 
         p { margin-bottom: 16px; }
@@ -297,6 +300,8 @@
             font-weight: 600;
             margin: 0 0 8px;
             color: var(--text);
+            text-transform: none;
+            letter-spacing: -0.01em;
         }
 
         .def-card .def-desc {
@@ -364,14 +369,16 @@
         details:last-child { border-bottom: 1px solid var(--border); }
 
         summary {
-            padding: 14px 0;
+            padding: 16px 0;
+            font-family: var(--serif);
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             cursor: pointer;
             list-style: none;
             display: flex;
             align-items: center;
             gap: 8px;
+            color: var(--text);
         }
 
         summary::-webkit-details-marker { display: none; }
