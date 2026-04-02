@@ -284,6 +284,18 @@
         /* ── Tables (as images) ── */
         .tbl {
             margin: 28px 0;
+        }
+
+        .tbl .tbl-cap {
+            font-size: 0.9rem;
+            color: var(--text-2);
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .tbl .tbl-cap strong { color: var(--text); }
+
+        .tbl .tbl-img {
             text-align: center;
         }
 
@@ -292,11 +304,21 @@
             border: 1px solid var(--border);
         }
 
-        .tbl p {
-            font-size: 0.9rem;
-            color: var(--text-2);
-            margin-top: 12px;
+        .tbl .tbl-note {
+            font-size: 0.78rem;
+            color: var(--text-3);
+            margin-top: 8px;
             text-align: left;
+            line-height: 1.55;
+        }
+
+        .tbl .tbl-note ul {
+            margin: 4px 0 0 16px;
+            font-size: 0.78rem;
+        }
+
+        .tbl .tbl-note li {
+            margin-bottom: 2px;
         }
 
         /* ── Algorithm (as image) ── */
@@ -876,8 +898,12 @@
         <summary>Results</summary>
         <div class="expand-body">
             <div class="tbl">
-                <img src="source/table/tab_force_combined.png" alt="Table S1">
-                <p><strong>Table S1.</strong> Force control performance ($n = 20$). FF+PID vs PID-only across both stroking directions.</p>
+                <p class="tbl-cap"><strong>Table S3.</strong> Force control performance ($n=20$): descriptive statistics (M &plusmn; SD) and paired comparisons between FF+PID and PID-only for all force metrics across both stroking directions.</p>
+                <div class="tbl-img"><img src="source/table/3.png" alt="Table S3"></div>
+                <div class="tbl-note"><ul>
+                    <li>Values are M &plusmn; SD.</li>
+                    <li>$t$ = paired $t$-test; $W$ = Wilcoxon signed-rank (Shapiro&ndash;Wilk, $\alpha = .05$).</li>
+                </ul></div>
             </div>
 
             <h4>Parallel</h4>
@@ -931,8 +957,8 @@
             <h4>MASD analysis</h4>
             <p>Orthogonal MASD is higher than parallel (0.019 vs 0.007) despite lower RMSE, due to ~11 data points per cycle vs ~74. Cross-direction comparison is inappropriate; only within-direction comparisons are meaningful.</p>
             <div class="tbl">
-                <img src="source/table/tab_sampling_characteristics.png" alt="Sampling characteristics">
-                <p><strong>Table S2.</strong> Sampling characteristics between parallel and orthogonal stroking.</p>
+                <p class="tbl-cap"><strong>Table S4.</strong> Sampling characteristics comparison between parallel and orthogonal stroking (FF+PID condition, measured values).</p>
+                <div class="tbl-img"><img src="source/table/4.png" alt="Table S4"></div>
             </div>
         </div>
     </details>
@@ -952,8 +978,13 @@
         <div class="expand-body">
             <p>FF+PID: higher Between/Within SD ratios (6.66 vs 2.76 for parallel), confirming anatomy-driven variability rather than controller instability.</p>
             <div class="tbl">
-                <img src="source/table/tab_variance_decomposition.png" alt="Variance decomposition">
-                <p><strong>Table S3.</strong> Variance decomposition results.</p>
+                <p class="tbl-cap"><strong>Table S1.</strong> Variance Decomposition of RMSE into Between-Participant and Within-Participant Components.</p>
+                <div class="tbl-img"><img src="source/table/1.png" alt="Table S1"></div>
+                <div class="tbl-note"><ul>
+                    <li>Between-P SD = SD of 20 participants' mean RMSE (inter-individual differences).</li>
+                    <li>Within-P SD = mean of each participant's 10-cycle RMSE SD (cycle-to-cycle variability).</li>
+                    <li>Ratio = Between-P SD / Within-P SD.</li>
+                </ul></div>
             </div>
         </div>
     </details>
@@ -963,8 +994,11 @@
         <div class="expand-body">
             <p>All conditions: ICC 0.855&ndash;0.998 ("good" to "excellent"). FF+PID yielded higher ICC with non-overlapping 95% CIs.</p>
             <div class="tbl">
-                <img src="source/table/tab_icc.png" alt="ICC results">
-                <p><strong>Table S4.</strong> ICC results.</p>
+                <p class="tbl-cap"><strong>Table S2.</strong> Intraclass Correlation Coefficients (ICC) for RMSE Across 10 Stroking Cycles. ICC(3,$k$): two-way mixed model, average measures, consistency.</p>
+                <div class="tbl-img"><img src="source/table/2.png" alt="Table S2"></div>
+                <div class="tbl-note"><ul>
+                    <li>ICC: $&lt; 0.50$ = poor, $0.50$&ndash;$0.75$ = moderate, $0.75$&ndash;$0.90$ = good, $&gt; 0.90$ = excellent.</li>
+                </ul></div>
             </div>
         </div>
     </details>
@@ -982,8 +1016,13 @@
             <h4>X-axis drift</h4>
             <p>All 20 participants: systematic drift ~0.135 cm/cycle via heading PID overcorrection. Independent of FF; negligible impact.</p>
             <div class="tbl">
-                <img src="source/table/tab_x_drift.png" alt="X-axis drift">
-                <p><strong>Table S5.</strong> X-axis drift per participant.</p>
+                <p class="tbl-cap"><strong>Table S9.</strong> X-Axis Drift Analysis for the Parallel FF+PID Condition. Per-participant X-axis positional drift and RMSE trend analysis.</p>
+                <div class="tbl-img"><img src="source/table/9.png" alt="Table S9"></div>
+                <div class="tbl-note"><ul>
+                    <li>X drift was universal across all 20 participants (range: $-0.96$ to $-1.53$ cm), progressing linearly at ~0.135 cm/cycle.</li>
+                    <li>Kruskal&ndash;Wallis test (trend group vs X drift): $H = 3.34$, $p = 0.188$ (n.s.).</li>
+                    <li>Worsening is statistically significant ($p = 0.0002$) but practically negligible (within-participant SD $= 0.002$ N).</li>
+                </ul></div>
             </div>
         </div>
     </details>
@@ -1002,8 +1041,12 @@
         <summary>Results</summary>
         <div class="expand-body">
             <div class="tbl">
-                <img src="source/table/tab_questionnaire.png" alt="Questionnaire results">
-                <p><strong>Table S6.</strong> No significant differences (all $p > 0.05$). Orthogonal consistency: marginal trend ($p = 0.081$, $r = 0.39$).</p>
+                <p class="tbl-cap"><strong>Table S15.</strong> Perceptual Questionnaire Results ($n = 20$, 7-point Likert scale). Descriptive statistics and Wilcoxon signed-rank test results. No significant differences (all $p > 0.05$).</p>
+                <div class="tbl-img"><img src="source/table/15.png" alt="Table S15"></div>
+                <div class="tbl-note"><ul>
+                    <li>Mdn = Median; IQR = Interquartile Range [Q1&ndash;Q3]; $r = Z/\sqrt{N}$ (effect size).</li>
+                    <li>$^\dagger$Marginal trend ($p = 0.081$, medium effect $r = 0.39$).</li>
+                </ul></div>
             </div>
             <figure>
                 <img src="source/figure/force/questionnaire.png" alt="Questionnaire raincloud">
@@ -1027,13 +1070,21 @@
         <div class="expand-body">
             <h4>Parallel</h4>
             <div class="tbl">
-                <img src="source/table/tab_eda_parallel.png" alt="EDA parallel">
-                <p><strong>Table S7.</strong> No significant differences (all $p > 0.4$, $|d| &lt; 0.2$).</p>
+                <p class="tbl-cap"><strong>Table S16.</strong> EDA Results, Parallel Direction ($n = 19$; S18 excluded). No significant differences (all $p > 0.4$, $|d| &lt; 0.2$).</p>
+                <div class="tbl-img"><img src="source/table/16.png" alt="Table S16"></div>
+                <div class="tbl-note"><ul>
+                    <li>$t$ = paired $t$-test, $W$ = Wilcoxon. SCL = tonic (raw); SCR = phasic (bandpass 0.05&ndash;3.0 Hz).</li>
+                    <li>SCR AUC baseline-corrected ($-5$ to $0$ s pre-stroking).</li>
+                </ul></div>
             </div>
             <h4>Orthogonal</h4>
             <div class="tbl">
-                <img src="source/table/tab_eda_orthogonal.png" alt="EDA orthogonal">
-                <p><strong>Table S8.</strong> All four SCL metrics significant ($|d| = 0.636$&ndash;$0.787$).</p>
+                <p class="tbl-cap"><strong>Table S17.</strong> EDA Results, Orthogonal Direction ($n = 19$; S18 excluded). All four SCL metrics significant with medium-to-large effect sizes.</p>
+                <div class="tbl-img"><img src="source/table/17.png" alt="Table S17"></div>
+                <div class="tbl-note"><ul>
+                    <li>Test selection as in Table S16.</li>
+                    <li>The significant SCL differences ($|d| = 0.636$&ndash;$0.787$) align with variance decomposition: orthogonal PID had the highest within-participant SD (0.010 N).</li>
+                </ul></div>
             </div>
             <h4>Time series</h4>
             <div class="fig-grid">
@@ -1079,8 +1130,13 @@
         <summary>Results</summary>
         <div class="expand-body">
             <div class="tbl">
-                <img src="source/table/tab_power_analysis.png" alt="Power analysis">
-                <p><strong>Table S9.</strong> All significant force results: power &gt; 0.85. Minimum $n$ for 80% power: 2&ndash;18.</p>
+                <p class="tbl-cap"><strong>Table S18.</strong> Post-hoc Power Analysis for All Force Control Metrics ($n=20$, $\alpha = 0.05$, two-tailed).</p>
+                <div class="tbl-img"><img src="source/table/18.png" alt="Table S18"></div>
+                <div class="tbl-note"><ul>
+                    <li>Power calculated as $\Phi(|d| \sqrt{n} - z_{\alpha/2})$.</li>
+                    <li>All significant metrics achieved power $> 0.85$.</li>
+                    <li>Orthogonal $\Delta F$ ($d = 0.019$): no effect, excluded from power calculation.</li>
+                </ul></div>
             </div>
             <ul>
                 <li><strong>Force:</strong> Power &gt; 0.96 for all significant results.</li>
