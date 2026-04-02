@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Tabletop Mobile Robot for CT-Optimal Touch</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+      MathJax = {
+        tex: { inlineMath: [['$','$'], ['\\(','\\)']] },
+        svg: { fontCache: 'global' }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js" async></script>
+    <style>
+        :root {
+            --color-primary: #1a73e8;
+            --color-primary-dark: #1557b0;
+            --color-text: #202124;
+            --color-text-secondary: #5f6368;
+            --color-bg: #ffffff;
+            --color-section-alt: #f8f9fa;
+            --color-border: #dadce0;
+            --color-accent: #e8f0fe;
+            --max-width: 960px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            color: var(--color-text);
+            background: var(--color-bg);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── Hero ── */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 80px 24px 60px;
+            text-align: center;
+        }
+        .hero h1 { font-size: 2.2rem; font-weight: 700; max-width: var(--max-width); margin: 0 auto 12px; line-height: 1.3; }
+        .hero .subtitle { font-size: 1.1rem; font-weight: 400; opacity: 0.9; max-width: 700px; margin: 0 auto 28px; }
+        .authors { font-size: 1.05rem; margin-bottom: 6px; font-weight: 500; }
+        .authors a { color: white; text-decoration: none; border-bottom: 1px dotted rgba(255,255,255,0.5); }
+        .affiliations { font-size: 0.88rem; opacity: 0.85; margin-bottom: 30px; }
+        .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+        .hero-buttons a {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 10px 22px; border-radius: 8px;
+            font-size: 0.92rem; font-weight: 600; text-decoration: none;
+            transition: transform 0.15s, box-shadow 0.15s;
+        }
+        .hero-buttons a:hover { transform: translateY(-1px); box-shadow: 0 4px 14px rgba(0,0,0,0.2); }
+        .btn-paper { background: white; color: var(--color-text); }
+        .btn-arxiv { background: #f3e5f5; color: #6a1b9a; }
+        .btn-code  { background: #24292e; color: white; }
+        .btn-video { background: #ff4444; color: white; }
+
+        /* ── Nav ── */
+        .nav-bar {
+            position: sticky; top: 0; z-index: 100;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--color-border); padding: 0 24px;
+        }
+        .nav-bar ul { display: flex; max-width: var(--max-width); margin: 0 auto; list-style: none; overflow-x: auto; }
+        .nav-bar a {
+            display: block; padding: 14px 18px;
+            font-size: 0.85rem; font-weight: 500; color: var(--color-text-secondary);
+            text-decoration: none; white-space: nowrap;
+            border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s;
+        }
+        .nav-bar a:hover, .nav-bar a.active { color: var(--color-primary); border-bottom-color: var(--color-primary); }
+
+        /* ── Layout ── */
+        .container { max-width: var(--max-width); margin: 0 auto; padding: 0 24px; }
+        section { padding: 56px 0; }
+        section:nth-child(even) { background: var(--color-section-alt); }
+
+        h2 { font-size: 1.65rem; font-weight: 700; margin-bottom: 8px; }
+        h2 .section-number { color: var(--color-primary); margin-right: 8px; }
+        .section-divider { width: 50px; height: 3px; background: var(--color-primary); border-radius: 2px; margin-bottom: 28px; }
+        h3 { font-size: 1.2rem; font-weight: 600; margin: 32px 0 12px; }
+        h4 { font-size: 1.05rem; font-weight: 600; margin: 24px 0 8px; color: var(--color-text-secondary); }
+        p { margin-bottom: 16px; font-size: 0.97rem; }
+
+        /* ── Abstract ── */
+        .abstract-box {
+            background: var(--color-accent); border-left: 4px solid var(--color-primary);
+            padding: 24px 28px; border-radius: 0 8px 8px 0;
+            font-size: 0.97rem; line-height: 1.8;
+        }
+
+        /* ── Video ── */
+        .video-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; }
+        .video-card { background: #000; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.1); }
+        .video-card video, .video-card iframe { width: 100%; aspect-ratio: 16/9; display: block; border: none; }
+        .video-card .caption {
+            background: white; padding: 12px 16px;
+            font-size: 0.88rem; color: var(--color-text-secondary); text-align: center; font-weight: 500;
+        }
+        .video-full { max-width: 720px; margin: 20px auto; }
+        .video-placeholder {
+            width: 100%; aspect-ratio: 16/9;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: rgba(255,255,255,0.6); font-size: 0.95rem; border-radius: 10px;
+        }
+        .video-placeholder .play-icon { font-size: 3rem; margin-bottom: 10px; opacity: 0.5; }
+
+        /* ── Figures ── */
+        .figure-container { margin: 28px 0; text-align: center; }
+        .figure-container img { max-width: 100%; height: auto; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .figure-container.half img { max-width: 70%; }
+        .figure-container.small img { max-width: 55%; }
+        .figure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin: 24px 0; }
+        .figure-grid.three-col { grid-template-columns: 1fr 1fr 1fr; }
+        .figure-grid img { width: 100%; border-radius: 6px; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        figcaption, .fig-caption {
+            font-size: 0.88rem; color: var(--color-text-secondary);
+            margin-top: 12px; line-height: 1.6; text-align: center;
+        }
+        figcaption strong, .fig-caption strong { color: var(--color-text); }
+
+        /* ── Tables / Algorithms (as images) ── */
+        .table-container { margin: 24px 0; text-align: center; }
+        .table-container img { max-width: 85%; height: auto; border-radius: 4px; border: 1px solid var(--color-border); }
+        .table-caption { font-size: 0.88rem; color: var(--color-text-secondary); margin-top: 10px; line-height: 1.5; }
+        .algorithm-container { margin: 24px auto; max-width: 700px; text-align: center; }
+        .algorithm-container img { max-width: 100%; border: 1px solid var(--color-border); border-radius: 6px; box-shadow: 0 1px 6px rgba(0,0,0,0.06); }
+
+        /* ── Equations ── */
+        .equation-block { background: var(--color-section-alt); padding: 16px 24px; border-radius: 6px; margin: 16px 0; overflow-x: auto; }
+
+        /* ── Metric cards ── */
+        .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 24px 0; }
+        .metric-card { background: white; border: 1px solid var(--color-border); border-radius: 10px; padding: 20px; text-align: center; }
+        .metric-card .metric-name { font-size: 0.82rem; color: var(--color-text-secondary); font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+        .metric-card .metric-value { font-size: 1.4rem; font-weight: 700; color: var(--color-primary); }
+        .metric-card .metric-desc { font-size: 0.8rem; color: var(--color-text-secondary); margin-top: 4px; }
+
+        /* ── Collapsible ── */
+        details { margin: 16px 0; border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden; }
+        summary {
+            padding: 16px 20px; font-weight: 600; font-size: 1.0rem;
+            cursor: pointer; background: white; transition: background 0.2s; list-style: none;
+        }
+        summary::-webkit-details-marker { display: none; }
+        summary::before { content: '\25B6'; display: inline-block; margin-right: 10px; font-size: 0.75rem; transition: transform 0.2s; }
+        details[open] summary::before { transform: rotate(90deg); }
+        summary:hover { background: var(--color-section-alt); }
+        details .details-content { padding: 20px; border-top: 1px solid var(--color-border); }
+
+        /* ── Resource cards ── */
+        .resource-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin: 24px 0; }
+        .resource-card {
+            border: 1px solid var(--color-border); border-radius: 10px; padding: 24px;
+            background: white; transition: box-shadow 0.2s, transform 0.15s;
+        }
+        .resource-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); transform: translateY(-2px); }
+        .resource-card .icon { font-size: 1.8rem; margin-bottom: 12px; }
+        .resource-card h4 { margin: 0 0 8px; font-size: 1.05rem; }
+        .resource-card p { font-size: 0.88rem; color: var(--color-text-secondary); margin-bottom: 12px; }
+        .resource-card a { font-size: 0.88rem; color: var(--color-primary); font-weight: 600; text-decoration: none; }
+        .resource-card a:hover { text-decoration: underline; }
+
+        /* ── Note boxes ── */
+        .note { background: #fff8e1; border-left: 4px solid #ffc107; padding: 14px 18px; border-radius: 0 6px 6px 0; font-size: 0.9rem; margin: 16px 0; }
+        .note.info { background: var(--color-accent); border-left-color: var(--color-primary); }
+
+        /* ── Citation ── */
+        .citation-box {
+            background: #f1f3f4; border-radius: 8px; padding: 20px 24px;
+            font-family: 'Roboto Mono', monospace; font-size: 0.82rem; line-height: 1.6;
+            overflow-x: auto; position: relative;
+        }
+        .citation-box .copy-btn {
+            position: absolute; top: 10px; right: 10px;
+            background: white; border: 1px solid var(--color-border); border-radius: 4px;
+            padding: 4px 10px; font-size: 0.78rem; cursor: pointer; font-family: 'Inter', sans-serif;
+        }
+        .citation-box .copy-btn:hover { background: var(--color-section-alt); }
+
+        /* ── Badges ── */
+        .badge { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; vertical-align: middle; margin-left: 8px; }
+        .badge-soon { background: #fce4ec; color: #c62828; }
+        .badge-new  { background: #e8f5e9; color: #2e7d32; }
+
+        /* ── Footer ── */
+        footer { text-align: center; padding: 40px 24px; color: var(--color-text-secondary); font-size: 0.85rem; border-top: 1px solid var(--color-border); }
+        footer a { color: var(--color-primary); text-decoration: none; }
+
+        /* ── Lists ── */
+        ol, ul { margin: 8px 0 16px 24px; font-size: 0.95rem; }
+        li { margin-bottom: 6px; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 1.5rem; }
+            .video-grid { grid-template-columns: 1fr; }
+            .figure-grid { grid-template-columns: 1fr; }
+            .figure-grid.three-col { grid-template-columns: 1fr; }
+            .metric-grid { grid-template-columns: 1fr 1fr; }
+            .nav-bar a { padding: 12px 12px; font-size: 0.8rem; }
+            .figure-container.half img, .figure-container.small img { max-width: 100%; }
+        }
+
+        html { scroll-behavior: smooth; scroll-padding-top: 60px; }
+    </style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- HERO -->
+<!-- ============================================================ -->
+<div class="hero">
+    <h1>A Tabletop Mobile Robot for CT-Optimal Touch</h1>
+    <p class="subtitle">Force-Controlled Stroking via Feedforward-PID Control</p>
+
+    <p class="authors">
+        Yudai Sano<sup>1</sup>,&nbsp;
+        Youchan Yim<sup>1,2</sup>,&nbsp;
+        Fumihide Tanaka<sup>1,2</sup>
+    </p>
+    <p class="affiliations">
+        <sup>1</sup>Fumihide Tanaka Laboratory, University of Tsukuba &nbsp;&middot;&nbsp;
+        <sup>2</sup>Institute of Systems and Information Engineering, University of Tsukuba
+    </p>
+
+    <div class="hero-buttons">
+        <a href="#" class="btn-paper">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            Paper (IEEE)
+        </a>
+        <a href="#" class="btn-arxiv">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            arXiv
+        </a>
+        <a href="#code" class="btn-code">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            Code
+        </a>
+        <a href="#videos" class="btn-video">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+            Video
+        </a>
+    </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- NAV -->
+<!-- ============================================================ -->
+<nav class="nav-bar">
+    <ul>
+        <li><a href="#abstract">Abstract</a></li>
+        <li><a href="#videos">Videos</a></li>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#force">Force Metrics</a></li>
+        <li><a href="#reliability">Reliability</a></li>
+        <li><a href="#questionnaire">Questionnaire</a></li>
+        <li><a href="#eda">EDA</a></li>
+        <li><a href="#power">Power Analysis</a></li>
+        <li><a href="#algorithms">Algorithms</a></li>
+        <li><a href="#code">Code &amp; Data</a></li>
+        <li><a href="#citation">Citation</a></li>
+    </ul>
+</nav>
+
+<!-- ============================================================ -->
+<!-- ABSTRACT -->
+<!-- ============================================================ -->
+<section id="abstract">
+<div class="container">
+    <h2><span class="section-number">&sect;</span>Abstract</h2>
+    <div class="section-divider"></div>
+    <div class="abstract-box">
+        CT-optimal touch activates C-tactile afferents through gentle stroking at 3&thinsp;cm/s with 0.4&thinsp;N contact force, promoting relaxation and stress reduction. Existing devices are either stationary (precise but laboratory-bound) or wearable (portable but limited in force control). We propose a <strong>tabletop mobile robot</strong> (94&times;137&times;72&thinsp;mm) that delivers CT-optimal touch to the forearm during desk work, combining a motorized parallel-linkage stroking module with real-time force sensing. A <strong>feedforward+PID (FF+PID)</strong> controller uses iterative surface learning to compensate for forearm curvature. A within-subjects study with <strong>20 participants</strong> compared FF+PID against PID-only across parallel and orthogonal stroking directions. FF+PID significantly reduced force error, variability, and temporal fluctuations in both directions with large effect sizes, while all participants showed consistent improvements with high measurement reliability. No differences were found in subjective evaluation, yet electrodermal activity analysis indicated <strong>reduced physiological arousal</strong> under FF+PID in the orthogonal direction.
+    </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- VIDEOS -->
+<!-- ============================================================ -->
+<section id="videos" style="background: var(--color-section-alt);">
+<div class="container">
+    <h2><span class="section-number">&sect;</span>Videos</h2>
+    <div class="section-divider"></div>
+
+    <h3>Device Demonstration</h3>
+    <p>The tabletop mobile robot performing CT-optimal stroking on the forearm in two directions.</p>
+
+    <div class="video-grid">
+        <div class="video-card">
+            <div class="video-placeholder">
+                <div class="play-icon">&#9654;</div>
+                <!-- TODO: Replace with YouTube embed -->
+                <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
+                Parallel Stroking
+            </div>
+            <div class="caption">Parallel direction: 12&thinsp;cm stroke along the motor axis</div>
+        </div>
+        <div class="video-card">
+            <div class="video-placeholder">
+                <div class="play-icon">&#9654;</div>
+                <!-- TODO: Replace with YouTube embed -->
+                Orthogonal Stroking
+            </div>
+            <div class="caption">Orthogonal direction: 2&thinsp;cm stroke perpendicular to the motor axis</div>
+        </div>
+    </div>
+
+    <h3>Experiment Session</h3>
+    <p>A participant receiving CT-optimal touch during the experiment protocol.</p>
+
+    <div class="video-full">
+        <div class="video-card">
+            <div class="video-placeholder">
+                <div class="play-icon">&#9654;</div>
+                <!-- TODO: Replace with YouTube embed -->
+                Experiment Session Video
+            </div>
+            <div class="caption">Within-subjects experiment: 10-cycle stroking protocol per condition (2 directions &times; 2 controllers)</div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SYSTEM OVERVIEW -->
+<!-- ============================================================ -->
+<section id="overview">
+<div class="container">
+    <h2><span class="section-number">&sect;</span>System Overview</h2>
+    <div class="section-divider"></div>
+
+    <div class="figure-container">
+        <img src="source/figure/overview/system_overview.png" alt="System overview of the tabletop mobile robot">
+        <p class="fig-caption"><strong>Figure 1.</strong> System overview. The tabletop mobile robot consists of a holonomic mobile base with omniwheels, an IMU-based heading controller, and a motorized parallel-linkage stroking module with a load cell for real-time force sensing.</p>
+    </div>
+
+    <div class="figure-container">
+        <img src="source/figure/overview/mobile_robot_detail.png" alt="Detailed view of the mobile robot">
+        <p class="fig-caption"><strong>Figure 2.</strong> Robot detail: stroking module with parallel-linkage mechanism, holonomic mobile base with three omniwheels, and control electronics with IMU sensor.</p>
+    </div>
+
+    <div class="figure-container half">
+        <img src="source/figure/overview/control_block_2.png" alt="FF+PID control block diagram">
+        <p class="fig-caption"><strong>Figure 3.</strong> Block diagram of the FF+PID force control architecture. The feedforward component provides a pre-learned angle map $\theta_{\text{FF}}(y)$, while the PID controller corrects residual errors in real time.</p>
+    </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FORCE METRICS -->
+<!-- ============================================================ -->
+<section id="force" style="background: var(--color-section-alt);">
+<div class="container">
+    <h2><span class="section-number">S1.</span>Force Metrics</h2>
+    <div class="section-divider"></div>
+
+    <div class="metric-grid">
+        <div class="metric-card">
+            <div class="metric-name">RMSE Improvement</div>
+            <div class="metric-value">18&ndash;28%</div>
+            <div class="metric-desc">FF+PID vs PID-only</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-name">CV Reduction</div>
+            <div class="metric-value">25&ndash;31%</div>
+            <div class="metric-desc">Force variability</div>
+        </div>
+        <div class="metric-card">
+            <div class="metric-name">Effect Sizes</div>
+            <div class="metric-value">$|d|$ &gt; 0.85</div>
+            <div class="metric-desc">11 of 12 comparisons</div>
+        </div>
+    </div>
+
+    <details>
+        <summary>S1.1 Data Processing Pipeline</summary>
+        <div class="details-content">
+            <p>The force data were extracted from raw stroking recordings using a three-stage filtering pipeline. Each stroke cycle consists of: <strong>stop &rarr; acceleration &rarr; steady (analyzed) &rarr; deceleration &rarr; stop</strong>.</p>
+            <ol>
+                <li><strong>Stroke direction filter</strong>: Turnaround segments where the robot is stationary (<code>stroke = s</code>) are removed.</li>
+                <li><strong>Moving-point filter</strong>: Data points where the Y-position is unchanged from adjacent samples are removed, eliminating boundary points that are still physically stationary.</li>
+                <li><strong>Steady-state filter</strong>: Within each continuous moving segment, the first and last data points are excluded to remove acceleration/deceleration transients.</li>
+            </ol>
+            <p>The resulting data comprise only the constant-velocity, steady-state force samples during active stroking.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>S1.2 Metric Definitions</summary>
+        <div class="details-content">
+            <p>All metrics are computed over the steady-state moving data for each participant&ndash;condition pair (10 cycles pooled). Target force: $F_{\text{target}} = 0.4$&thinsp;N.</p>
+
+            <h4>Mean</h4>
+            <div class="equation-block">$$\overline{F} = \frac{1}{n}\sum_{i=1}^{n} F_i$$</div>
+            <p>Global measure of how closely the controller maintains the target force on average.</p>
+
+            <h4>RMSE</h4>
+            <div class="equation-block">$$\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(F_i - F_{\text{target}})^2}$$</div>
+            <p>Magnitude of force deviation from the target. Sensitive to transient force spikes.</p>
+
+            <h4>MAE</h4>
+            <div class="equation-block">$$\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|F_i - F_{\text{target}}|$$</div>
+            <p>Average absolute deviation from the target. Less sensitive to outliers than RMSE.</p>
+
+            <h4>CV (Coefficient of Variation)</h4>
+            <div class="equation-block">$$\text{CV} = \frac{\text{SD}(F)}{\overline{F}} \times 100$$</div>
+            <p>Force variability normalized by the mean, enabling fair cross-condition comparison.</p>
+
+            <h4>$\Delta F$ (Forward&ndash;Backward Hysteresis)</h4>
+            <div class="equation-block">$$\Delta F = |\overline{F}_{\text{forward}} - \overline{F}_{\text{backward}}|$$</div>
+            <p>Absolute difference in mean force between forward and backward strokes.</p>
+
+            <h4>MASD (Mean Absolute Successive Difference)</h4>
+            <div class="equation-block">$$\text{MASD} = \frac{1}{K}\sum_{k=1}^{K}\left(\frac{1}{n_k - 1}\sum_{i=2}^{n_k}|F_i^{(k)} - F_{i-1}^{(k)}|\right)$$</div>
+            <p>Force smoothness: average absolute sample-to-sample changes within each cycle, then averaged across $K = 10$ cycles. Lower MASD = smoother force delivery.</p>
+        </div>
+    </details>
+
+    <details open>
+        <summary>S1.3 Results</summary>
+        <div class="details-content">
+            <div class="table-container">
+                <!-- TODO: Replace with PNG screenshot of compiled table -->
+                <img src="source/table/tab_force_combined.png" alt="Table S1: Force control performance">
+                <p class="table-caption"><strong>Table S1.</strong> Force control performance ($n=20$): descriptive statistics (M &plusmn; SD) and paired comparisons between FF+PID and PID-only for all force metrics across both stroking directions.</p>
+            </div>
+
+            <h4>Force Time Series</h4>
+            <div class="figure-container">
+                <img src="source/figure/force/force_timeseries.png" alt="Force time series for all conditions">
+                <p class="fig-caption"><strong>Figure S1.</strong> Force time series for all four experimental conditions ($n=20$). Thin transparent lines = individual participants, solid line = grand mean, shaded region = &plusmn;1 SEM. Red dashed line = target force (0.4&thinsp;N).</p>
+            </div>
+
+            <h4>Raincloud Plots &mdash; All Force Metrics</h4>
+            <div class="figure-grid">
+                <div>
+                    <img src="source/figure/supplementary/mean_comparison.png" alt="Mean comparison">
+                    <p class="fig-caption">(a) Mean</p>
+                </div>
+                <div>
+                    <img src="source/figure/force/rmse_comparison.png" alt="RMSE comparison">
+                    <p class="fig-caption">(b) RMSE</p>
+                </div>
+                <div>
+                    <img src="source/figure/supplementary/mae_comparison.png" alt="MAE comparison">
+                    <p class="fig-caption">(c) MAE</p>
+                </div>
+                <div>
+                    <img src="source/figure/supplementary/cv_comparison.png" alt="CV comparison">
+                    <p class="fig-caption">(d) CV</p>
+                </div>
+                <div>
+                    <img src="source/figure/supplementary/delta_f_comparison.png" alt="Delta F comparison">
+                    <p class="fig-caption">(e) $\Delta F$</p>
+                </div>
+                <div>
+                    <img src="source/figure/force/MASD_comparison.png" alt="MASD comparison">
+                    <p class="fig-caption">(f) MASD</p>
+                </div>
+            </div>
+            <p class="fig-caption"><strong>Figure S2.</strong> Raincloud plots for all six force metrics. FF+PID (blue) vs PID-only (orange). Lower = better for all metrics except Mean (proximity to 0.4&thinsp;N). $^{*}p &lt; 0.05$, $^{**}p &lt; 0.01$.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>S1.4 Discussion</summary>
+        <div class="details-content">
+            <p>FF+PID consistently improved force control across both directions with large effect sizes ($|d| > 0.85$ for 11/12 comparisons). The sole exception&mdash;orthogonal $\Delta F$&mdash;reflects the robot's kinematics (motor axis perpendicular to stroke), not a controller limitation.</p>
+
+            <h4>MASD Analysis</h4>
+            <p>Orthogonal MASD values are substantially higher than parallel (FF+PID: 0.019 vs 0.007), despite lower RMSE. This is due to structural differences: orthogonal strokes have ~11 data points per cycle vs ~74 for parallel (shorter 2&thinsp;cm distance), and the sample interval is ~2&times; longer (259 vs 133&thinsp;ms). Cross-direction MASD comparison is therefore inappropriate; only within-direction FF+PID vs PID comparisons are meaningful.</p>
+
+            <div class="table-container">
+                <img src="source/table/tab_sampling_characteristics.png" alt="Table S2: Sampling characteristics">
+                <p class="table-caption"><strong>Table S2.</strong> Sampling characteristics comparison between parallel and orthogonal stroking.</p>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>S1.5 Forward/Backward Separated Analysis</summary>
+        <div class="details-content">
+            <p>In parallel: FF+PID significantly reduced hysteresis ($p &lt; 0.001$, $d = -1.047$), correcting directional force asymmetry from friction/inertia/backlash. In orthogonal: both conditions already had minimal hysteresis (~0.03&thinsp;N) due to perpendicular motor axis. Combined RMSE inflation from hysteresis: max <strong>5.3%</strong>. FF+PID superiority is unchanged when strokes are analyzed separately.</p>
+        </div>
+    </details>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- MEASUREMENT RELIABILITY -->
+<!-- ============================================================ -->
+<section id="reliability">
+<div class="container">
+    <h2><span class="section-number">S2.</span>Measurement Reliability</h2>
+    <div class="section-divider"></div>
+
+    <p>Three complementary analyses evaluate the reliability and stability of the 10-cycle repeated RMSE measurements.</p>
+
+    <details>
+        <summary>S2.1 Variance Decomposition</summary>
+        <div class="details-content">
+            <p>Separates total RMSE variability into between-participant and within-participant components. Higher Between/Within ratio indicates inter-individual variation (anatomy) dominates over controller instability.</p>
+            <div class="table-container">
+                <img src="source/table/tab_variance_decomposition.png" alt="Table S3: Variance decomposition">
+                <p class="table-caption"><strong>Table S3.</strong> Variance decomposition. FF+PID: higher Between/Within ratios (6.66 vs 2.76 for parallel), confirming anatomy-driven variability rather than controller instability.</p>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>S2.2 Intraclass Correlation Coefficients (ICC)</summary>
+        <div class="details-content">
+            <p>ICC(3,$k$): two-way mixed model, consistency agreement, average measures.</p>
+            <div class="table-container">
+                <img src="source/table/tab_icc.png" alt="Table S4: ICC results">
+                <p class="table-caption"><strong>Table S4.</strong> All conditions achieved ICC 0.855&ndash;0.998 ("good" to "excellent"). FF+PID yielded higher ICC in both directions, with non-overlapping 95% CIs confirming statistically significant reliability improvement.</p>
+            </div>
+        </div>
+    </details>
+
+    <details>
+        <summary>S2.3 Cycle Trend Distribution</summary>
+        <div class="details-content">
+            <p>Spearman $\rho$ between cycle number (1&ndash;10) and per-cycle RMSE for each of 80 participant&ndash;condition pairs. Balanced distribution confirms no systematic learning or fatigue effects.</p>
+
+            <div class="figure-container half">
+                <img src="source/figure/force/cycle_trend_distribution.png" alt="Cycle trend distribution">
+                <p class="fig-caption"><strong>Figure S3.</strong> Distribution of Spearman $\rho$ values. Improving: 21 (26%), Stable: 35 (44%), Worsening: 24 (30%). Balanced distribution confirms no systematic bias.</p>
+            </div>
+
+            <h4>Parallel FF+PID Worsening</h4>
+            <p>Parallel FF+PID showed a concentrated worsening pattern (14/20, 70%, Wilcoxon $p = 0.0002$). However, the Within-P SD is only 0.002&thinsp;N (0.5% of target force)&mdash;a floor-effect regime where the already-optimal controller exhibits minute RMSE increases.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>S2.4 X-Axis Drift Analysis</summary>
+        <div class="details-content">
+            <p>All 20 participants showed systematic negative X-axis drift (~0.135&thinsp;cm/cycle), from $X \approx 0$ (cycle 1) to $X \approx -1.22$&thinsp;cm (cycle 10).</p>
+
+            <div class="table-container">
+                <img src="source/table/tab_x_drift.png" alt="Table S5: X-axis drift">
+                <p class="table-caption"><strong>Table S5.</strong> X-axis drift analysis: per-participant data, trend groups, and cycle-by-cycle grand average.</p>
+            </div>
+
+            <h4>Mechanism: Heading PID Overcorrection</h4>
+            <p>Contact friction creates lateral force &rarr; IMU interprets as heading perturbation &rarr; PID overcorrects asymmetrically between forward/backward strokes (|BWD|/|FWD| ratio &approx; 3). The drift is <strong>independent of FF compensation</strong> (FF+PID and PID produce nearly identical drift) and has <strong>negligible impact</strong> (within-participant RMSE SD = 0.002&thinsp;N).</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>S2.5 Calibration BWD[0] Analysis</summary>
+        <div class="details-content">
+            <p>BWD[0] turnaround angle (mean 58.6&deg;, range 29.5&deg;&ndash;110.0&deg;) correlates with forearm anatomy. FF+PID showed significant correlation with parallel RMSE ($r = 0.606$, $p = 0.005$): extreme forearm anatomy produces less accurate FF calibration profiles.</p>
+            <p>Four outlier participants (S12, S14, S16, S18) had modestly higher RMSE but remained within the overall distribution. This identifies forearm anatomy as a system limitation addressable through adaptive calibration.</p>
+        </div>
+    </details>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- QUESTIONNAIRE -->
+<!-- ============================================================ -->
+<section id="questionnaire" style="background: var(--color-section-alt);">
+<div class="container">
+    <h2><span class="section-number">S3.</span>Subjective Evaluation</h2>
+    <div class="section-divider"></div>
+
+    <p>After each condition, participants rated three 7-point Likert scales: <strong>Comfort</strong> (<em>kaiteki</em>), <strong>Naturalness</strong> (<em>shizen</em>), and <strong>Consistency</strong> (<em>ittei</em>).</p>
+
+    <div class="table-container">
+        <img src="source/table/tab_questionnaire.png" alt="Table S6: Questionnaire results">
+        <p class="table-caption"><strong>Table S6.</strong> No significant differences for any scale (all $p &gt; 0.05$). Orthogonal consistency: marginal trend ($p = 0.081$, $r = 0.39$).</p>
+    </div>
+
+    <div class="figure-container half">
+        <img src="source/figure/force/questionnaire.png" alt="Questionnaire raincloud plots">
+        <p class="fig-caption"><strong>Figure S4.</strong> Perceptual questionnaire responses. Blue = FF+PID, orange = PID-only. Responses clustered around 4&ndash;6 with no substantial separation.</p>
+    </div>
+
+    <div class="note info">
+        <strong>Key finding:</strong> FF compensation improves objective force performance without degrading the subjective tactile experience. The sub-hundred millinewton-level control differences fall below the human tactile detection threshold.
+    </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- EDA -->
+<!-- ============================================================ -->
+<section id="eda">
+<div class="container">
+    <h2><span class="section-number">S4.</span>Electrodermal Activity (EDA)</h2>
+    <div class="section-divider"></div>
+
+    <details>
+        <summary>S4.1 Measurement Setup &amp; Signal Processing</summary>
+        <div class="details-content">
+            <p>BITalino (r)evolution board at 10&thinsp;Hz. Ag/AgCl electrodes on left index and middle fingertips. 5-minute stabilization period.</p>
+            <ul>
+                <li><strong>SCL (Tonic)</strong>: Raw conductance; metrics: Mean, SD, Range, AUC ($\mu$S&middot;s via trapezoidal integration)</li>
+                <li><strong>SCR (Phasic)</strong>: 2nd-order Butterworth bandpass (0.05&ndash;3.0&thinsp;Hz, zero-phase); metrics: Amplitude, Count, AUC (baseline-corrected, 5&thinsp;s pre-stroking)</li>
+            </ul>
+            <p>S18 excluded ($n = 19$): near-zero SCL (0.47&ndash;0.65&thinsp;$\mu$S vs group ~9&ndash;10&thinsp;$\mu$S).</p>
+        </div>
+    </details>
+
+    <details open>
+        <summary>S4.2 Results</summary>
+        <div class="details-content">
+            <p><strong>Parallel:</strong> No significant differences (all $p &gt; 0.4$, $|d| &lt; 0.2$).</p>
+            <p><strong>Orthogonal:</strong> All four SCL metrics significantly lower under FF+PID ($p &lt; 0.05$, $|d| = 0.636$&ndash;$0.787$) &rarr; reduced physiological arousal.</p>
+
+            <div class="table-container">
+                <img src="source/table/tab_eda_parallel.png" alt="Table S7: EDA parallel">
+                <p class="table-caption"><strong>Table S7.</strong> EDA, parallel direction ($n = 19$). No significant differences.</p>
+            </div>
+
+            <div class="table-container">
+                <img src="source/table/tab_eda_orthogonal.png" alt="Table S8: EDA orthogonal">
+                <p class="table-caption"><strong>Table S8.</strong> EDA, orthogonal direction ($n = 19$). All SCL metrics significant with medium-to-large effect sizes.</p>
+            </div>
+
+            <h4>EDA Time Series</h4>
+            <div class="figure-grid">
+                <div>
+                    <img src="source/figure/eda/eda_scl_timeseries.png" alt="SCL time series">
+                    <p class="fig-caption">(a) SCL (Tonic)</p>
+                </div>
+                <div>
+                    <img src="source/figure/eda/eda_scr_timeseries.png" alt="SCR time series">
+                    <p class="fig-caption">(b) SCR (Phasic)</p>
+                </div>
+            </div>
+            <p class="fig-caption"><strong>Figure S5.</strong> EDA time series (mean &plusmn; SEM, $n = 19$). Dashed lines = stroking start/end. Gray = pre/post margins.</p>
+
+            <h4>SCL Raincloud Plots</h4>
+            <div class="figure-grid">
+                <div>
+                    <img src="source/figure/eda/eda_scl_comparison.png" alt="SCL Mean">
+                    <p class="fig-caption">(a) SCL Mean</p>
+                </div>
+                <div>
+                    <img src="source/figure/eda/eda_scl_sd_comparison.png" alt="SCL SD">
+                    <p class="fig-caption">(b) SCL SD</p>
+                </div>
+                <div>
+                    <img src="source/figure/eda/eda_scl_range_comparison.png" alt="SCL Range">
+                    <p class="fig-caption">(c) SCL Range</p>
+                </div>
+                <div>
+                    <img src="source/figure/eda/eda_scl_auc_comparison.png" alt="SCL AUC">
+                    <p class="fig-caption">(d) SCL AUC</p>
+                </div>
+            </div>
+            <p class="fig-caption"><strong>Figure S6.</strong> SCL raincloud plots. Orthogonal direction shows significant FF+PID advantage.</p>
+
+            <h4>SCR Raincloud Plots</h4>
+            <div class="figure-grid three-col">
+                <div>
+                    <img src="source/figure/eda/eda_scr_amplitude_comparison.png" alt="SCR Amplitude">
+                    <p class="fig-caption">(a) Amplitude</p>
+                </div>
+                <div>
+                    <img src="source/figure/eda/eda_scr_count_comparison.png" alt="SCR Count">
+                    <p class="fig-caption">(b) Count</p>
+                </div>
+                <div>
+                    <img src="source/figure/eda/eda_scr_auc_comparison.png" alt="SCR AUC">
+                    <p class="fig-caption">(c) AUC</p>
+                </div>
+            </div>
+            <p class="fig-caption"><strong>Figure S7.</strong> SCR (phasic) raincloud plots. No significant differences in either direction.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>S4.3 Interpretation</summary>
+        <div class="details-content">
+            <p>The orthogonal SCL finding links to variance decomposition: orthogonal PID had the highest within-participant RMSE variability (SD = 0.010&thinsp;N), meaning cycle-to-cycle force fluctuations were most pronounced. While not consciously detected (Section S3), the force inconsistency was registered at an <strong>unconscious physiological level</strong>&mdash;elevated tonic arousal without conscious awareness.</p>
+        </div>
+    </details>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- POWER ANALYSIS -->
+<!-- ============================================================ -->
+<section id="power" style="background: var(--color-section-alt);">
+<div class="container">
+    <h2><span class="section-number">S5.</span>Statistical Power Analysis</h2>
+    <div class="section-divider"></div>
+
+    <p>Post-hoc power analysis using: $\text{Power} = \Phi\!\left(|d|\sqrt{n} - z_{\alpha/2}\right)$ where $z_{\alpha/2} = 1.96$ ($\alpha = 0.05$, two-tailed).</p>
+
+    <div class="table-container">
+        <img src="source/table/tab_power_analysis.png" alt="Table S9: Power analysis">
+        <p class="table-caption"><strong>Table S9.</strong> Power analysis for force metrics. All significant results: power &gt; 0.85. Minimum $n$ for 80% power: 2&ndash;18.</p>
+    </div>
+
+    <details>
+        <summary>Summary by Domain</summary>
+        <div class="details-content">
+            <ul>
+                <li><strong>Force:</strong> All significant results achieved power &gt; 0.96. $n_{\min}$: 3&ndash;18.</li>
+                <li><strong>Questionnaire:</strong> Small effect sizes ($r &lt; 0.4$). Non-significance = genuinely minimal differences, not insufficient power.</li>
+                <li><strong>EDA:</strong> Significant orthogonal SCL: power &ge; 0.75 ($n = 19$). SCL Mean and AUC exceeded 0.80.</li>
+                <li><strong>Overall:</strong> With $n = 20$, minimum detectable effect = $d = 0.626$. All significant effects exceeded $|d| &gt; 0.67$.</li>
+            </ul>
+        </div>
+    </details>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ALGORITHMS -->
+<!-- ============================================================ -->
+<section id="algorithms">
+<div class="container">
+    <h2><span class="section-number">S6.</span>Calibration Algorithm Details</h2>
+    <div class="section-divider"></div>
+
+    <p>Two-phase per-participant calibration adapts a feedforward angle map $\boldsymbol{\theta}_{\mathrm{FF}}(y)$ to each participant's forearm geometry. Key parameters: $N = 5$ measurement points, $K = 5$ learning trials, $\alpha = 1.0$, $F^* = 0.4$&thinsp;N.</p>
+
+    <details>
+        <summary>Algorithm S1: Phase 1 &mdash; Static Surface Scan</summary>
+        <div class="details-content">
+            <div class="algorithm-container">
+                <!-- TODO: Replace with PNG screenshot of compiled algorithm -->
+                <img src="source/algorithm/alg_static_scan.png" alt="Algorithm S1">
+            </div>
+            <p>Measures motor angles at 5 points in both forward (unloading) and backward (loading) directions, then linearly interpolates to form the initial angle maps.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>Algorithm S2: Phase 2 &mdash; Dynamic Learning + Monotonicity Filter</summary>
+        <div class="details-content">
+            <div class="algorithm-container">
+                <img src="source/algorithm/alg_dynamic_learning.png" alt="Algorithm S2a: Dynamic Learning">
+            </div>
+            <p>Update rule: $\theta^{(k)}(y_i) = \theta^{(k-1)}(y_i) + \alpha \cdot u_{\text{PID}}(y_i)$ when $|e| \geq \delta_{\text{dz}}$ (0.05&thinsp;N). 5 trials refine the map.</p>
+
+            <div class="algorithm-container" style="margin-top: 24px;">
+                <img src="source/algorithm/alg_monotonicity.png" alt="Algorithm S2b: Monotonicity Filter">
+            </div>
+            <p>Ensures physically consistent (non-increasing) angle values by ceiling and floor checks along the stroke path.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>Algorithm S3: Real-Time FF+PID Control</summary>
+        <div class="details-content">
+            <div class="algorithm-container">
+                <img src="source/algorithm/alg_ffpid_control.png" alt="Algorithm S3: FF+PID Control">
+            </div>
+            <p>$\theta_{\text{cmd}} = \theta_{\text{FF}}(y) - u_{\text{PID}}$. PID gains: $K_p = 0.3$, $K_i = 0.03$, $K_d = 0.03$. Force: 20&thinsp;ms sampling (5-pt moving avg). PID: 50&thinsp;ms update. Logging: 100&thinsp;ms. 10 round-trip cycles per condition.</p>
+        </div>
+    </details>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CODE & DATA -->
+<!-- ============================================================ -->
+<section id="code" style="background: var(--color-section-alt);">
+<div class="container">
+    <h2><span class="section-number">&sect;</span>Code &amp; Data</h2>
+    <div class="section-divider"></div>
+
+    <div class="resource-grid">
+        <div class="resource-card">
+            <div class="icon">&#128187;</div>
+            <h4>Robot Control Software</h4>
+            <p>Integrated control script: holonomic base, IMU heading PID, FF+PID force control, and per-participant calibration routines.</p>
+            <a href="#">GitHub Repository &rarr;</a>
+        </div>
+
+        <div class="resource-card">
+            <div class="icon">&#128202;</div>
+            <h4>Analysis Scripts</h4>
+            <p>Complete pipeline: data parsing, force metrics, statistical tests, EDA processing, and figure generation (Python).</p>
+            <a href="#">GitHub Repository &rarr;</a>
+        </div>
+
+        <div class="resource-card">
+            <div class="icon">&#128230;</div>
+            <h4>CAD Data</h4>
+            <p>3D CAD files for the robot chassis, stroking module, and parallel-linkage mechanism.</p>
+            <a href="#">Coming Soon</a>
+            <span class="badge badge-soon">Coming Soon</span>
+        </div>
+
+        <div class="resource-card">
+            <div class="icon">&#129516;</div>
+            <h4>3D Forearm Scans</h4>
+            <p>20 participants' forearm surface scans (OBJ format) for forearm geometry analysis.</p>
+            <a href="#">Coming Soon</a>
+            <span class="badge badge-soon">Coming Soon</span>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- CITATION -->
+<!-- ============================================================ -->
+<section id="citation">
+<div class="container">
+    <h2><span class="section-number">&sect;</span>Citation</h2>
+    <div class="section-divider"></div>
+
+    <p>If you find this work useful, please cite:</p>
+
+    <div class="citation-box">
+        <button class="copy-btn" onclick="navigator.clipboard.writeText(this.parentElement.querySelector('pre').textContent)">Copy</button>
+<pre>@article{sano2026tabletop,
+  title     = {A Tabletop Mobile Robot for CT-Optimal Touch:
+               Force-Controlled Stroking via Feedforward-PID Control},
+  author    = {Sano, Yudai and Yim, Youchan and Tanaka, Fumihide},
+  journal   = {IEEE Robotics and Automation Letters},
+  year      = {2026},
+  publisher = {IEEE}
+}</pre>
+    </div>
+</div>
+</section>
+
+<!-- ============================================================ -->
+<!-- FOOTER -->
+<!-- ============================================================ -->
+<footer>
+    <p>&copy; 2026 Fumihide Tanaka Laboratory, University of Tsukuba</p>
+    <p>This page serves as supplementary materials for the RA-L paper.</p>
+    <p style="margin-top:8px;"><a href="#abstract">Back to top</a> &nbsp;&middot;&nbsp; <a href="https://uchanable.github.io">uchanable.github.io</a></p>
+</footer>
+
+<!-- Active nav highlight -->
+<script>
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-bar a');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === '#' + entry.target.id);
+                });
+            }
+        });
+    }, { rootMargin: '-80px 0px -60% 0px' });
+    sections.forEach(section => observer.observe(section));
+</script>
+
+</body>
+</html>
