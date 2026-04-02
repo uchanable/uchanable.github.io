@@ -276,6 +276,48 @@
             overflow-x: auto;
         }
 
+        /* ── Metric definition cards ── */
+        .def-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+            margin: 24px 0;
+        }
+
+        .def-card {
+            border: 1px solid var(--border);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .def-card h4 {
+            font-family: var(--serif);
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0 0 8px;
+            color: var(--text);
+        }
+
+        .def-card .def-desc {
+            font-size: 0.88rem;
+            color: var(--text-2);
+            line-height: 1.6;
+            flex: 1;
+        }
+
+        .def-card .def-eq {
+            margin-top: 14px;
+            padding-top: 14px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            overflow-x: auto;
+        }
+
+        @media (max-width: 640px) {
+            .def-grid { grid-template-columns: 1fr; }
+        }
+
         /* ── Videos ── */
         .vid-grid {
             display: grid;
@@ -577,23 +619,38 @@
         <div class="expand-body">
             <p>All metrics computed over steady-state data for each participant&ndash;condition pair (10 cycles pooled). Target force $F_{\text{target}} = 0.4$ N.</p>
 
-            <h4>Mean</h4>
-            <div class="eq">$$\overline{F} = \frac{1}{n}\sum_{i=1}^{n} F_i$$</div>
-
-            <h4>RMSE</h4>
-            <div class="eq">$$\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(F_i - F_{\text{target}})^2}$$</div>
-
-            <h4>MAE</h4>
-            <div class="eq">$$\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|F_i - F_{\text{target}}|$$</div>
-
-            <h4>CV</h4>
-            <div class="eq">$$\text{CV} = \frac{\text{SD}(F)}{\overline{F}} \times 100$$</div>
-
-            <h4>$\Delta F$ (Hysteresis)</h4>
-            <div class="eq">$$\Delta F = |\overline{F}_{\text{forward}} - \overline{F}_{\text{backward}}|$$</div>
-
-            <h4>MASD</h4>
-            <div class="eq">$$\text{MASD} = \frac{1}{K}\sum_{k=1}^{K}\left(\frac{1}{n_k - 1}\sum_{i=2}^{n_k}|F_i^{(k)} - F_{i-1}^{(k)}|\right)$$</div>
+            <div class="def-grid">
+                <div class="def-card">
+                    <h4>Mean</h4>
+                    <div class="def-desc">Global measure of how closely the controller maintains the target force on average.</div>
+                    <div class="def-eq">$$\overline{F} = \frac{1}{n}\sum_{i=1}^{n} F_i$$</div>
+                </div>
+                <div class="def-card">
+                    <h4>RMSE</h4>
+                    <div class="def-desc">Magnitude of force deviation from the target. Squaring amplifies large errors, making it sensitive to transient force spikes.</div>
+                    <div class="def-eq">$$\text{RMSE} = \sqrt{\frac{1}{n}\sum_{i=1}^{n}(F_i - F_{\text{target}})^2}$$</div>
+                </div>
+                <div class="def-card">
+                    <h4>MAE</h4>
+                    <div class="def-desc">Average absolute deviation from the target force. Less sensitive to outliers than RMSE; reported as a complementary accuracy metric.</div>
+                    <div class="def-eq">$$\text{MAE} = \frac{1}{n}\sum_{i=1}^{n}|F_i - F_{\text{target}}|$$</div>
+                </div>
+                <div class="def-card">
+                    <h4>CV</h4>
+                    <div class="def-desc">Force variability normalized by the mean, enabling fair comparison across conditions with slightly different mean forces.</div>
+                    <div class="def-eq">$$\text{CV} = \frac{\text{SD}(F)}{\overline{F}} \times 100$$</div>
+                </div>
+                <div class="def-card">
+                    <h4>$\Delta F$ (Hysteresis)</h4>
+                    <div class="def-desc">Absolute difference in mean force between forward and backward strokes. Lower values indicate more consistent bidirectional force delivery.</div>
+                    <div class="def-eq">$$\Delta F = |\overline{F}_\text{fwd} - \overline{F}_\text{bwd}|$$</div>
+                </div>
+                <div class="def-card">
+                    <h4>MASD</h4>
+                    <div class="def-desc">Force smoothness: average absolute sample-to-sample changes within each cycle, then averaged across $K=10$ cycles. Lower MASD = smoother delivery.</div>
+                    <div class="def-eq">$$\text{MASD} = \frac{1}{K}\sum_{k=1}^{K}\!\left(\frac{1}{n_k\!-\!1}\sum_{i=2}^{n_k}|F_i^{(k)}\!-\!F_{i-1}^{(k)}|\right)$$</div>
+                </div>
+            </div>
         </div>
     </details>
 
