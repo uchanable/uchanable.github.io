@@ -496,6 +496,38 @@
 
         details[open] summary::after { content: '\2212'; }
 
+        /* Section-level collapse (h2 style) */
+        .section-collapse {
+            margin: 0;
+            border: none;
+            border-radius: 0;
+        }
+
+        .h2-summary {
+            font-family: var(--serif);
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            margin: 0 -24px;
+            padding: 14px 24px;
+            background: #1a1a1a;
+            color: #fff;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .h2-summary::after {
+            content: '+';
+            margin-left: auto;
+            font-size: 1.2rem;
+            font-weight: 400;
+            color: rgba(255,255,255,0.5);
+        }
+
+        .section-collapse[open] .h2-summary::after { content: '\2212'; }
+
         .expand-body { padding: 0 0 16px; }
         .expand-body > .tbl:first-child { margin-top: 0; }
         .expand-body > p:first-child { margin-top: 0; }
@@ -667,8 +699,9 @@
                 <a href="#experiment-eval">Evaluation Method</a>
             </div>
         </li>
+        <li><a href="#resources">Resources</a></li>
         <li class="dropdown">
-            <a href="#results">Results</a>
+            <a href="#results">Detailed Results</a>
             <div class="dropdown-menu">
                 <a href="#results-force">Force Control</a>
                 <a href="#results-reliability">Reliability</a>
@@ -677,7 +710,6 @@
                 <a href="#results-power">Statistical Power</a>
             </div>
         </li>
-        <li><a href="#resources">Resources</a></li>
     </ul>
 </nav>
 
@@ -871,9 +903,9 @@
 <!-- ════════════════════════════════════════════════════════════ -->
 <section id="results">
 <div class="w">
-    <details>
-    <summary style="font-family: var(--serif); font-size: 1.4rem; font-weight: 600; padding: 16px 0; list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px;">Detailed Results</summary>
-    <div class="expand-body">
+    <details class="section-collapse">
+    <summary class="h2-summary">Detailed Results</summary>
+    <div>
 
     <!-- Force Control -->
     <h3 id="results-force">Force Control</h3>
@@ -1208,9 +1240,9 @@
             </ul>
         </div>
     </details>
-</div>
     </div>
     </details>
+</div>
 </section>
 
 <!-- ════════════════════════════════════════════════════════════ -->
