@@ -567,8 +567,8 @@
     <div class="links">
         <span class="link-disabled">Paper (under review)</span>
         <a href="#">arXiv</a>
-        <a href="#code">Code</a>
-        <a href="#videos">Video</a>
+        <a href="#resources">Code</a>
+        <a href="#overview-videos">Video</a>
     </div>
 </header>
 </div>
@@ -577,24 +577,45 @@
 <nav>
     <ul>
         <li><a href="#abstract">Abstract</a></li>
-        <li><a href="#videos">Videos</a></li>
-        <li><a href="#overview">Overview</a></li>
         <li class="dropdown">
-            <a href="#force">Detailed Analysis</a>
+            <a href="#overview">Overview</a>
             <div class="dropdown-menu">
-                <a href="#force">S1. Force Metrics</a>
-                <a href="#reliability">S2. Measurement Reliability</a>
-                <a href="#questionnaire">S3. Subjective Evaluation</a>
-                <a href="#eda">S4. EDA</a>
-                <a href="#power">S5. Statistical Power</a>
-                <a href="#algorithms">S6. Calibration Algorithms</a>
+                <a href="#overview">Device</a>
+                <a href="#overview-videos">Videos</a>
             </div>
         </li>
-        <li><a href="#code">Code &amp; Data</a></li>
+        <li class="dropdown">
+            <a href="#algorithms">Method</a>
+            <div class="dropdown-menu">
+                <a href="#algorithms">Control Architecture</a>
+                <a href="#algorithms-detail">Calibration Algorithms</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#experiment">Experiment</a>
+            <div class="dropdown-menu">
+                <a href="#experiment">Session</a>
+                <a href="#experiment-pipeline">Data Processing</a>
+                <a href="#experiment-eval">Evaluation Method</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#results">Results</a>
+            <div class="dropdown-menu">
+                <a href="#results-force">Force Control</a>
+                <a href="#results-reliability">Reliability</a>
+                <a href="#results-questionnaire">Subjective Evaluation</a>
+                <a href="#results-eda">EDA</a>
+                <a href="#results-power">Statistical Power</a>
+            </div>
+        </li>
+        <li><a href="#resources">Resources</a></li>
     </ul>
 </nav>
 
-<!-- ── Abstract ── -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- ABSTRACT -->
+<!-- ════════════════════════════════════════════════════════════ -->
 <section id="abstract">
 <div class="w">
     <h2>Abstract</h2>
@@ -606,38 +627,12 @@
 </div>
 </section>
 
-<!-- ── Videos ── -->
-<section id="videos">
-<div class="w-wide">
-    <h2>Videos</h2>
-
-    <h3>Device Demonstration</h3>
-    <div class="vid-grid">
-        <figure class="vid">
-            <div class="vid-ph">Parallel stroking</div>
-            <!-- <iframe src="https://www.youtube.com/embed/VIDEO_ID" allowfullscreen></iframe> -->
-            <figcaption>Parallel: 12 cm stroke along the motor axis</figcaption>
-        </figure>
-        <figure class="vid">
-            <div class="vid-ph">Orthogonal stroking</div>
-            <figcaption>Orthogonal: 2 cm stroke perpendicular to the motor axis</figcaption>
-        </figure>
-    </div>
-
-    <h3>Experiment Session</h3>
-    <div style="max-width:600px">
-        <figure class="vid">
-            <div class="vid-ph">Experiment session</div>
-            <figcaption>10-cycle stroking protocol per condition (2 directions &times; 2 controllers)</figcaption>
-        </figure>
-    </div>
-</div>
-</section>
-
-<!-- ── System Overview ── -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- OVERVIEW -->
+<!-- ════════════════════════════════════════════════════════════ -->
 <section id="overview">
-<div class="w-wide">
-    <h2>System Overview</h2>
+<div class="w">
+    <h2>Overview</h2>
 
     <figure>
         <img src="source/figure/hp_header.png" alt="Design concept (left) and actual device (right)">
@@ -646,35 +641,115 @@
 
     <figure>
         <img src="source/figure/overview/mobile_robot_detail.png" alt="Robot detail">
-        <figcaption><strong>Figure 2.</strong> Stroking module with parallel-linkage mechanism, holonomic mobile base with three omniwheels, and control electronics.</figcaption>
+        <figcaption><strong>Figure 2.</strong> Stroking module with parallel-linkage mechanism, holonomic mobile base with three omniwheels, and control electronics. <a href="#resources">CAD data &rarr;</a></figcaption>
     </figure>
 
-    <figure>
-        <img src="source/figure/overview/control_block_2.png" alt="Control block diagram">
-        <figcaption><strong>Figure 3.</strong> FF+PID control architecture. The feedforward component provides a pre-learned angle map $\theta_{\text{FF}}(y)$; the PID controller corrects residual errors in real time.</figcaption>
-    </figure>
+    <h3 id="overview-videos">Device Demonstration</h3>
+    <div class="vid-grid">
+        <figure class="vid">
+            <div class="vid-ph">Parallel stroking</div>
+            <figcaption>Parallel: 12 cm stroke along the motor axis</figcaption>
+        </figure>
+        <figure class="vid">
+            <div class="vid-ph">Orthogonal stroking</div>
+            <figcaption>Orthogonal: 2 cm stroke perpendicular to the motor axis</figcaption>
+        </figure>
+    </div>
 </div>
 </section>
 
-<!-- ══════════════════════════════════════════════════════════════ -->
-<!-- S1. Force Metrics -->
-<!-- ══════════════════════════════════════════════════════════════ -->
-<section id="force">
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- METHOD (Algorithms) -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="algorithms">
 <div class="w">
-    <h2>S1. Force Metrics</h2>
+    <h2>Method</h2>
 
+    <figure>
+        <img src="source/figure/overview/control_block_2.png" alt="Control block diagram">
+        <figcaption><strong>Figure 3.</strong> FF+PID control architecture. The feedforward component provides a pre-learned angle map $\theta_{\text{FF}}(y)$; the PID controller corrects residual errors in real time. <a href="#resources">Source code &rarr;</a></figcaption>
+    </figure>
+
+    <p>Two-phase per-participant calibration adapts $\boldsymbol{\theta}_{\text{FF}}(y)$ to each participant's forearm geometry. Key parameters: $N = 5$ measurement points, $K = 5$ learning trials, $\alpha = 1.0$, $F^* = 0.4$ N.</p>
+
+    <div id="algorithms-detail">
     <details>
-        <summary>Data Processing</summary>
+        <summary>Algorithm S1 &mdash; Static Surface Scan</summary>
         <div class="expand-body">
-            <p>Force data extracted via three-stage filtering: stroke direction filter, moving-point filter, and steady-state filter. Only constant-velocity, steady-state samples during active stroking are analyzed.</p>
+            <div class="algo">
+                <img src="source/algorithm/alg_static_scan.png" alt="Algorithm S1">
+            </div>
+            <p>Measures motor angles at 5 points in both forward (unloading) and backward (loading) directions, then linearly interpolates to form initial angle maps.</p>
         </div>
     </details>
 
     <details>
-        <summary>Metric Definitions</summary>
+        <summary>Algorithm S2 &mdash; Dynamic Learning + Monotonicity Filter</summary>
+        <div class="expand-body">
+            <div class="algo">
+                <img src="source/algorithm/alg_dynamic_learning.png" alt="Algorithm S2a">
+            </div>
+            <p>Update: $\theta^{(k)}(y_i) = \theta^{(k-1)}(y_i) + \alpha \cdot u_{\text{PID}}(y_i)$ when $|e| \geq 0.05$ N. 5 trials refine the map.</p>
+            <div class="algo" style="margin-top:24px">
+                <img src="source/algorithm/alg_monotonicity.png" alt="Algorithm S2b">
+            </div>
+            <p>Monotonicity filter ensures physically consistent (non-increasing) angle values along the stroke path.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>Algorithm S3 &mdash; Real-Time FF+PID Control</summary>
+        <div class="expand-body">
+            <div class="algo">
+                <img src="source/algorithm/alg_ffpid_control.png" alt="Algorithm S3">
+            </div>
+            <p>$\theta_{\text{cmd}} = \theta_{\text{FF}}(y) - u_{\text{PID}}$. Gains: $K_p = 0.3$, $K_i = K_d = 0.03$. Force: 20 ms sampling (5-pt moving avg). PID: 50 ms update. Logging: 100 ms. 10 round trips per condition.</p>
+        </div>
+    </details>
+    </div>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- EXPERIMENT -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="experiment">
+<div class="w">
+    <h2>Experiment</h2>
+
+    <h3>Experiment Session</h3>
+    <div class="fig-grid">
+        <figure>
+            <img src="source/figure/ex_setup.png" alt="Experimental setup">
+            <figcaption><strong>Figure 4.</strong> Experimental setup: participant posture during stroking and EDA electrode placement.</figcaption>
+        </figure>
+        <figure class="vid">
+            <div class="vid-ph">Experiment session</div>
+            <figcaption>10-cycle stroking protocol per condition (2 directions &times; 2 controllers)</figcaption>
+        </figure>
+    </div>
+    <p>20 participants performed a within-subjects experiment (2 directions &times; 2 controllers = 4 conditions, counterbalanced). Each condition consisted of 10 round-trip stroking cycles at 3 cm/s with a target force of 0.4 N.</p>
+
+    <h3 id="experiment-pipeline">Data Processing Pipeline</h3>
+    <details>
+        <summary>Three-stage filtering</summary>
+        <div class="expand-body">
+            <p>The force data were extracted from raw stroking recordings using a three-stage filtering pipeline. Each stroke cycle consists of: stop &rarr; acceleration &rarr; <strong>steady (analyzed)</strong> &rarr; deceleration &rarr; stop.</p>
+            <ol>
+                <li><strong>Stroke direction filter</strong> (<code>stroke &isin; {f, b}</code>): Turnaround segments where the robot is stationary are removed, as static periods are irrelevant to force control evaluation during active stroking.</li>
+                <li><strong>Moving-point filter</strong> (<code>label_moving = 1</code>): Data points where the Y-position is unchanged from adjacent samples are removed. These represent boundary points that are labeled as forward/backward but are still physically stationary.</li>
+                <li><strong>Steady-state filter</strong> (<code>label_steady = 1</code>): Within each continuous moving segment, the first and last data points are excluded to remove acceleration and deceleration transients (one point each).</li>
+            </ol>
+            <p>The resulting data comprise only the constant-velocity, steady-state force samples during active stroking. This pipeline is identical to the pilot study and is implemented in <code>parse_raw_to_master.py</code>.</p>
+        </div>
+    </details>
+
+    <h3 id="experiment-eval">Evaluation Method</h3>
+
+    <details>
+        <summary>Force metric definitions</summary>
         <div class="expand-body">
             <p>All metrics computed over steady-state data for each participant&ndash;condition pair (10 cycles pooled). Target force $F_{\text{target}} = 0.4$ N.</p>
-
             <div class="def-grid">
                 <div class="def-card">
                     <h4>Mean</h4>
@@ -710,7 +785,43 @@
         </div>
     </details>
 
-    <details open>
+    <details>
+        <summary>Perceptual questionnaire</summary>
+        <div class="expand-body">
+            <p>After each 10-cycle condition, participants rated three 7-point Likert scales (1 = not at all, 7 = very much):</p>
+            <ul>
+                <li><strong>Comfort</strong> (<em>kaiteki</em>): "Was the stroking touch comfortable?"</li>
+                <li><strong>Naturalness</strong> (<em>shizen</em>): "Was the stroking touch natural?"</li>
+                <li><strong>Consistency</strong> (<em>ittei</em>): "Was the stroking force consistent?"</li>
+            </ul>
+            <p>As Likert-scale data are ordinal, the Wilcoxon signed-rank test was used for paired comparisons (FF+PID vs PID-only) within each direction. Effect size: $r = Z / \sqrt{N}$.</p>
+        </div>
+    </details>
+
+    <details>
+        <summary>EDA measurement</summary>
+        <div class="expand-body">
+            <p>BITalino (r)evolution board at 10 Hz. Ag/AgCl electrodes on left index and middle fingertips. 5-minute stabilization period. S18 excluded ($n = 19$) due to near-zero SCL.</p>
+            <h4>SCL (Tonic)</h4>
+            <p>Raw conductance values used directly. Metrics: Mean, SD, Range, AUC ($\mu$S&middot;s via trapezoidal integration).</p>
+            <h4>SCR (Phasic)</h4>
+            <p>2nd-order Butterworth bandpass (0.05&ndash;3.0 Hz, zero-phase). Metrics: Amplitude, Count, AUC (baseline-corrected, 5 s pre-stroking).</p>
+        </div>
+    </details>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- DETAILED RESULTS -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="results">
+<div class="w">
+    <h2>Detailed Results</h2>
+
+    <!-- Force Control -->
+    <h3 id="results-force">Force Control</h3>
+
+    <details>
         <summary>Results</summary>
         <div class="expand-body">
             <div class="tbl">
@@ -719,15 +830,15 @@
             </div>
 
             <h4>Parallel</h4>
-            <p>FF+PID was significantly superior across all six metrics with large effect sizes ($|d| > 0.85$). CV ($d = -2.476$) and RMSE ($d = -1.749$) showed the largest effects. For Mean, FF+PID produced a slightly higher value (0.424 N vs 0.415 N), but both were within 0.025 N of the 0.4 N target.</p>
+            <p>FF+PID was significantly superior across all six metrics with large effect sizes ($|d| > 0.85$). CV ($d = -2.476$) and RMSE ($d = -1.749$) showed the largest effects.</p>
 
             <h4>Orthogonal</h4>
-            <p>FF+PID was significantly superior for five of six metrics. $\Delta F$ was the sole exception ($p = 0.933$, $d = 0.019$): both conditions exhibited minimal hysteresis (~0.03 N) because the motor axis is perpendicular to the stroking direction.</p>
+            <p>FF+PID was significantly superior for five of six metrics. $\Delta F$ was the sole exception ($p = 0.933$): both conditions exhibited minimal hysteresis (~0.03 N) because the motor axis is perpendicular to the stroking direction.</p>
 
             <h4>Force time series</h4>
             <figure>
                 <img src="source/figure/force/force_timeseries.png" alt="Force time series">
-                <figcaption><strong>Figure S1.</strong> Force time series for all four conditions ($n = 20$). Thin lines = individual participants, solid = grand mean, shaded = &plusmn;1 SEM. Red dashed = target (0.4 N).</figcaption>
+                <figcaption><strong>Figure S1.</strong> Force time series ($n = 20$). Thin lines = individuals, solid = grand mean, shaded = &plusmn;1 SEM. Red dashed = target (0.4 N).</figcaption>
             </figure>
 
             <h4>Raincloud plots</h4>
@@ -765,10 +876,9 @@
         <summary>Discussion</summary>
         <div class="expand-body">
             <h4>Overall</h4>
-            <p>FF+PID consistently improved force control across both directions with large effect sizes ($|d| > 0.85$ for 11/12 comparisons). The sole exception&mdash;orthogonal $\Delta F$&mdash;reflects the robot's kinematics, not a controller limitation. The consistency across two mechanically distinct directions (parallel: 12 cm along motor axis; orthogonal: 2 cm perpendicular) supports generalizability.</p>
-
+            <p>FF+PID consistently improved force control across both directions ($|d| > 0.85$ for 11/12 comparisons). The consistency across two mechanically distinct directions supports generalizability.</p>
             <h4>MASD analysis</h4>
-            <p>Orthogonal MASD is higher than parallel (0.019 vs 0.007) despite lower RMSE, due to structural differences: ~11 data points per cycle vs ~74, and ~2&times; longer sample interval (259 vs 133 ms). Cross-direction MASD comparison is inappropriate; only within-direction comparisons are meaningful.</p>
+            <p>Orthogonal MASD is higher than parallel (0.019 vs 0.007) despite lower RMSE, due to ~11 data points per cycle vs ~74. Cross-direction comparison is inappropriate; only within-direction comparisons are meaningful.</p>
             <div class="tbl">
                 <img src="source/table/tab_sampling_characteristics.png" alt="Sampling characteristics">
                 <p><strong>Table S2.</strong> Sampling characteristics between parallel and orthogonal stroking.</p>
@@ -779,21 +889,12 @@
     <details>
         <summary>Forward/Backward Separated Analysis</summary>
         <div class="expand-body">
-            <p>Forward-only and backward-only RMSE were computed separately to assess whether $\Delta F$ inflates the combined RMSE.</p>
-            <p>Parallel: FF+PID significantly reduced hysteresis ($p &lt; 0.001$, $d = -1.047$), correcting directional asymmetry from friction, inertia, and backlash. Orthogonal: both conditions already exhibited minimal hysteresis (~0.03 N). Combined RMSE inflation from hysteresis: max 5.3%. FF+PID superiority is unchanged when strokes are analyzed separately.</p>
+            <p>Parallel: FF+PID significantly reduced hysteresis ($p &lt; 0.001$, $d = -1.047$). Orthogonal: minimal hysteresis (~0.03 N) in both conditions. Combined RMSE inflation: max 5.3%.</p>
         </div>
     </details>
-</div>
-</section>
 
-<!-- ══════════════════════════════════════════════════════════════ -->
-<!-- S2. Measurement Reliability -->
-<!-- ══════════════════════════════════════════════════════════════ -->
-<section id="reliability">
-<div class="w">
-    <h2>S2. Measurement Reliability</h2>
-
-    <p>Three complementary analyses evaluate the reliability of the 10-cycle repeated RMSE measurements: variance decomposition, ICC, and cycle trend analysis.</p>
+    <!-- Measurement Reliability -->
+    <h3 id="results-reliability">Measurement Reliability</h3>
 
     <details>
         <summary>Variance Decomposition</summary>
@@ -807,7 +908,7 @@
     </details>
 
     <details>
-        <summary>Intraclass Correlation Coefficients (ICC)</summary>
+        <summary>Intraclass Correlation (ICC)</summary>
         <div class="expand-body">
             <p>All conditions: ICC 0.855&ndash;0.998 ("good" to "excellent"). FF+PID yielded higher ICC with non-overlapping 95% CIs.</p>
             <div class="tbl">
@@ -825,61 +926,37 @@
                 <img src="source/figure/force/cycle_trend_distribution.png" alt="Cycle trends">
                 <figcaption><strong>Figure S3.</strong> Spearman $\rho$ distribution across 80 participant&ndash;condition pairs.</figcaption>
             </figure>
-
             <h4>Parallel FF+PID worsening</h4>
-            <p>Parallel FF+PID showed concentrated worsening (14/20, Wilcoxon $p = 0.0002$), but Within-P SD is only 0.002 N (0.5% of target)&mdash;a floor-effect regime.</p>
-
-            <h4>X-axis drift analysis</h4>
-            <p>All 20 participants: systematic drift ~0.135 cm/cycle (friction-induced heading PID overcorrection). Independent of FF compensation; negligible impact (within-participant RMSE SD = 0.002 N, &lt;0.5% of target).</p>
+            <p>Concentrated worsening (14/20, $p = 0.0002$), but Within-P SD = 0.002 N (0.5% of target)&mdash;floor-effect regime.</p>
+            <h4>X-axis drift</h4>
+            <p>All 20 participants: systematic drift ~0.135 cm/cycle via heading PID overcorrection. Independent of FF; negligible impact.</p>
             <div class="tbl">
                 <img src="source/table/tab_x_drift.png" alt="X-axis drift">
                 <p><strong>Table S5.</strong> X-axis drift per participant.</p>
             </div>
-
-            <h4>X-axis drift mechanism</h4>
-            <p>Contact friction creates lateral force &rarr; IMU interprets as heading perturbation &rarr; PID overcorrects asymmetrically (|BWD|/|FWD| ratio &approx; 3). The drift is independent of FF compensation and has negligible practical impact.</p>
         </div>
     </details>
 
     <details>
         <summary>Calibration BWD[0] Analysis</summary>
         <div class="expand-body">
-            <p>The BWD[0] turnaround angle is the motor angle at which the robot reverses direction during calibration. Higher BWD[0] indicates a thicker forearm requiring greater motor rotation. Mean $= 58.6^\circ$, SD $= 20.7^\circ$, Range $= 29.5^\circ$&ndash;$110.0^\circ$.</p>
-
-            <h4>Correlation with parallel RMSE</h4>
-            <p>FF+PID: significant correlation ($r = 0.606$, $p = 0.005$)&mdash;extreme forearm anatomy produces less accurate FF calibration profiles. PID-only: weaker ($r = 0.438$, $p = 0.053$).</p>
-
-            <h4>Impact assessment</h4>
-            <p>Four outlier participants (S12, S14, S16, S18) showed modestly higher RMSE but remained within the overall distribution. Excluding them does not change the FF+PID superiority pattern. Forearm anatomy is identified as a system limitation addressable through adaptive calibration.</p>
+            <p>BWD[0] turnaround angle (mean $58.6^\circ$, range $29.5^\circ$&ndash;$110.0^\circ$) correlates with forearm anatomy and parallel RMSE ($r = 0.606$, $p = 0.005$). Four outlier participants showed modestly higher RMSE but did not change the FF+PID superiority pattern.</p>
         </div>
     </details>
-</div>
-</section>
 
-<!-- ══════════════════════════════════════════════════════════════ -->
-<!-- S5. Subjective Evaluation -->
-<!-- ══════════════════════════════════════════════════════════════ -->
-<section id="questionnaire">
-<div class="w">
-    <h2>S3. Subjective Evaluation</h2>
+    <!-- Subjective Evaluation -->
+    <h3 id="results-questionnaire">Subjective Evaluation</h3>
 
     <details>
-        <summary>Method</summary>
-        <div class="expand-body">
-            <p>After each 10-cycle condition, participants rated three 7-point Likert scales: <strong>Comfort</strong> (<em>kaiteki</em>), <strong>Naturalness</strong> (<em>shizen</em>), and <strong>Consistency</strong> (<em>ittei</em>). Wilcoxon signed-rank test for paired comparisons; effect size $r = Z / \sqrt{N}$.</p>
-        </div>
-    </details>
-
-    <details open>
         <summary>Results</summary>
         <div class="expand-body">
             <div class="tbl">
                 <img src="source/table/tab_questionnaire.png" alt="Questionnaire results">
-                <p><strong>Table S6.</strong> No significant differences for any scale (all $p > 0.05$). Orthogonal consistency showed a marginal trend ($p = 0.081$, $r = 0.39$).</p>
+                <p><strong>Table S6.</strong> No significant differences (all $p > 0.05$). Orthogonal consistency: marginal trend ($p = 0.081$, $r = 0.39$).</p>
             </div>
             <figure>
                 <img src="source/figure/force/questionnaire.png" alt="Questionnaire raincloud">
-                <figcaption><strong>Figure S4.</strong> Questionnaire responses. Blue = FF+PID, orange = PID-only. Responses clustered around 4&ndash;6.</figcaption>
+                <figcaption><strong>Figure S4.</strong> Questionnaire responses. Blue = FF+PID, orange = PID-only.</figcaption>
             </figure>
         </div>
     </details>
@@ -887,37 +964,14 @@
     <details>
         <summary>Interpretation</summary>
         <div class="expand-body">
-            <p>The absence of differences in subjective evaluation despite significant objective force improvements indicates that sub-hundred millinewton-level control differences fall below the human tactile detection threshold. FF compensation improves objective performance without degrading the subjective experience.</p>
+            <p>Sub-hundred millinewton-level control differences fall below the human tactile detection threshold. FF compensation improves objective performance without degrading the subjective experience.</p>
         </div>
     </details>
-</div>
-</section>
 
-<!-- ══════════════════════════════════════════════════════════════ -->
-<!-- S6. Electrodermal Activity (EDA) -->
-<!-- ══════════════════════════════════════════════════════════════ -->
-<section id="eda">
-<div class="w">
-    <h2>S4. Electrodermal Activity (EDA)</h2>
+    <!-- EDA -->
+    <h3 id="results-eda">Electrodermal Activity (EDA)</h3>
 
     <details>
-        <summary>Measurement Setup</summary>
-        <div class="expand-body">
-            <p>BITalino (r)evolution board at 10 Hz. Ag/AgCl electrodes on left index and middle fingertips. 5-minute stabilization period. S18 excluded ($n = 19$) due to near-zero SCL (0.47&ndash;0.65 $\mu$S vs group ~9&ndash;10 $\mu$S).</p>
-        </div>
-    </details>
-
-    <details>
-        <summary>Signal Processing</summary>
-        <div class="expand-body">
-            <h4>SCL (Tonic)</h4>
-            <p>Raw conductance values used directly. Metrics: Mean, SD, Range, AUC ($\mu$S&middot;s via trapezoidal integration).</p>
-            <h4>SCR (Phasic)</h4>
-            <p>2nd-order Butterworth bandpass (0.05&ndash;3.0 Hz, zero-phase). Metrics: Amplitude, Count, AUC (baseline-corrected, 5 s pre-stroking).</p>
-        </div>
-    </details>
-
-    <details open>
         <summary>Results</summary>
         <div class="expand-body">
             <h4>Parallel</h4>
@@ -925,13 +979,11 @@
                 <img src="source/table/tab_eda_parallel.png" alt="EDA parallel">
                 <p><strong>Table S7.</strong> No significant differences (all $p > 0.4$, $|d| &lt; 0.2$).</p>
             </div>
-
             <h4>Orthogonal</h4>
             <div class="tbl">
                 <img src="source/table/tab_eda_orthogonal.png" alt="EDA orthogonal">
-                <p><strong>Table S8.</strong> All four SCL metrics significant with medium-to-large effect sizes ($|d| = 0.636$&ndash;$0.787$).</p>
+                <p><strong>Table S8.</strong> All four SCL metrics significant ($|d| = 0.636$&ndash;$0.787$).</p>
             </div>
-
             <h4>Time series</h4>
             <div class="fig-grid">
                 <figure>
@@ -944,42 +996,19 @@
                 </figure>
             </div>
             <figcaption><strong>Figure S5.</strong> EDA time series (mean &plusmn; SEM, $n = 19$).</figcaption>
-
             <h4>SCL raincloud plots</h4>
             <div class="fig-grid cols-4">
-                <figure>
-                    <img src="source/figure/eda/eda_scl_comparison.png" alt="SCL Mean">
-                    <figcaption>(a) Mean</figcaption>
-                </figure>
-                <figure>
-                    <img src="source/figure/eda/eda_scl_sd_comparison.png" alt="SCL SD">
-                    <figcaption>(b) SD</figcaption>
-                </figure>
-                <figure>
-                    <img src="source/figure/eda/eda_scl_range_comparison.png" alt="SCL Range">
-                    <figcaption>(c) Range</figcaption>
-                </figure>
-                <figure>
-                    <img src="source/figure/eda/eda_scl_auc_comparison.png" alt="SCL AUC">
-                    <figcaption>(d) AUC</figcaption>
-                </figure>
+                <figure><img src="source/figure/eda/eda_scl_comparison.png" alt="SCL Mean"><figcaption>(a) Mean</figcaption></figure>
+                <figure><img src="source/figure/eda/eda_scl_sd_comparison.png" alt="SCL SD"><figcaption>(b) SD</figcaption></figure>
+                <figure><img src="source/figure/eda/eda_scl_range_comparison.png" alt="SCL Range"><figcaption>(c) Range</figcaption></figure>
+                <figure><img src="source/figure/eda/eda_scl_auc_comparison.png" alt="SCL AUC"><figcaption>(d) AUC</figcaption></figure>
             </div>
             <figcaption><strong>Figure S6.</strong> SCL raincloud plots ($n = 19$).</figcaption>
-
             <h4>SCR raincloud plots</h4>
             <div class="fig-grid cols-3">
-                <figure>
-                    <img src="source/figure/eda/eda_scr_amplitude_comparison.png" alt="SCR Amp">
-                    <figcaption>(a) Amplitude</figcaption>
-                </figure>
-                <figure>
-                    <img src="source/figure/eda/eda_scr_count_comparison.png" alt="SCR Count">
-                    <figcaption>(b) Count</figcaption>
-                </figure>
-                <figure>
-                    <img src="source/figure/eda/eda_scr_auc_comparison.png" alt="SCR AUC">
-                    <figcaption>(c) AUC</figcaption>
-                </figure>
+                <figure><img src="source/figure/eda/eda_scr_amplitude_comparison.png" alt="SCR Amp"><figcaption>(a) Amplitude</figcaption></figure>
+                <figure><img src="source/figure/eda/eda_scr_count_comparison.png" alt="SCR Count"><figcaption>(b) Count</figcaption></figure>
+                <figure><img src="source/figure/eda/eda_scr_auc_comparison.png" alt="SCR AUC"><figcaption>(c) AUC</figcaption></figure>
             </div>
             <figcaption><strong>Figure S7.</strong> SCR raincloud plots ($n = 19$). No significant differences.</figcaption>
         </div>
@@ -988,29 +1017,24 @@
     <details>
         <summary>Interpretation</summary>
         <div class="expand-body">
-            <p>The orthogonal SCL finding connects to variance decomposition: orthogonal PID had the highest within-participant RMSE variability (SD = 0.010 N). While not consciously detected (Section S5), the force inconsistency was registered at an unconscious physiological level&mdash;elevated tonic arousal without conscious awareness.</p>
+            <p>Orthogonal PID had the highest within-participant RMSE variability (SD = 0.010 N). While not consciously detected, the force inconsistency was registered at an unconscious physiological level&mdash;elevated tonic arousal without conscious awareness.</p>
         </div>
     </details>
-</div>
-</section>
 
-<!-- ── Power ── -->
-<section id="power">
-<div class="w">
-    <h2>S5. Statistical Power Analysis</h2>
-
-    <div class="tbl">
-        <img src="source/table/tab_power_analysis.png" alt="Power analysis">
-        <p><strong>Table S9.</strong> All significant force results: power &gt; 0.85. Minimum $n$ for 80% power: 2&ndash;18.</p>
-    </div>
+    <!-- Statistical Power -->
+    <h3 id="results-power">Statistical Power Analysis</h3>
 
     <details>
-        <summary>Summary by domain</summary>
+        <summary>Results</summary>
         <div class="expand-body">
+            <div class="tbl">
+                <img src="source/table/tab_power_analysis.png" alt="Power analysis">
+                <p><strong>Table S9.</strong> All significant force results: power &gt; 0.85. Minimum $n$ for 80% power: 2&ndash;18.</p>
+            </div>
             <ul>
                 <li><strong>Force:</strong> Power &gt; 0.96 for all significant results.</li>
                 <li><strong>Questionnaire:</strong> Small effects ($r &lt; 0.4$)&mdash;non-significance reflects genuine minimal differences.</li>
-                <li><strong>EDA:</strong> Significant orthogonal SCL: power &ge; 0.75. SCL Mean and AUC exceeded 0.80.</li>
+                <li><strong>EDA:</strong> Significant orthogonal SCL: power &ge; 0.75.</li>
                 <li><strong>Overall:</strong> Minimum detectable effect with $n = 20$: $d = 0.626$.</li>
             </ul>
         </div>
@@ -1018,51 +1042,12 @@
 </div>
 </section>
 
-<!-- ── Algorithms ── -->
-<section id="algorithms">
+<!-- ════════════════════════════════════════════════════════════ -->
+<!-- RESOURCES -->
+<!-- ════════════════════════════════════════════════════════════ -->
+<section id="resources">
 <div class="w">
-    <h2>S6. Calibration Algorithms</h2>
-    <p>Two-phase calibration adapts $\boldsymbol{\theta}_{\text{FF}}(y)$ to each participant's forearm. $N = 5$ points, $K = 5$ trials, $\alpha = 1.0$, $F^* = 0.4$ N.</p>
-
-    <details>
-        <summary>Algorithm S1 &mdash; Static surface scan</summary>
-        <div class="expand-body">
-            <div class="algo">
-                <img src="source/algorithm/alg_static_scan.png" alt="Algorithm S1">
-            </div>
-            <p>Measures motor angles at 5 points in both directions, then linearly interpolates.</p>
-        </div>
-    </details>
-
-    <details>
-        <summary>Algorithm S2 &mdash; Dynamic learning + monotonicity filter</summary>
-        <div class="expand-body">
-            <div class="algo">
-                <img src="source/algorithm/alg_dynamic_learning.png" alt="Algorithm S2a">
-            </div>
-            <p>Update: $\theta^{(k)}(y_i) = \theta^{(k-1)}(y_i) + \alpha \cdot u_{\text{PID}}(y_i)$ when $|e| \geq 0.05$ N.</p>
-            <div class="algo" style="margin-top:24px">
-                <img src="source/algorithm/alg_monotonicity.png" alt="Algorithm S2b">
-            </div>
-        </div>
-    </details>
-
-    <details>
-        <summary>Algorithm S3 &mdash; Real-time FF+PID control</summary>
-        <div class="expand-body">
-            <div class="algo">
-                <img src="source/algorithm/alg_ffpid_control.png" alt="Algorithm S3">
-            </div>
-            <p>$\theta_{\text{cmd}} = \theta_{\text{FF}}(y) - u_{\text{PID}}$. Gains: $K_p = 0.3$, $K_i = K_d = 0.03$. 10 round trips per condition.</p>
-        </div>
-    </details>
-</div>
-</section>
-
-<!-- ── Code ── -->
-<section id="code">
-<div class="w">
-    <h2>Code &amp; Data</h2>
+    <h2>Resources</h2>
     <p>All resources will be released through a single repository upon publication.</p>
     <div class="res-list">
         <div class="res-item">
