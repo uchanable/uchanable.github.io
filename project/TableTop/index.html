@@ -750,19 +750,19 @@
     <p>4&times; speed, 10 round-trip cycles per condition.</p>
     <div class="fig-grid" style="grid-template-columns:1fr 1fr 1fr 1fr; gap:8px;">
         <figure>
-            <video src="source/video/para-ffpid_4x.mp4" autoplay loop muted playsinline></video>
+            <video src="source/video/para-ffpid_4x.mp4" autoplay muted playsinline data-sync="parallel"></video>
             <figcaption style="text-align:center;">Parallel<br>FF+PID</figcaption>
         </figure>
         <figure>
-            <video src="source/video/para-pidonly_4x.mp4" autoplay loop muted playsinline></video>
+            <video src="source/video/para-pidonly_4x.mp4" autoplay muted playsinline data-sync="parallel"></video>
             <figcaption style="text-align:center;">Parallel<br>PID-only</figcaption>
         </figure>
         <figure>
-            <video src="source/video/ortho-ffpid_4x.mp4" autoplay loop muted playsinline></video>
+            <video src="source/video/ortho-ffpid_4x.mp4" autoplay muted playsinline data-sync="orthogonal"></video>
             <figcaption style="text-align:center;">Orthogonal<br>FF+PID</figcaption>
         </figure>
         <figure>
-            <video src="source/video/ortho-pidonly_4x.mp4" autoplay loop muted playsinline></video>
+            <video src="source/video/ortho-pidonly_4x.mp4" autoplay muted playsinline data-sync="orthogonal"></video>
             <figcaption style="text-align:center;">Orthogonal<br>PID-only</figcaption>
         </figure>
     </div>
@@ -1305,6 +1305,24 @@
         });
     }, { rootMargin: '-60px 0px -65% 0px' });
     ss.forEach(s => ob.observe(s));
+
+    // Sync video playback by direction group
+    ['parallel', 'orthogonal'].forEach(group => {
+        const vids = document.querySelectorAll(`video[data-sync="${group}"]`);
+        if (vids.length < 2) return;
+        let ended = 0;
+        vids.forEach(v => {
+            v.addEventListener('ended', () => {
+                ended++;
+                if (ended >= vids.length) {
+                    ended = 0;
+                    setTimeout(() => {
+                        vids.forEach(v2 => { v2.currentTime = 0; v2.play(); });
+                    }, 500);
+                }
+            });
+        });
+    });
 </script>
 
 </body>
