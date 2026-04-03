@@ -254,7 +254,7 @@
             margin: 32px 0;
         }
 
-        figure img {
+        figure img, figure video {
             width: 100%;
             display: block;
         }
@@ -747,14 +747,23 @@
     </figure>
 
     <h3 id="overview-videos">Device Demonstration</h3>
-    <div class="vid-grid">
-        <figure class="vid">
-            <div class="vid-ph">Parallel stroking</div>
-            <figcaption>Parallel: 12 cm stroke along the motor axis</figcaption>
+    <p style="font-size:0.82rem; color:var(--text-3);">4&times; speed, 10 round-trip cycles per condition.</p>
+    <div class="fig-grid" style="grid-template-columns:1fr 1fr 1fr 1fr; gap:8px;">
+        <figure>
+            <video src="source/video/para-ffpid_4x.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Parallel<br>FF+PID</figcaption>
         </figure>
-        <figure class="vid">
-            <div class="vid-ph">Orthogonal stroking</div>
-            <figcaption>Orthogonal: 2 cm stroke perpendicular to the motor axis</figcaption>
+        <figure>
+            <video src="source/video/para-pidonly_4x.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Parallel<br>PID-only</figcaption>
+        </figure>
+        <figure>
+            <video src="source/video/ortho-ffpid_4x.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Orthogonal<br>FF+PID</figcaption>
+        </figure>
+        <figure>
+            <video src="source/video/ortho-pidonly_4x.mp4" autoplay loop muted playsinline></video>
+            <figcaption>Orthogonal<br>PID-only</figcaption>
         </figure>
     </div>
 </div>
