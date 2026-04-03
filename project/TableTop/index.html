@@ -1422,21 +1422,25 @@
     }, { threshold: 0.5 });
     allWraps.forEach(w => scrollOb.observe(w));
 
-    // ── Solo videos (calibration): ended → overlay, hover → overlay, click → replay ──
+    // ── Solo videos (calibration): hover → pause + overlay, click → restart ──
     document.querySelectorAll('.vid-wrap[data-solo]').forEach(w => {
         const v = w.querySelector('video');
         v.addEventListener('ended', () => w.classList.add('ended'));
-        w.addEventListener('mouseenter', () => { if (v.ended) w.classList.add('sync-hover'); });
-        w.addEventListener('mouseleave', () => w.classList.remove('sync-hover'));
+        w.addEventListener('mouseenter', () => {
+            w.classList.add('sync-hover');
+            if (!v.ended) v.pause();
+        });
+        w.addEventListener('mouseleave', () => {
+            w.classList.remove('sync-hover');
+            if (!v.ended) v.play();
+        });
         w.addEventListener('click', () => {
-            if (v.ended) {
-                w.classList.remove('ended', 'sync-hover');
-                v.currentTime = 0; v.play();
-            }
+            w.classList.remove('ended', 'sync-hover');
+            v.currentTime = 0; v.play();
         });
     });
 
-    // ── Synced video groups (device demo): ended → overlay all, hover any → overlay all, click any → replay all ──
+    // ── Synced video groups (device demo): hover any → pause + overlay all, click any → restart all ──
     ['parallel', 'orthogonal'].forEach(group => {
         const wraps = Array.from(document.querySelectorAll(`.vid-wrap[data-sync="${group}"]`));
         const vids = wraps.map(w => w.querySelector('video'));
@@ -1452,15 +1456,17 @@
 
         wraps.forEach(w => {
             w.addEventListener('mouseenter', () => {
-                if (vids.every(v => v.ended)) wraps.forEach(w2 => w2.classList.add('sync-hover'));
+                wraps.forEach(w2 => w2.classList.add('sync-hover'));
+                vids.forEach(v => { if (!v.ended) v.pause(); });
             });
-            w.addEventListener('mouseleave', () => wraps.forEach(w2 => w2.classList.remove('sync-hover')));
+            w.addEventListener('mouseleave', () => {
+                wraps.forEach(w2 => w2.classList.remove('sync-hover'));
+                vids.forEach(v => { if (!v.ended) v.play(); });
+            });
             w.addEventListener('click', () => {
-                if (vids.some(v => v.ended)) {
-                    endCount = 0;
-                    wraps.forEach(w2 => w2.classList.remove('ended', 'sync-hover'));
-                    vids.forEach(v => { v.currentTime = 0; v.play(); });
-                }
+                endCount = 0;
+                wraps.forEach(w2 => w2.classList.remove('ended', 'sync-hover'));
+                vids.forEach(v => { v.currentTime = 0; v.play(); });
             });
         });
     });
