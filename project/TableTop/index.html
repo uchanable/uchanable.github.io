@@ -1062,6 +1062,15 @@
                     <li>The larger orthogonal effect ($d = -1.433$) indicates FF is particularly effective in the short-stroke condition.</li>
                 </ul></div>
             </div>
+
+            <h4>Why orthogonal MASD is higher than parallel</h4>
+            <p>Despite lower RMSE (i.e., more accurate), orthogonal MASD values are substantially higher than parallel (FF+PID: 0.019 vs 0.007). This is explained by the sampling and structural characteristics of the two directions:</p>
+            <ul>
+                <li><strong>Point count difference:</strong> Orthogonal strokes contain ~11 data points per cycle versus ~74 for parallel, because the short 2 cm distance produces a very brief steady-state segment.</li>
+                <li><strong>Turnaround ratio:</strong> With only 2 cm of travel, turnaround phases constitute a larger proportion of total movement time. Force spikes at turnarounds carry disproportionate weight across fewer data points.</li>
+                <li><strong>Sample interval:</strong> The orthogonal sample interval (258.8 ms) is approximately twice that of parallel (132.5 ms), allowing more force change to accumulate between adjacent samples.</li>
+            </ul>
+            <p>MASD captures temporal variability that RMSE does not: two signals with identical RMSE can differ substantially in MASD if one varies smoothly while the other exhibits rapid fluctuations. Cross-direction comparison of MASD absolute values is therefore inappropriate; the meaningful comparison is <em>within-direction</em> FF+PID vs PID.</p>
         </div>
     </details>
 
@@ -1096,6 +1105,18 @@
                     <li>Ratio = Between-P SD / Within-P SD.</li>
                 </ul></div>
             </div>
+
+            <h4>What the ratio means</h4>
+            <p>A higher Between/Within ratio indicates that inter-individual variation (forearm anatomy, skin properties) dominates over controller instability. When the ratio is large, observed RMSE differences across participants reflect genuine anatomical differences rather than inconsistent force control.</p>
+
+            <h4>Orthogonal PID: highest Within-P SD</h4>
+            <p>Orthogonal PID exhibited the highest Within-P SD (0.010) among all four conditions, indicating the most pronounced cycle-to-cycle RMSE instability. Three factors contribute:</p>
+            <ul>
+                <li><strong>No FF compensation:</strong> Without feedforward correction, the PID controller cannot pre-compensate for cycle-to-cycle variations in contact conditions (posture shifts, skin elasticity changes), leading to reactive-only error correction.</li>
+                <li><strong>Short stroking distance:</strong> The 2 cm distance produces frequent turnarounds, and each cycle's contact conditions (approach angle, skin contact area) vary subtly, translating directly into cycle-to-cycle RMSE fluctuations.</li>
+                <li><strong>FF+PID absorption effect:</strong> The feedforward compensation table absorbs much of this variation. Orthogonal FF+PID achieved Within-P SD = 0.003, one-third that of PID (0.010).</li>
+            </ul>
+            <p>This cycle-to-cycle force instability is reflected in higher physiological arousal (SCL), suggesting participants unconsciously registered the force inconsistency (see <a href="#results-eda">EDA results</a>).</p>
         </div>
     </details>
 
@@ -1118,6 +1139,14 @@
                     <li>All conditions: ICC 0.855&ndash;0.998 ("good" to "excellent"). FF+PID yielded higher ICC with non-overlapping 95% CIs.</li>
                 </ul></div>
             </div>
+
+            <h4>Confidence interval analysis</h4>
+            <p>The statistical significance of ICC differences is assessed by examining 95% CI overlap:</p>
+            <ul>
+                <li><strong>Parallel:</strong> FF+PID $[1.00,\, 1.00]$ vs PID $[0.94,\, 0.99]$: CIs do not overlap &rarr; significant difference.</li>
+                <li><strong>Orthogonal:</strong> FF+PID $[0.94,\, 0.98]$ vs PID $[0.74,\, 0.93]$: CIs do not overlap &rarr; significant difference.</li>
+            </ul>
+            <p>PID itself achieves "good" to "excellent" ICC (0.855&ndash;0.969), indicating adequate measurement reliability even without feedforward compensation; FF+PID provides an additional reliability benefit.</p>
         </div>
     </details>
 
@@ -1137,7 +1166,7 @@
                 <figcaption><strong>Figure 7.</strong> Spearman $\rho$ distribution across 80 participant&ndash;condition pairs.</figcaption>
             </figure>
             <h4>Parallel FF+PID worsening</h4>
-            <p>Concentrated worsening (14/20, $p = 0.0002$), but Within-P SD = 0.002 N (0.5% of target)&mdash;floor-effect regime.</p>
+            <p>Concentrated worsening (14/20) is statistically significant: Wilcoxon $W = 201.0$, $p = 0.0002$, mean $\rho = +0.561$, median $\rho = +0.733$. However, the practical significance is negligible: Within-P SD = 0.002 N, which is only 0.5% of the target force (0.4 N). FF+PID already achieves the best absolute RMSE (0.066 N), placing this worsening in a floor-effect regime where the total RMSE variation across 10 cycles amounts to just 0.002 N.</p>
             <h4>X-axis drift</h4>
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 9.</strong> X-Axis Drift Analysis for the Parallel FF+PID Condition.</p>
@@ -1155,6 +1184,10 @@
                     <li>Asymmetric |BWD|/|FWD| ratio &approx; 3 produces net negative drift per cycle.</li>
                 </ul></div>
             </div>
+
+            <h4>X-axis drift mechanism: heading PID overcorrection</h4>
+            <p>During stroking, contact friction between the end-effector and the forearm creates a lateral force that the IMU interprets as a heading perturbation. The heading PID controller responds by applying a corrective lateral velocity. Because the friction vector reverses between forward and backward strokes, the PID correction also reverses direction. However, the correction magnitude is asymmetric: backward strokes generate stronger friction-induced heading disturbance (likely due to differences in link geometry and contact angle), causing larger PID overcorrection in the $-X$ direction. The $|\text{BWD}|/|\text{FWD}|$ ratio $\approx 3$ produces a net negative drift of approximately $-0.13$ cm/cycle.</p>
+            <p>The fact that the drift is independent of feedforward compensation (FF+PID and PID-only produce nearly identical drift) confirms that this is a heading PID phenomenon rather than a force control artifact.</p>
         </div>
     </details>
 
@@ -1176,7 +1209,14 @@
                 <p class="tbl-cap"><strong>Table 13.</strong> RMSE comparison: BWD[0] outliers vs remaining participants.</p>
                 <div class="tbl-img"><img src="source/table/14.png" alt="Table 13"></div>
             </div>
-            <p>Four outlier participants (S12, S14, S16, S18) showed modestly higher RMSE but did not change the FF+PID superiority pattern. Forearm anatomy is identified as a system limitation addressable through adaptive calibration.</p>
+            <h4>Outlier causes</h4>
+            <ul>
+                <li><strong>S18 (110.0&deg;):</strong> Reached MAX_MOTOR_ANGLE during calibration. Larger forearm required maximum motor rotation, producing an unstable force profile with oscillation patterns.</li>
+                <li><strong>S16 (86.8&deg;):</strong> Upper range of BWD[0] values. No specific notes in experimental log.</li>
+                <li><strong>S14 (70.9&deg;):</strong> Forearm notably thicker near the elbow. Required manual direction correction and point-by-point calibration, introducing angular mismatches in the motor-angle&ndash;force mapping.</li>
+                <li><strong>S12 (69.8&deg;):</strong> Instability in turnaround point measurement during calibration, likely due to forearm curvature at the reversal point.</li>
+            </ul>
+            <p>The common factor across all outliers is forearm anatomy (thickness and curvature). These four participants showed modestly higher RMSE but did not change the FF+PID superiority pattern. This system limitation is addressable through adaptive calibration protocols or forearm circumference-aware FF gain adjustment.</p>
         </div>
     </details>
 
@@ -1266,6 +1306,10 @@
         <summary>Interpretation</summary>
         <div class="expand-body">
             <p>Orthogonal PID had the highest within-participant RMSE variability (SD = 0.010 N). While not consciously detected, the force inconsistency was registered at an unconscious physiological level&mdash;elevated tonic arousal without conscious awareness.</p>
+
+            <h4>Mechanism: variance decomposition to EDA</h4>
+            <p>The variance decomposition analysis (Table 5) showed that orthogonal PID exhibited the highest Within-P SD (0.010 N), meaning cycle-to-cycle force fluctuations were most pronounced in this condition. These fluctuations create an unpredictable tactile stimulus: the participant receives slightly different force profiles on each pass, producing unconscious physiological arousal (SCL elevation). FF+PID reduced Within-P SD to 0.003 N (one-third of PID), yielding correspondingly lower SCL values.</p>
+            <p>Critically, this force inconsistency was NOT consciously perceived&mdash;the perceptual questionnaire showed no significant differences between conditions (all $p > 0.05$). This dissociation between conscious perception and physiological response suggests that the human somatosensory system detects force inconsistencies at a sub-perceptual level, triggering measurable autonomic responses without reaching conscious awareness.</p>
         </div>
     </details>
 
@@ -1336,6 +1380,12 @@
                 <li><strong>EDA:</strong> Significant orthogonal SCL: power &ge; 0.75. SCL Mean and AUC exceeded 0.80.</li>
                 <li><strong>Overall:</strong> $n = 20$ provides sufficient power. Minimum detectable effect: $d = 0.626$.</li>
             </ul>
+
+            <h4>Per-domain interpretation</h4>
+            <p><strong>Force:</strong> All significant results achieved power &gt; 0.96, confirming $n = 20$ is more than adequate. The minimum $n$ for 80% power ranged from 3 (CV) to 18 (orthogonal Mean), meaning even a substantially smaller sample would have detected these effects.</p>
+            <p><strong>Questionnaire:</strong> Effect sizes were small ($r &lt; 0.4$). Non-significance reflects genuinely minimal differences in subjective evaluation, not insufficient power. The sub-hundred millinewton-level control differences fall below the human tactile detection threshold.</p>
+            <p><strong>EDA:</strong> SCL SD and Range achieved power 0.764 and 0.746 respectively (just below the conventional 0.80 threshold), suggesting $n \approx 21$&ndash;$22$ would be needed for 80% power on these metrics. SCL Mean and AUC exceeded 0.80 ($n_{80\%} = 17$ and $15$ respectively).</p>
+            <p><strong>Overall:</strong> With $n = 20$, the minimum detectable effect size is $d = 0.626$; all observed significant effects exceeded $|d| > 0.67$. The large effect sizes (most $|d| > 1.0$) confirm that the sample size is well-powered for the primary outcomes.</p>
         </div>
     </details>
     </div>
