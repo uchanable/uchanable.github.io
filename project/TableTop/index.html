@@ -804,22 +804,22 @@
     </div>
 
     <h3>Calibration Demo</h3>
-    <p>4&times; speed. Phase 1 (static surface scan) and Phase 2 (dynamic learning) for each stroking direction.</p>
+    <p>8&times; speed. Phase 1 (static surface scan) and Phase 2 (dynamic learning) for each stroking direction.</p>
     <div class="fig-grid" style="grid-template-columns:1fr 1fr 1fr 1fr; gap:8px;">
         <figure>
-            <video src="source/video/cali-static-para_4x.mp4" autoplay muted playsinline data-sync="cali-para"></video>
+            <video src="source/video/cali-static-para_4x.mp4" autoplay muted playsinline data-sync="cali-static"></video>
             <figcaption style="text-align:center;">Parallel<br>Static Scan</figcaption>
         </figure>
         <figure>
-            <video src="source/video/cali-dynamic-para_4x.mp4" autoplay muted playsinline data-sync="cali-para"></video>
+            <video src="source/video/cali-dynamic-para_4x.mp4" autoplay muted playsinline data-sync="cali-dynamic"></video>
             <figcaption style="text-align:center;">Parallel<br>Dynamic Learning</figcaption>
         </figure>
         <figure>
-            <video src="source/video/cali-static-ortho_4x.mp4" autoplay muted playsinline data-sync="cali-ortho"></video>
+            <video src="source/video/cali-static-ortho_4x.mp4" autoplay muted playsinline data-sync="cali-static"></video>
             <figcaption style="text-align:center;">Orthogonal<br>Static Scan</figcaption>
         </figure>
         <figure>
-            <video src="source/video/cali-dynamic-ortho_4x.mp4" autoplay muted playsinline data-sync="cali-ortho"></video>
+            <video src="source/video/cali-dynamic-ortho_4x.mp4" autoplay muted playsinline data-sync="cali-dynamic"></video>
             <figcaption style="text-align:center;">Orthogonal<br>Dynamic Learning</figcaption>
         </figure>
     </div>
@@ -834,19 +834,20 @@
     <h2>Experiment</h2>
 
     <h3>Experiment Session</h3>
-    <div class="side-by-side">
-        <figure>
-            <div class="match-vid">
-                <img src="source/figure/ex_setup.png" alt="Experimental setup">
-            </div>
-            <figcaption><strong>Figure 4.</strong> Experimental setup: participant posture during stroking and EDA electrode placement.</figcaption>
-        </figure>
-        <figure class="vid">
-            <div class="vid-ph">Experiment session</div>
-            <figcaption>10-cycle stroking protocol per condition (2 directions &times; 2 controllers)</figcaption>
-        </figure>
-    </div>
-    <p>20 participants performed a within-subjects experiment (2 directions &times; 2 controllers = 4 conditions, counterbalanced). Each condition consisted of 10 round-trip stroking cycles at 3 cm/s with a target force of 0.4 N.</p>
+
+    <figure>
+        <img src="source/figure/overview/calibration_and_setup_3.png" alt="Calibration and experimental setup">
+        <figcaption><strong>Figure 4.</strong> (a) Parallel stroking: 12 cm round trip along the forearm's long axis with 5 calibration measurement points. (b) Orthogonal stroking: 2 cm round trip across the forearm with 5 calibration measurement points. (c) Experimental setup: participant posture and EDA electrode placement on the left index and middle fingertips.</figcaption>
+    </figure>
+
+    <p>20 participants performed a within-subjects experiment (2 directions &times; 2 controllers = 4 conditions). Each session followed this procedure:</p>
+    <ol>
+        <li><strong>Calibration</strong> &mdash; For the first direction, the two-phase calibration (static surface scan + dynamic learning) was performed along the measurement points shown in Figure 4(a) for parallel or 4(b) for orthogonal, adapting the feedforward angle map to the participant's forearm geometry.</li>
+        <li><strong>Stroking (FF+PID or PID-only)</strong> &mdash; 10 round-trip cycles at 3 cm/s with a target force of 0.4 N. After completion, the participant rated the tactile experience on three perceptual questionnaire scales (see <a href="#experiment-eval">Evaluation Method</a>).</li>
+        <li><strong>Stroking (other controller)</strong> &mdash; Same protocol with the other controller. Followed by the perceptual questionnaire.</li>
+        <li><strong>Direction change</strong> &mdash; Repeat steps 1&ndash;3 for the second stroking direction.</li>
+    </ol>
+    <p>The order of directions (parallel/orthogonal) and controllers (FF+PID/PID-only) was counterbalanced across participants. Throughout all stroking conditions, electrodermal activity (EDA) was recorded via Ag/AgCl electrodes on the left fingertips (see <a href="#experiment-eval">EDA measurement</a> and Figure 4(c)).</p>
 
     <h3 id="experiment-pipeline">Data Processing Pipeline</h3>
     <details open>
@@ -919,11 +920,12 @@
     <details open>
         <summary>EDA measurement</summary>
         <div class="expand-body">
-            <p>BITalino (r)evolution board at 10 Hz. Ag/AgCl electrodes on left index and middle fingertips. 5-minute stabilization period. S18 excluded ($n = 19$) due to near-zero SCL.</p>
+            <p>BITalino (r)evolution board at 10 Hz. Ag/AgCl electrodes on left index and middle fingertips (Figure 4(c)). 5-minute stabilization period. S18 excluded ($n = 19$) due to near-zero SCL.</p>
             <h4>SCL (Tonic)</h4>
             <p>Raw conductance values used directly. Metrics: Mean, SD, Range, AUC ($\mu$S&middot;s via trapezoidal integration).</p>
             <h4>SCR (Phasic)</h4>
             <p>2nd-order Butterworth bandpass (0.05&ndash;3.0 Hz, zero-phase). Metrics: Amplitude, Count, AUC (baseline-corrected, 5 s pre-stroking).</p>
+            <p>Raw EDA time series, extracted features, and the analysis script are available in the <a href="#resources">repository</a> (<code>data/eda/</code>).</p>
         </div>
     </details>
 </div>
@@ -1328,7 +1330,7 @@
     ss.forEach(s => ob.observe(s));
 
     // Sync video playback by direction group
-    ['parallel', 'orthogonal', 'cali-para', 'cali-ortho'].forEach(group => {
+    ['parallel', 'orthogonal', 'cali-static', 'cali-dynamic'].forEach(group => {
         const vids = document.querySelectorAll(`video[data-sync="${group}"]`);
         if (vids.length < 2) return;
         let ended = 0;
