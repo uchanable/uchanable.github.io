@@ -802,6 +802,27 @@
             <div class="def-eq"><a href="source/algorithm/algorithm.pdf" download>Download PDF &darr;</a></div>
         </div>
     </div>
+
+    <h3>Calibration Demo</h3>
+    <p>4&times; speed. Phase 1 (static surface scan) and Phase 2 (dynamic learning) for each stroking direction.</p>
+    <div class="fig-grid" style="grid-template-columns:1fr 1fr 1fr 1fr; gap:8px;">
+        <figure>
+            <video src="source/video/cali-static-para_4x.mp4" autoplay muted playsinline data-sync="cali-para"></video>
+            <figcaption style="text-align:center;">Parallel<br>Static Scan</figcaption>
+        </figure>
+        <figure>
+            <video src="source/video/cali-dynamic-para_4x.mp4" autoplay muted playsinline data-sync="cali-para"></video>
+            <figcaption style="text-align:center;">Parallel<br>Dynamic Learning</figcaption>
+        </figure>
+        <figure>
+            <video src="source/video/cali-static-ortho_4x.mp4" autoplay muted playsinline data-sync="cali-ortho"></video>
+            <figcaption style="text-align:center;">Orthogonal<br>Static Scan</figcaption>
+        </figure>
+        <figure>
+            <video src="source/video/cali-dynamic-ortho_4x.mp4" autoplay muted playsinline data-sync="cali-ortho"></video>
+            <figcaption style="text-align:center;">Orthogonal<br>Dynamic Learning</figcaption>
+        </figure>
+    </div>
 </div>
 </section>
 
@@ -1307,7 +1328,7 @@
     ss.forEach(s => ob.observe(s));
 
     // Sync video playback by direction group
-    ['parallel', 'orthogonal'].forEach(group => {
+    ['parallel', 'orthogonal', 'cali-para', 'cali-ortho'].forEach(group => {
         const vids = document.querySelectorAll(`video[data-sync="${group}"]`);
         if (vids.length < 2) return;
         let ended = 0;
