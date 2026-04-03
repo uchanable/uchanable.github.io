@@ -950,11 +950,20 @@
     <details open>
         <summary>EDA measurement</summary>
         <div class="expand-body">
-            <p>BITalino (r)evolution board at 10 Hz. Ag/AgCl electrodes on left index and middle fingertips (Figure 4(c)). 5-minute stabilization period. S18 excluded ($n = 19$) due to near-zero SCL.</p>
+            <p>Electrodermal activity (EDA) reflects sympathetic arousal through changes in skin conductance and is commonly used to quantify stimulus-evoked autonomic responses (Boucsein, 2012). EDA was recorded using a BITalino (r)evolution board (PLUX Wireless Biosignals, Lisbon, Portugal; da Silva et al., 2014) at a sampling rate of 10 Hz. Disposable Ag/AgCl pre-gelled electrodes were placed on the palmar surface of the left index and middle fingertips, following standard electrode placement for EDA measurement (Boucsein, 2012; see Figure 4(c)). A 5-minute stabilization period preceded data collection to allow skin conductance to reach a baseline level.</p>
+            <p>S18 was excluded from all EDA analyses ($n = 19$) due to near-zero SCL values (0.47&ndash;0.65 $\mu$S vs group mean ~9&ndash;10 $\mu$S), attributable to dry skin or poor electrode contact.</p>
             <h4>SCL (Tonic)</h4>
-            <p>Raw conductance values used directly. Metrics: Mean, SD, Range, AUC ($\mu$S&middot;s via trapezoidal integration).</p>
+            <p>The raw EDA signal was used directly for tonic-level analysis without decomposition. No tonic/phasic decomposition algorithm (e.g., continuous decomposition analysis via NeuroKit2) was applied; the raw conductance values served as the SCL measure. Metrics computed over the stroking window: Mean ($\mu$S), SD ($\mu$S), Range ($\mu$S), and AUC ($\mu$S&middot;s via trapezoidal integration).</p>
             <h4>SCR (Phasic)</h4>
-            <p>2nd-order Butterworth bandpass (0.05&ndash;3.0 Hz, zero-phase). Metrics: Amplitude, Count, AUC (baseline-corrected, 5 s pre-stroking).</p>
+            <p>A 2nd-order Butterworth bandpass filter (0.05&ndash;3.0 Hz) was applied to the raw EDA signal using forward-backward filtering (<code>filtfilt</code>) to achieve zero phase distortion (Benedek &amp; Kaernbach, 2010). This direct bandpass filtering approach was chosen over continuous decomposition analysis for its simplicity and transparency. Peak detection was then performed on the filtered signal to identify individual SCR events. Metrics: Amplitude ($\mu$S), Count, and AUC ($\mu$S&middot;s, baseline-corrected by subtracting the mean SCR level during the 5 s immediately before stroking onset).</p>
+            <h4>Window definition</h4>
+            <p>Each condition's EDA analysis window was defined via button-based synchronization: the experimenter simultaneously pressed the EDA sync button and the sequence start key. The delay from sequence start to first robot motion (~14 s) plus the stroking duration was added to the button-press timestamp to determine the analysis window. &plusmn;20 s margins were included for context.</p>
+            <h4>References</h4>
+            <ul style="font-size:0.82rem; color:var(--text-3);">
+                <li>Boucsein, W. (2012). <em>Electrodermal Activity</em> (2nd ed.). Springer.</li>
+                <li>da Silva, H. P., et al. (2014). BITalino: A novel hardware framework for physiological computing. <em>PhyCS 2014</em>.</li>
+                <li>Benedek, M., &amp; Kaernbach, C. (2010). A continuous measure of phasic electrodermal activity. <em>Journal of Neuroscience Methods</em>, 190(1), 80&ndash;91.</li>
+            </ul>
             <p>Raw EDA time series, extracted features, and the analysis script are available in the <a href="#resources">repository</a> (<code>data/eda/</code>).</p>
         </div>
     </details>
