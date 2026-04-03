@@ -780,19 +780,19 @@
     <p>4&times; speed, 10 round-trip cycles per condition.</p>
     <div class="fig-grid" style="grid-template-columns:1fr 1fr 1fr 1fr; gap:8px;">
         <figure>
-            <div class="vid-wrap" data-sync="parallel"><video src="source/video/para-ffpid_4x.mp4" autoplay muted playsinline data-sync="parallel"></video><div class="replay-overlay"></div></div>
+            <div class="vid-wrap" data-sync="parallel"><video src="source/video/para-ffpid_4x.mp4" muted playsinline preload="auto" data-sync="parallel"></video><div class="replay-overlay"></div></div>
             <figcaption style="text-align:center;">Parallel<br>FF+PID</figcaption>
         </figure>
         <figure>
-            <div class="vid-wrap" data-sync="parallel"><video src="source/video/para-pidonly_4x.mp4" autoplay muted playsinline data-sync="parallel"></video><div class="replay-overlay"></div></div>
+            <div class="vid-wrap" data-sync="parallel"><video src="source/video/para-pidonly_4x.mp4" muted playsinline preload="auto" data-sync="parallel"></video><div class="replay-overlay"></div></div>
             <figcaption style="text-align:center;">Parallel<br>PID-only</figcaption>
         </figure>
         <figure>
-            <div class="vid-wrap" data-sync="orthogonal"><video src="source/video/ortho-ffpid_4x.mp4" autoplay muted playsinline data-sync="orthogonal"></video><div class="replay-overlay"></div></div>
+            <div class="vid-wrap" data-sync="orthogonal"><video src="source/video/ortho-ffpid_4x.mp4" muted playsinline preload="auto" data-sync="orthogonal"></video><div class="replay-overlay"></div></div>
             <figcaption style="text-align:center;">Orthogonal<br>FF+PID</figcaption>
         </figure>
         <figure>
-            <div class="vid-wrap" data-sync="orthogonal"><video src="source/video/ortho-pidonly_4x.mp4" autoplay muted playsinline data-sync="orthogonal"></video><div class="replay-overlay"></div></div>
+            <div class="vid-wrap" data-sync="orthogonal"><video src="source/video/ortho-pidonly_4x.mp4" muted playsinline preload="auto" data-sync="orthogonal"></video><div class="replay-overlay"></div></div>
             <figcaption style="text-align:center;">Orthogonal<br>PID-only</figcaption>
         </figure>
     </div>
@@ -837,19 +837,19 @@
     <p>8&times; speed. Phase 1 (static surface scan) and Phase 2 (dynamic learning) for each stroking direction.</p>
     <div class="fig-grid" style="grid-template-columns:1fr 1fr 1fr 1fr; gap:8px;">
         <figure>
-            <video src="source/video/cali-static-para_4x.mp4" autoplay loop muted playsinline></video>
+            <div class="vid-wrap" data-solo><video src="source/video/cali-static-para_4x.mp4" muted playsinline preload="auto"></video><div class="replay-overlay"></div></div>
             <figcaption style="text-align:center;">Parallel<br>Static Scan</figcaption>
         </figure>
         <figure>
-            <video src="source/video/cali-dynamic-para_4x.mp4" autoplay loop muted playsinline></video>
+            <div class="vid-wrap" data-solo><video src="source/video/cali-dynamic-para_4x.mp4" muted playsinline preload="auto"></video><div class="replay-overlay"></div></div>
             <figcaption style="text-align:center;">Parallel<br>Dynamic Learning</figcaption>
         </figure>
         <figure>
-            <video src="source/video/cali-static-ortho_4x.mp4" autoplay loop muted playsinline></video>
+            <div class="vid-wrap" data-solo><video src="source/video/cali-static-ortho_4x.mp4" muted playsinline preload="auto"></video><div class="replay-overlay"></div></div>
             <figcaption style="text-align:center;">Orthogonal<br>Static Scan</figcaption>
         </figure>
         <figure>
-            <video src="source/video/cali-dynamic-ortho_4x.mp4" autoplay loop muted playsinline></video>
+            <div class="vid-wrap" data-solo><video src="source/video/cali-dynamic-ortho_4x.mp4" muted playsinline preload="auto"></video><div class="replay-overlay"></div></div>
             <figcaption style="text-align:center;">Orthogonal<br>Dynamic Learning</figcaption>
         </figure>
     </div>
@@ -1410,38 +1410,55 @@
     }, { rootMargin: '-60px 0px -65% 0px' });
     ss.forEach(s => ob.observe(s));
 
-    // Synced video groups: ended → show overlay on all, click/hover any → replay all
+    // ── Scroll-triggered playback for ALL videos ──
+    const allWraps = document.querySelectorAll('.vid-wrap');
+    const scrollOb = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                const v = e.target.querySelector('video');
+                if (v && v.paused && !v.ended) v.play();
+            }
+        });
+    }, { threshold: 0.5 });
+    allWraps.forEach(w => scrollOb.observe(w));
+
+    // ── Solo videos (calibration): ended → overlay, hover → overlay, click → replay ──
+    document.querySelectorAll('.vid-wrap[data-solo]').forEach(w => {
+        const v = w.querySelector('video');
+        v.addEventListener('ended', () => w.classList.add('ended'));
+        w.addEventListener('mouseenter', () => { if (v.ended) w.classList.add('sync-hover'); });
+        w.addEventListener('mouseleave', () => w.classList.remove('sync-hover'));
+        w.addEventListener('click', () => {
+            if (v.ended) {
+                w.classList.remove('ended', 'sync-hover');
+                v.currentTime = 0; v.play();
+            }
+        });
+    });
+
+    // ── Synced video groups (device demo): ended → overlay all, hover any → overlay all, click any → replay all ──
     ['parallel', 'orthogonal'].forEach(group => {
-        const wraps = document.querySelectorAll(`.vid-wrap[data-sync="${group}"]`);
-        const vids = Array.from(wraps).map(w => w.querySelector('video'));
+        const wraps = Array.from(document.querySelectorAll(`.vid-wrap[data-sync="${group}"]`));
+        const vids = wraps.map(w => w.querySelector('video'));
         if (vids.length < 2) return;
 
         let endCount = 0;
-
         vids.forEach(v => {
             v.addEventListener('ended', () => {
                 endCount++;
-                if (endCount >= vids.length) {
-                    wraps.forEach(w => w.classList.add('ended'));
-                }
+                if (endCount >= vids.length) wraps.forEach(w => w.classList.add('ended'));
             });
         });
 
-        // Hover any → show overlay on all in group
         wraps.forEach(w => {
             w.addEventListener('mouseenter', () => {
-                if (vids.every(v => v.ended)) {
-                    wraps.forEach(w2 => w2.classList.add('sync-hover'));
-                }
+                if (vids.every(v => v.ended)) wraps.forEach(w2 => w2.classList.add('sync-hover'));
             });
-            w.addEventListener('mouseleave', () => {
-                wraps.forEach(w2 => w2.classList.remove('sync-hover'));
-            });
-            // Click any → replay all
+            w.addEventListener('mouseleave', () => wraps.forEach(w2 => w2.classList.remove('sync-hover')));
             w.addEventListener('click', () => {
                 if (vids.some(v => v.ended)) {
                     endCount = 0;
-                    wraps.forEach(w2 => { w2.classList.remove('ended', 'sync-hover'); });
+                    wraps.forEach(w2 => w2.classList.remove('ended', 'sync-hover'));
                     vids.forEach(v => { v.currentTime = 0; v.play(); });
                 }
             });
