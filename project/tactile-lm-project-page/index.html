@@ -179,7 +179,7 @@
 
 <div class="header-wrap">
     <header>
-        <div class="venue">ICDL 2026 &mdash; IEEE International Conference on Development and Learning</div>
+        <div class="venue">Tactile-LM Project</div>
         <h1>Does Affective Touch Matter for Development?<br>
             CT Afferent Modeling in the MIMo Infant Simulation</h1>
         <div class="authors">Youchan Yim</div>
@@ -202,10 +202,13 @@
         information compared to force-only models? To investigate this, we introduce
         <strong>CT-Touch</strong>, a biologically grounded tactile module for the MIMo infant
         simulation platform that models four mechanoreceptor types (SA-I, FA-I, FA-II, CT) with
-        body-site-specific distributions. Our results show that CT afferents provide a qualitatively
-        new velocity-tuned signal absent in force-only mode, respond exclusively on hairy skin
-        consistent with neurophysiology, and that multi-receptor output decomposes contact forces
-        into physiologically meaningful channels.
+        body-site-specific distributions. We validate the module through sensor-level analysis
+        under random motor babbling and reinforcement learning experiments on self-body exploration
+        and reaching tasks. Our results show that CT afferents provide a qualitatively new
+        velocity-tuned signal absent in force-only mode and respond exclusively on hairy skin
+        consistent with neurophysiology. Under RL training, both conditions achieve comparable
+        self-body task performance, but CT-equipped agents show a consistent 10-18% advantage
+        in the reach task with half the touch activation, suggesting more efficient contact behavior.
     </div>
 
     <h2>Key Findings</h2>
@@ -243,15 +246,27 @@
        distinguishing hairy and glabrous skin.</p>
 
     <div class="figure">
-        <img src="" alt="CT receptor distribution on MIMo body">
+        <img src="fig/mimo_ct_distribution.png" alt="CT receptor distribution on MIMo body">
         <div class="caption">MIMo infant model with CT afferent receptor distribution.
             Red: hairy skin (CT present); Blue: glabrous skin (no CT).</div>
     </div>
 
     <div class="figure">
-        <img src="" alt="CT firing rate curve">
+        <img src="fig/architecture.png" alt="CT-Touch system architecture">
+        <div class="caption">CT-Touch system architecture. MuJoCo contact forces are processed
+            through four mechanoreceptor models, producing a 7-channel output per sensor point.</div>
+    </div>
+
+    <div class="figure">
+        <img src="fig/ct_firing_rate_curve.png" alt="CT firing rate curve">
         <div class="caption">CT afferent firing rate as a function of stroking velocity,
             showing the inverted-U response peaking at ~3 cm/s.</div>
+    </div>
+
+    <div class="figure">
+        <img src="fig/fig2_channel_analysis.png" alt="Multi-receptor channel analysis">
+        <div class="caption">Multi-receptor channel analysis under random motor babbling
+            (top: self-body task, bottom: reach task).</div>
     </div>
 
     <h2 id="video">Video Demonstration</h2>
@@ -260,17 +275,6 @@
         <p>Video demonstrations of MIMo with CT-Touch under random motor babbling<br>
            and reinforcement learning will be uploaded here.</p>
     </div>
-
-    <h2>Citation</h2>
-    <div class="bibtex">@inproceedings{yim2026ct-touch,
-  title     = {Does Affective Touch Matter for Development?
-               CT Afferent Modeling in the MIMo Infant Simulation},
-  author    = {Yim, Youchan},
-  booktitle = {Proc. IEEE International Conference on
-               Development and Learning (ICDL)},
-  year      = {2026},
-  note      = {Under review}
-}</div>
 
     <h2>Acknowledgments</h2>
     <p>This work was supported by JSPS KAKENHI Grant Number 25K24420.
