@@ -32,26 +32,72 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Navbar */
-        .navbar {
+        /* ── Nav ── */
+        nav {
             position: sticky;
             top: 0;
-            background: rgba(26, 26, 46, 0.95);
-            padding: 12px 24px;
-            display: flex;
-            justify-content: center;
-            gap: 24px;
             z-index: 100;
-            backdrop-filter: blur(8px);
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
         }
-        .navbar a {
-            color: rgba(255,255,255,0.8);
-            text-decoration: none;
-            font-size: 0.85rem;
+
+        nav ul {
+            max-width: var(--w);
+            margin: 0 auto;
+            padding: 0 24px;
+            display: flex;
+            gap: 0;
+            list-style: none;
+        }
+
+        nav a {
+            display: block;
+            padding: 12px 16px;
+            font-size: 0.9rem;
             font-weight: 500;
-            transition: color 0.2s;
+            color: var(--text-3);
+            text-decoration: none;
+            white-space: nowrap;
+            letter-spacing: 0.01em;
+            transition: color 0.15s;
         }
-        .navbar a:hover { color: #fff; }
+
+        nav a:hover, nav a.active { color: var(--text); }
+
+        /* Dropdown */
+        nav .dropdown {
+            position: relative;
+        }
+
+        nav .dropdown > a::after {
+            content: ' \25BE';
+            font-size: 0.7rem;
+        }
+
+        nav .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: white;
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+            min-width: 220px;
+            z-index: 200;
+            padding: 6px 0;
+        }
+
+        nav .dropdown:hover .dropdown-menu { display: block; }
+
+        nav .dropdown-menu a {
+            display: block;
+            padding: 8px 20px;
+            font-size: 0.82rem;
+            border-bottom: none;
+        }
+
+        nav .dropdown-menu a:hover { background: var(--bg-2); }
 
         /* Header */
         .header-wrap {
@@ -188,6 +234,8 @@
         @media (max-width: 500px) {
             .video-grid-4 { grid-template-columns: 1fr; }
             .video-grid { grid-template-columns: 1fr; }
+            nav a { padding: 10px 12px; font-size: 0.8rem; }
+            nav ul { overflow-x: auto; }
         }
         .video-card {
             background: var(--bg-2);
@@ -300,12 +348,29 @@
 <body>
 
 <!-- ==================== NAVBAR ==================== -->
-<nav class="navbar">
-    <a href="#abstract">Abstract</a>
-    <a href="#key-findings">Key Findings</a>
-    <a href="#system-architecture">System Architecture</a>
-    <a href="#reinforcement-learning">Reinforcement Learning</a>
-    <a href="#acknowledgments">Acknowledgments</a>
+<nav>
+    <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#abstract">Abstract</a></li>
+        <li class="dropdown">
+            <a href="#system-architecture">System Architecture</a>
+            <div class="dropdown-menu">
+                <a href="#architecture">Architecture</a>
+                <a href="#mechanoreceptor">Mechanoreceptor Models</a>
+                <a href="#sensor-validation">Sensor Validation</a>
+            </div>
+        </li>
+        <li class="dropdown">
+            <a href="#reinforcement-learning">Reinforcement Learning</a>
+            <div class="dropdown-menu">
+                <a href="#rl-setup">Setup</a>
+                <a href="#video-demo">Video Demonstration</a>
+                <a href="#rl-results">Results</a>
+            </div>
+        </li>
+        <li><a href="#key-findings">Key Findings</a></li>
+        <li><a href="#acknowledgments">Acknowledgments</a></li>
+    </ul>
 </nav>
 
 <!-- ==================== HEADER ==================== -->
@@ -407,7 +472,7 @@
     <h2 id="system-architecture">System Architecture</h2>
 
     <!-- 3-1) Architecture -->
-    <h3 class="section-sub">Architecture</h3>
+    <h3 class="section-sub" id="architecture">Architecture</h3>
 
     <div class="figure">
         <img src="fig/architecture.png" alt="CT-Touch system architecture">
@@ -459,7 +524,7 @@
     </table>
 
     <!-- 3-2) Mechanoreceptor Response Models -->
-    <h3 class="section-sub">Mechanoreceptor Response Models</h3>
+    <h3 class="section-sub" id="mechanoreceptor">Mechanoreceptor Response Models</h3>
 
     <p>CT-Touch models four mechanoreceptor types:</p>
 
@@ -490,7 +555,7 @@
     ct_augmented_touch.py</a></p>
 
     <!-- Experiment 1: Sensor Validation -->
-    <h3 class="section-sub">Experiment 1: Sensor Validation</h3>
+    <h3 class="section-sub" id="sensor-validation">Experiment 1: Sensor Validation</h3>
 
     <div class="figure">
         <img src="fig/mimo_ct_distribution.png" alt="CT receptor distribution on MIMo body" style="max-width: 70%">
@@ -525,7 +590,7 @@
     <h2 id="reinforcement-learning">Reinforcement Learning</h2>
 
     <!-- 4-1) Setup -->
-    <h3 class="section-sub">Setup</h3>
+    <h3 class="section-sub" id="rl-setup">Setup</h3>
 
     <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
         <li style="margin-bottom: 6px;"><strong>Algorithm:</strong> PPO, 10 seeds, identical reward structure for CT OFF / CT ON</li>
@@ -604,7 +669,7 @@
     </div>
 
     <!-- Interpretation -->
-    <h3 class="section-sub">Interpretation</h3>
+    <h3 class="section-sub" id="rl-results">Interpretation</h3>
     <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
         <li style="margin-bottom: 8px;"><strong>Self-body task:</strong> Comparable performance between CT OFF and CT ON, with high variance across seeds in both conditions.</li>
         <li style="margin-bottom: 8px;"><strong>Reach task:</strong> CT ON achieves 12–18% higher reward with approximately half the touch activation, suggesting more efficient contact behavior. Lower variance indicates more stable learning dynamics.</li>
@@ -634,6 +699,22 @@
     &copy; 2026 Youchan Yim &middot; University of Tsukuba &middot;
     <a href="https://github.com/uchanable">GitHub</a>
 </footer>
+
+<script>
+    // Active nav link highlight on scroll
+    const sections = document.querySelectorAll('h2[id], h3[id]');
+    const navLinks = document.querySelectorAll('nav a');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                navLinks.forEach(link =>
+                    link.classList.toggle('active',
+                        link.getAttribute('href') === '#' + entry.target.id));
+            }
+        });
+    }, { rootMargin: '-60px 0px -65% 0px' });
+    sections.forEach(s => observer.observe(s));
+</script>
 
 </body>
 </html>
