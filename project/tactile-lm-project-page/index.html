@@ -143,19 +143,30 @@
 
         /* Content */
         .content { max-width: var(--w); margin: 0 auto; padding: 48px 24px; }
+        .section-wrap {
+            padding: 48px 0;
+        }
+        .section-wrap:nth-child(even) {
+            background: var(--bg-2);
+        }
+        .section-wrap > .content {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
         h2 {
             font-family: var(--serif);
             font-size: 1.6rem;
             font-weight: 600;
-            margin: 48px 0 16px;
+            margin: 0 0 16px;
             padding-bottom: 8px;
             border-bottom: 2px solid var(--border);
         }
-        h2:first-child { margin-top: 0; }
         h3.section-sub {
             font-family: var(--serif);
             font-size: 1.2rem;
             margin: 32px 0 12px;
+            padding-left: 12px;
+            border-left: 3px solid var(--accent);
         }
         p { margin-bottom: 16px; color: var(--text-2); }
         .abstract {
@@ -389,6 +400,7 @@
     </ul>
 </nav>
 
+<div class="section-wrap">
 <div class="content">
 
     <!-- ==================== 1. ABSTRACT ==================== -->
@@ -408,6 +420,12 @@
         self-body task performance, but CT-equipped agents show a consistent 10-18% advantage
         in the reach task with half the touch activation, suggesting more efficient contact behavior.
     </div>
+
+</div>
+</div>
+
+<div class="section-wrap">
+<div class="content">
 
     <!-- ==================== 2. KEY FINDINGS ==================== -->
     <h2 id="key-findings">Key Findings</h2>
@@ -467,6 +485,12 @@
                but grounded in somatosensory experience.</p>
         </div>
     </div>
+
+</div>
+</div>
+
+<div class="section-wrap">
+<div class="content">
 
     <!-- ==================== 3. SYSTEM ARCHITECTURE ==================== -->
     <h2 id="system-architecture">System Architecture</h2>
@@ -618,6 +642,12 @@
             pipeline end-to-end.</li>
     </ul>
 
+</div>
+</div>
+
+<div class="section-wrap">
+<div class="content">
+
     <!-- ==================== 4. REINFORCEMENT LEARNING ==================== -->
     <h2 id="reinforcement-learning">Reinforcement Learning</h2>
 
@@ -719,12 +749,19 @@
         </ul>
     </div>
 
+</div>
+</div>
+
+<div class="section-wrap">
+<div class="content">
+
     <!-- ==================== 5. ACKNOWLEDGMENTS ==================== -->
     <h2 id="acknowledgments">Acknowledgments</h2>
     <p>This work was supported by JSPS KAKENHI Grant Number 25K24420.
        CT-Touch builds upon the <a href="https://github.com/trieschlab/MIMo">MIMo</a> platform
        by Triesch Lab, Frankfurt Institute for Advanced Studies.</p>
 
+</div>
 </div>
 
 <footer>
