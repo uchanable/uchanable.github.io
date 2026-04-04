@@ -32,6 +32,27 @@
             -webkit-font-smoothing: antialiased;
         }
 
+        /* Navbar */
+        .navbar {
+            position: sticky;
+            top: 0;
+            background: rgba(26, 26, 46, 0.95);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            z-index: 100;
+            backdrop-filter: blur(8px);
+        }
+        .navbar a {
+            color: rgba(255,255,255,0.8);
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .navbar a:hover { color: #fff; }
+
         /* Header */
         .header-wrap {
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -85,6 +106,11 @@
             border-bottom: 2px solid var(--border);
         }
         h2:first-child { margin-top: 0; }
+        h3.section-sub {
+            font-family: var(--serif);
+            font-size: 1.2rem;
+            margin: 32px 0 12px;
+        }
         p { margin-bottom: 16px; color: var(--text-2); }
         .abstract {
             background: var(--bg-2);
@@ -140,17 +166,8 @@
         }
         .tag-verified { background: #d4edda; color: #155724; }
         .tag-hypothesis { background: #fff3cd; color: #856404; }
-
-        /* Video placeholder */
-        .video-placeholder {
-            background: #1a1a2e;
-            border-radius: 8px;
-            padding: 60px 24px;
-            text-align: center;
-            color: rgba(255,255,255,0.6);
-            margin: 24px 0;
-        }
-        .video-placeholder h3 { color: #fff; margin-bottom: 8px; }
+        .tag-planned { background: #d1ecf1; color: #0c5460; }
+        .tag-vision { background: #e2d5f1; color: #4a235a; }
 
         /* Video grid */
         .video-grid {
@@ -159,7 +176,17 @@
             gap: 24px;
             margin: 24px 0;
         }
-        @media (max-width: 700px) {
+        .video-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin: 24px 0;
+        }
+        @media (max-width: 900px) {
+            .video-grid-4 { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 500px) {
+            .video-grid-4 { grid-template-columns: 1fr; }
             .video-grid { grid-template-columns: 1fr; }
         }
         .video-card {
@@ -186,6 +213,60 @@
             margin: 0;
         }
 
+        /* Figure row (side by side) */
+        .figure-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 32px 0;
+        }
+        @media (max-width: 700px) {
+            .figure-row { grid-template-columns: 1fr; }
+        }
+        .figure-row .figure { margin: 0; }
+
+        /* Comparison table */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            font-size: 0.9rem;
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 10px 16px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+        .comparison-table th {
+            background: var(--bg-2);
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .comparison-table td { color: var(--text-2); }
+
+        /* Coming soon box */
+        .coming-soon {
+            background: var(--bg-2);
+            border: 2px dashed var(--border);
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+        .coming-soon h4 {
+            font-family: var(--serif);
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+        .coming-soon ul {
+            margin: 0 0 0 20px;
+            color: var(--text-2);
+            font-size: 0.9rem;
+        }
+        .coming-soon li { margin-bottom: 4px; }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
         /* Footer */
         footer {
             border-top: 1px solid var(--border);
@@ -207,10 +288,27 @@
             white-space: pre;
             margin: 16px 0;
         }
+
+        code {
+            font-family: var(--mono);
+            background: #f5f5f5;
+            padding: 2px 6px;
+            border-radius: 3px;
+        }
     </style>
 </head>
 <body>
 
+<!-- ==================== NAVBAR ==================== -->
+<nav class="navbar">
+    <a href="#abstract">Abstract</a>
+    <a href="#key-findings">Key Findings</a>
+    <a href="#system-architecture">System Architecture</a>
+    <a href="#reinforcement-learning">Reinforcement Learning</a>
+    <a href="#acknowledgments">Acknowledgments</a>
+</nav>
+
+<!-- ==================== HEADER ==================== -->
 <div class="header-wrap">
     <header>
         <div class="venue">Tactile-LM Project</div>
@@ -219,16 +317,17 @@
         <div class="authors">Youchan Yim</div>
         <div class="affiliation">Institute of Systems and Information Engineering, University of Tsukuba</div>
         <div class="btn-row">
-            <a href="#" class="btn btn-primary">📄 Paper (PDF)</a>
-            <a href="https://github.com/uchanable/tactile-lm" class="btn btn-outline">Code (github)</a>
-            <a href="#video" class="btn btn-outline">🎬 Video</a>
+            <a href="#" class="btn btn-primary">Paper (PDF)</a>
+            <a href="https://github.com/uchanable/tactile-lm" class="btn btn-outline">Code (GitHub)</a>
+            <a href="#video-demo" class="btn btn-outline">Video</a>
         </div>
     </header>
 </div>
 
 <div class="content">
 
-    <h2>Abstract</h2>
+    <!-- ==================== 1. ABSTRACT ==================== -->
+    <h2 id="abstract">Abstract</h2>
     <div class="abstract">
         Touch is the first sense to mature, yet developmental simulations reduce it to scalar force,
         ignoring the affective dimension mediated by C-tactile (CT) afferents. We ask whether this
@@ -245,111 +344,140 @@
         in the reach task with half the touch activation, suggesting more efficient contact behavior.
     </div>
 
-    <h2>Key Findings</h2>
+    <!-- ==================== 2. KEY FINDINGS ==================== -->
+    <h2 id="key-findings">Key Findings</h2>
     <div class="findings">
         <div class="finding-card">
-            <span class="tag tag-verified">✓ Verified</span>
+            <span class="tag tag-verified">Verified</span>
             <h3>7-channel vs 3-channel output</h3>
             <p>CT-Touch decomposes contact forces into SA-I (12.7%), FA-I (17.4%), FA-II (6.2%),
                CT (0.01%), and normal force (63.8%) — information invisible to force-only models.</p>
         </div>
         <div class="finding-card">
-            <span class="tag tag-verified">✓ Verified</span>
+            <span class="tag tag-verified">Verified</span>
             <h3>CT responds only on hairy skin</h3>
             <p>CT afferent activation is zero on glabrous skin (palms, fingertips) and non-zero on
                hairy skin (forearms, trunk, face) — matching human neuroanatomy.</p>
         </div>
         <div class="finding-card">
-            <span class="tag tag-verified">✓ Verified</span>
+            <span class="tag tag-verified">Verified</span>
             <h3>Velocity-tuned inverted-U</h3>
             <p>CT firing rate peaks at ~3 cm/s stroking velocity, following the log-Gaussian model
                from Löken et al. (2009).</p>
         </div>
         <div class="finding-card">
-            <span class="tag tag-verified">✓ Verified</span>
+            <span class="tag tag-verified">Verified</span>
             <h3>Sample efficiency</h3>
             <p>CT ON best models require far fewer training steps (50K–100K) to match or exceed
                CT OFF best (1M), suggesting CT afferent signals accelerate learning.</p>
         </div>
         <div class="finding-card">
-            <span class="tag tag-verified">✓ Verified</span>
+            <span class="tag tag-verified">Verified</span>
             <h3>Reach task advantage</h3>
             <p>CT ON shows consistent 10–18% improvement across all training horizons with lower
                variance, suggesting more stable learning dynamics.</p>
         </div>
         <div class="finding-card">
-            <span class="tag tag-verified">✓ Verified</span>
+            <span class="tag tag-verified">Verified</span>
             <h3>Efficient representation</h3>
             <p>CT ON uses ~50% less tactile activation in the reach task, indicating the
                multi-receptor model learns a more compact sensory representation.</p>
         </div>
+        <div class="finding-card">
+            <span class="tag tag-planned">Planned</span>
+            <h3>Developmental Persona</h3>
+            <p>10,000+ parallel simulations to model developmental trajectories with diverse
+               sensory profiles and learning dynamics.</p>
+        </div>
+        <div class="finding-card">
+            <span class="tag tag-planned">Planned</span>
+            <h3>Caregiver touch modeling</h3>
+            <p>Incorporating caregiver-infant tactile interactions to study the role of social
+               touch in sensorimotor development.</p>
+        </div>
+        <div class="finding-card">
+            <span class="tag tag-vision">Vision</span>
+            <h3>Tactile Language Model (TLM)</h3>
+            <p>A foundation model trained on tactile sequences, analogous to language models
+               but grounded in somatosensory experience.</p>
+        </div>
     </div>
 
-    <h2>RL Results</h2>
-    <p>PPO training across 10 seeds (42, 123, 7, 256, 512, 1024, 2048, 314, 777, 55) on Mac Studio M1 Max 64 GB.
-       Training steps range from 50K to 1M for both self-body and reach tasks.</p>
+    <!-- ==================== 3. SYSTEM ARCHITECTURE ==================== -->
+    <h2 id="system-architecture">System Architecture</h2>
 
-    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Self-body Task</h3>
+    <!-- 3-1) Architecture -->
+    <h3 class="section-sub">Architecture</h3>
+
     <div class="figure">
-        <img src="from_mac-studio/selfbody_scaling_bar.png" alt="Self-body reward scaling bar chart" style="max-width: 60%">
-        <div class="caption">Self-body task — Mean reward (±SD) across training steps (50K–1M).
-            CT ON (orange) shows a slight early advantage at 50–100K steps, but CT OFF (blue) achieves
-            higher rewards at longer training horizons. Error bars overlap substantially (all p > .05, Mann-Whitney U).</div>
-    </div>
-    <div class="figure">
-        <img src="from_mac-studio/selfbody_boxplots.png" alt="Self-body reward distribution boxplots">
-        <div class="caption">Self-body task — Reward distribution per seed (n=10). Both conditions show
-            high variance across seeds, with no consistent advantage for either condition.</div>
+        <img src="fig/architecture.png" alt="CT-Touch system architecture">
+        <div class="caption">Figure 1. CT-Touch system architecture. MuJoCo contact forces are processed
+            through four mechanoreceptor models (SA-I, FA-I, FA-II, CT), producing a 7-channel output per sensor point.</div>
     </div>
 
-    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Reach Task</h3>
-    <div class="figure">
-        <img src="from_mac-studio/reach_scaling_bar.png" alt="Reach reward scaling bar chart" style="max-width: 60%">
-        <div class="caption">Reach task — Mean reward (±SD) across training steps. CT ON consistently
-            outperforms CT OFF across all training horizons, with the gap widening from 10% at 50K to
-            18% at 1M steps. CT ON also shows lower variance, suggesting more stable learning.</div>
-    </div>
-    <div class="figure">
-        <img src="from_mac-studio/reach_boxplots.png" alt="Reach reward distribution boxplots">
-        <div class="caption">Reach task — Reward distribution per seed. CT ON (orange) consistently
-            achieves higher rewards with a tighter distribution, particularly at 500K and 1M steps.
-            CT OFF exhibits more extreme low-performing outliers.</div>
-    </div>
-
-    <h2>Learning Curves</h2>
-    <div class="figure">
-        <img src="from_mac-studio/selfbody_learning_curves.png" alt="Self-body learning curves">
-        <div class="caption">Self-body task — Learning curves across training steps for CT ON vs CT OFF.</div>
-    </div>
-    <div class="figure">
-        <img src="from_mac-studio/reach_learning_curves.png" alt="Reach learning curves">
-        <div class="caption">Reach task — Learning curves across training steps for CT ON vs CT OFF.</div>
-    </div>
-
-    <h2>CT-Touch Module</h2>
     <p>CT-Touch extends MIMo's tactile system from a single force-vector sensor to a biologically
-       grounded 4-receptor model. Each sensor point outputs responses for SA-I (Merkel), FA-I
-       (Meissner), FA-II (Pacinian), and CT afferents, with body-site-specific distributions
-       distinguishing hairy and glabrous skin.</p>
+       grounded 4-receptor model. MuJoCo raw contact forces are transformed through computational
+       models of four mechanoreceptor types, producing a 7-channel output: 3 original force channels
+       plus SA-I (Merkel), FA-I (Meissner), FA-II (Pacinian), and CT afferent responses.
+       Body-site-specific distributions distinguish hairy and glabrous skin regions.</p>
 
-    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Mechanoreceptor Response Models</h3>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th></th>
+                <th>MIMo Original</th>
+                <th>CT-Touch</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Input</strong></td>
+                <td>MuJoCo contact forces</td>
+                <td>MuJoCo contact forces</td>
+            </tr>
+            <tr>
+                <td><strong>Processing</strong></td>
+                <td>Direct force passthrough</td>
+                <td>4 mechanoreceptor models (SA-I, FA-I, FA-II, CT)</td>
+            </tr>
+            <tr>
+                <td><strong>Output channels</strong></td>
+                <td>3 (force x, y, z)</td>
+                <td>7 (force x, y, z + SA-I + FA-I + FA-II + CT)</td>
+            </tr>
+            <tr>
+                <td><strong>Skin differentiation</strong></td>
+                <td>None</td>
+                <td>Hairy vs. glabrous (body-site-specific)</td>
+            </tr>
+            <tr>
+                <td><strong>Affective channel</strong></td>
+                <td>None</td>
+                <td>CT afferents on hairy skin</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 3-2) Mechanoreceptor Response Models -->
+    <h3 class="section-sub">Mechanoreceptor Response Models</h3>
+
     <p>CT-Touch models four mechanoreceptor types:</p>
 
     <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
         <li style="margin-bottom: 10px;"><strong>SA-I (Merkel):</strong> Sustained pressure response with compressive nonlinearity.
-        Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">log(1 + F)</code> where F is the normal contact force. Models slow-adapting
+        Output: <code>log(1 + F)</code> where F is the normal contact force. Models slow-adapting
         pressure encoding essential for perceiving object shape and weight.</li>
 
         <li style="margin-bottom: 10px;"><strong>FA-I (Meissner):</strong> Velocity-proportional response capturing dynamic changes
-        in contact force. Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">min(|dF/dt|, 10)</code>. Models rapid adaptation critical for
+        in contact force. Output: <code>min(|dF/dt|, 10)</code>. Models rapid adaptation critical for
         slip and texture detection during manipulation.</li>
 
         <li style="margin-bottom: 10px;"><strong>FA-II (Pacinian):</strong> Acceleration-based response sensitive to vibration.
-        Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">|d²F/dt²|</code>. Models vibration-tuned detection peaking at ~250 Hz, enabling
+        Output: <code>|d&sup2;F/dt&sup2;|</code>. Models vibration-tuned detection peaking at ~250 Hz, enabling
         tool-mediated contact sensing.</li>
 
         <li style="margin-bottom: 10px;"><strong>CT (C-tactile):</strong> Velocity-tuned affective touch channel found exclusively in hairy skin.
-        Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">r_CT(v, T) = r_max &middot; exp(-(ln v - ln v*)&sup2; / 2&sigma;&sup2;) &middot; g(T)</code>,
+        Output: <code>r_CT(v, T) = r_max &middot; exp(-(ln v - ln v*)&sup2; / 2&sigma;&sup2;) &middot; g(T)</code>,
         where v* = 3.0 cm/s (optimal stroking velocity), r_max = 30 Hz, &sigma; = 1.0, and g(T)
         peaks at skin temperature ~32&deg;C. Based on L&ouml;ken et al. (2009, <em>Nature Neuroscience</em>)
         and corroborated by rodent C-LTMR electrophysiology (Abraira &amp; Ginty, 2013). This inverted-U
@@ -357,31 +485,22 @@
         most pleasant.</li>
     </ul>
 
-    <p>Full implementation:
+    <p>Full implementation available in the repository:
     <a href="https://github.com/uchanable/tactile-lm/blob/main/ct_touch/ct_augmented_touch.py" style="color: var(--accent-2);">
     ct_augmented_touch.py</a></p>
 
+    <!-- Experiment 1: Sensor Validation -->
+    <h3 class="section-sub">Experiment 1: Sensor Validation</h3>
+
     <div class="figure">
         <img src="fig/mimo_ct_distribution.png" alt="CT receptor distribution on MIMo body" style="max-width: 70%">
-        <div class="caption">MIMo infant model with CT afferent receptor distribution.
+        <div class="caption">Figure 2. MIMo infant model with CT afferent receptor distribution.
             Red: hairy skin (CT present); Blue: glabrous skin (no CT).</div>
     </div>
 
     <div class="figure">
-        <img src="fig/architecture.png" alt="CT-Touch system architecture">
-        <div class="caption">CT-Touch system architecture. MuJoCo contact forces are processed
-            through four mechanoreceptor models, producing a 7-channel output per sensor point.</div>
-    </div>
-
-    <div class="figure">
-        <img src="fig/ct_firing_rate_curve.png" alt="CT firing rate curve" style="max-width: 70%">
-        <div class="caption">CT afferent firing rate as a function of stroking velocity,
-            showing the inverted-U response peaking at ~3 cm/s.</div>
-    </div>
-
-    <div class="figure">
         <img src="fig/fig2_channel_analysis.png" alt="Multi-receptor channel analysis">
-        <div class="caption">Multi-receptor channel analysis under random motor babbling (DummyEnv, CT ON).
+        <div class="caption">Figure 3. Multi-receptor channel analysis under random motor babbling (DummyEnv, CT ON).
             (a) Time series for seed 42 (left: SA-I/FA-I/FA-II, right: CT).
             (b) Smoothed CT activation across 3 seeds.
             (c) CT responds exclusively on hairy skin.
@@ -390,94 +509,121 @@
 
     <div class="figure">
         <img src="fig/sm_dummy_pie_heatmap.png" alt="Channel contribution and body-part activation">
-        <div class="caption">(a) Channel contribution breakdown under random motor babbling (DummyEnv): SA-I 17.4%, FA-I 17.4%, FA-II 9.5%, CT 0.01%, Normal 55.7%. (b) Per-body-part activation heatmap across 3 seeds. Red labels indicate hairy skin (CT present), blue labels indicate glabrous skin (no CT).</div>
+        <div class="caption">Figure 4. (a) Channel contribution breakdown under random motor babbling (DummyEnv):
+            SA-I 17.4%, FA-I 17.4%, FA-II 9.5%, CT 0.01%, Normal 55.7%.
+            (b) Per-body-part activation heatmap across 3 seeds. Red labels indicate hairy skin (CT present),
+            blue labels indicate glabrous skin (no CT).</div>
     </div>
 
-    <h2 id="video">Video Demonstration</h2>
-    <p>Representative episodes for each task and condition, showing best, median, and worst
-       performance across seeds. Videos will be updated with 30-seed results.</p>
+    <div class="figure">
+        <img src="fig/ct_firing_rate_curve.png" alt="CT firing rate curve" style="max-width: 70%">
+        <div class="caption">Figure 5. CT afferent firing rate as a function of stroking velocity,
+            showing the inverted-U response peaking at ~3 cm/s.</div>
+    </div>
 
-    <!-- ===== SELF-BODY TASK ===== -->
-    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Self-body Task</h3>
-    <p>MIMo sits and reaches with the right arm to touch randomized body parts.</p>
+    <!-- ==================== 4. REINFORCEMENT LEARNING ==================== -->
+    <h2 id="reinforcement-learning">Reinforcement Learning</h2>
 
-    <h4 style="margin: 16px 0 8px; color: var(--text-2);">CT OFF (force-only, 3-channel)</h4>
-    <div class="video-grid" style="grid-template-columns: repeat(3, 1fr);">
+    <!-- 4-1) Setup -->
+    <h3 class="section-sub">Setup</h3>
+
+    <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
+        <li style="margin-bottom: 6px;"><strong>Algorithm:</strong> PPO, 10 seeds, identical reward structure for CT OFF / CT ON</li>
+        <li style="margin-bottom: 6px;"><strong>Self-body task:</strong> reward +500 for touching target body part</li>
+        <li style="margin-bottom: 6px;"><strong>Reach task:</strong> reward based on finger-target distance</li>
+        <li style="margin-bottom: 6px;"><strong>Training steps:</strong> 100K, 500K, 1M</li>
+        <li style="margin-bottom: 6px;"><strong>Hardware:</strong> Mac Studio M1 Max, 64 GB RAM</li>
+        <li style="margin-bottom: 6px;">Current results based on 10 seeds; 30-seed runs in progress</li>
+    </ul>
+
+    <!-- 4-2) Video Demonstration -->
+    <h3 class="section-sub" id="video-demo">Video Demonstration</h3>
+    <p>Representative episodes for each task and condition (best-performing seed).</p>
+
+    <div class="video-grid-4">
         <div class="video-card">
             <video controls muted playsinline preload="auto">
                 <source src="from_mac-studio/selfbody_CT_OFF_1000K_seed7_ep2_h264.mp4" type="video/mp4">
             </video>
-            <div class="video-info"><h4>Best</h4><p><!-- TODO: seed, steps, reward --></p></div>
+            <div class="video-info">
+                <h4>Self-body CT OFF</h4>
+                <p>1M steps, seed 7</p>
+            </div>
         </div>
-        <div class="video-card">
-            <!-- TODO: median video -->
-            <div class="video-info"><h4>Median</h4><p>Awaiting 30-seed results</p></div>
-        </div>
-        <div class="video-card">
-            <!-- TODO: worst video -->
-            <div class="video-info"><h4>Worst</h4><p>Awaiting 30-seed results</p></div>
-        </div>
-    </div>
-
-    <h4 style="margin: 16px 0 8px; color: var(--text-2);">CT ON (multi-receptor, 7-channel)</h4>
-    <div class="video-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="video-card">
             <video controls muted playsinline preload="auto">
                 <source src="from_mac-studio/selfbody_CT_ON_50K_seed512_ep2_h264.mp4" type="video/mp4">
             </video>
-            <div class="video-info"><h4>Best</h4><p><!-- TODO: seed, steps, reward --></p></div>
+            <div class="video-info">
+                <h4>Self-body CT ON</h4>
+                <p>50K steps, seed 512</p>
+            </div>
         </div>
-        <div class="video-card">
-            <!-- TODO: median video -->
-            <div class="video-info"><h4>Median</h4><p>Awaiting 30-seed results</p></div>
-        </div>
-        <div class="video-card">
-            <!-- TODO: worst video -->
-            <div class="video-info"><h4>Worst</h4><p>Awaiting 30-seed results</p></div>
-        </div>
-    </div>
-
-    <!-- ===== REACH TASK ===== -->
-    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Reach Task</h3>
-    <p>MIMo extends the right arm toward a hovering ball.</p>
-
-    <h4 style="margin: 16px 0 8px; color: var(--text-2);">CT OFF (force-only, 3-channel)</h4>
-    <div class="video-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="video-card">
             <video controls muted playsinline preload="auto">
                 <source src="from_mac-studio/reach_CT_OFF_1000K_seed42_ep2_h264.mp4" type="video/mp4">
             </video>
-            <div class="video-info"><h4>Best</h4><p><!-- TODO: seed, steps, reward --></p></div>
+            <div class="video-info">
+                <h4>Reach CT OFF</h4>
+                <p>1M steps, seed 42</p>
+            </div>
         </div>
-        <div class="video-card">
-            <!-- TODO: median video -->
-            <div class="video-info"><h4>Median</h4><p>Awaiting 30-seed results</p></div>
-        </div>
-        <div class="video-card">
-            <!-- TODO: worst video -->
-            <div class="video-info"><h4>Worst</h4><p>Awaiting 30-seed results</p></div>
-        </div>
-    </div>
-
-    <h4 style="margin: 16px 0 8px; color: var(--text-2);">CT ON (multi-receptor, 7-channel)</h4>
-    <div class="video-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="video-card">
             <video controls muted playsinline preload="auto">
                 <source src="from_mac-studio/reach_CT_ON_100K_seed256_ep3_h264.mp4" type="video/mp4">
             </video>
-            <div class="video-info"><h4>Best</h4><p><!-- TODO: seed, steps, reward --></p></div>
-        </div>
-        <div class="video-card">
-            <!-- TODO: median video -->
-            <div class="video-info"><h4>Median</h4><p>Awaiting 30-seed results</p></div>
-        </div>
-        <div class="video-card">
-            <!-- TODO: worst video -->
-            <div class="video-info"><h4>Worst</h4><p>Awaiting 30-seed results</p></div>
+            <div class="video-info">
+                <h4>Reach CT ON</h4>
+                <p>100K steps, seed 256</p>
+            </div>
         </div>
     </div>
 
-    <h2>Acknowledgments</h2>
+    <!-- Scaling bar charts (1x2) -->
+    <div class="figure-row">
+        <div class="figure">
+            <img src="from_mac-studio/selfbody_scaling_bar.png" alt="Self-body reward scaling bar chart" style="max-width: 100%">
+            <div class="caption">Figure 6a. Self-body task — Mean reward (&plusmn;SD) across training steps (100K–1M).</div>
+        </div>
+        <div class="figure">
+            <img src="from_mac-studio/reach_scaling_bar.png" alt="Reach reward scaling bar chart" style="max-width: 100%">
+            <div class="caption">Figure 6b. Reach task — Mean reward (&plusmn;SD) across training steps.</div>
+        </div>
+    </div>
+
+    <!-- Boxplots (1x2) -->
+    <div class="figure-row">
+        <div class="figure">
+            <img src="from_mac-studio/selfbody_boxplots.png" alt="Self-body reward distribution boxplots" style="max-width: 100%">
+            <div class="caption">Figure 7a. Self-body task — Reward distribution per seed (n=10).</div>
+        </div>
+        <div class="figure">
+            <img src="from_mac-studio/reach_boxplots.png" alt="Reach reward distribution boxplots" style="max-width: 100%">
+            <div class="caption">Figure 7b. Reach task — Reward distribution per seed (n=10).</div>
+        </div>
+    </div>
+
+    <!-- Interpretation -->
+    <h3 class="section-sub">Interpretation</h3>
+    <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
+        <li style="margin-bottom: 8px;"><strong>Self-body task:</strong> Comparable performance between CT OFF and CT ON, with high variance across seeds in both conditions.</li>
+        <li style="margin-bottom: 8px;"><strong>Reach task:</strong> CT ON achieves 12–18% higher reward with approximately half the touch activation, suggesting more efficient contact behavior. Lower variance indicates more stable learning dynamics.</li>
+        <li style="margin-bottom: 8px;"><strong>Statistical test:</strong> Mann-Whitney U = 33, p = .21, r = .34 (medium effect size, not yet significant at n = 10).</li>
+        <li style="margin-bottom: 8px;"><strong>Sample efficiency:</strong> CT ON best model at 100K training steps surpasses CT OFF best model at 1M steps.</li>
+    </ul>
+
+    <!-- 30-seed coming soon -->
+    <div class="coming-soon">
+        <h4>30-seed Results (Coming Soon)</h4>
+        <ul>
+            <li>30-seed runs currently in progress — results will be uploaded upon completion</li>
+            <li>Best / Median / Worst videos for 4 conditions x 3 = 12 video grid</li>
+            <li>Updated reward scaling charts and distribution plots</li>
+        </ul>
+    </div>
+
+    <!-- ==================== 5. ACKNOWLEDGMENTS ==================== -->
+    <h2 id="acknowledgments">Acknowledgments</h2>
     <p>This work was supported by JSPS KAKENHI Grant Number 25K24420.
        CT-Touch builds upon the <a href="https://github.com/trieschlab/MIMo">MIMo</a> platform
        by Triesch Lab, Frankfurt Institute for Advanced Studies.</p>
