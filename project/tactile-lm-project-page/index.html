@@ -172,10 +172,10 @@
             margin: 32px 0;
             text-align: center;
         }
-        .figure img {
+        .figure img, .figure-row img {
             max-width: 100%;
             border-radius: 8px;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
         }
         .figure .caption {
             margin-top: 12px;
@@ -347,7 +347,23 @@
 </head>
 <body>
 
-<!-- ==================== NAVBAR ==================== -->
+<!-- ==================== HEADER ==================== -->
+<div class="header-wrap">
+    <header>
+        <div class="venue">Tactile-LM Project</div>
+        <h1>Does Affective Touch Matter for Development?<br>
+            CT Afferent Modeling in the MIMo Infant Simulation</h1>
+        <div class="authors">Youchan Yim</div>
+        <div class="affiliation">Institute of Systems and Information Engineering, University of Tsukuba</div>
+        <div class="btn-row">
+            <a href="#" class="btn btn-primary">Paper (PDF)</a>
+            <a href="https://github.com/uchanable/tactile-lm" class="btn btn-outline">Code (GitHub)</a>
+            <a href="#video-demo" class="btn btn-outline">Video</a>
+        </div>
+    </header>
+</div>
+
+<!-- ==================== NAVBAR (between header and content) ==================== -->
 <nav>
     <ul>
         <li><a href="#">Home</a></li>
@@ -372,22 +388,6 @@
         <li><a href="#acknowledgments">Acknowledgments</a></li>
     </ul>
 </nav>
-
-<!-- ==================== HEADER ==================== -->
-<div class="header-wrap">
-    <header>
-        <div class="venue">Tactile-LM Project</div>
-        <h1>Does Affective Touch Matter for Development?<br>
-            CT Afferent Modeling in the MIMo Infant Simulation</h1>
-        <div class="authors">Youchan Yim</div>
-        <div class="affiliation">Institute of Systems and Information Engineering, University of Tsukuba</div>
-        <div class="btn-row">
-            <a href="#" class="btn btn-primary">Paper (PDF)</a>
-            <a href="https://github.com/uchanable/tactile-lm" class="btn btn-outline">Code (GitHub)</a>
-            <a href="#video-demo" class="btn btn-outline">Video</a>
-        </div>
-    </header>
-</div>
 
 <div class="content">
 
@@ -541,14 +541,28 @@
         Output: <code>|d&sup2;F/dt&sup2;|</code>. Models vibration-tuned detection peaking at ~250 Hz, enabling
         tool-mediated contact sensing.</li>
 
-        <li style="margin-bottom: 10px;"><strong>CT (C-tactile):</strong> Velocity-tuned affective touch channel found exclusively in hairy skin.
-        Output: <code>r_CT(v, T) = r_max &middot; exp(-(ln v - ln v*)&sup2; / 2&sigma;&sup2;) &middot; g(T)</code>,
-        where v* = 3.0 cm/s (optimal stroking velocity), r_max = 30 Hz, &sigma; = 1.0, and g(T)
-        peaks at skin temperature ~32&deg;C. Based on L&ouml;ken et al. (2009, <em>Nature Neuroscience</em>)
-        and corroborated by rodent C-LTMR electrophysiology (Abraira &amp; Ginty, 2013). This inverted-U
-        response captures the characteristic preference for gentle, slow stroking that humans rate as
-        most pleasant.</li>
+        <li style="margin-bottom: 10px;"><strong>CT (C-tactile):</strong> See detailed model below.</li>
     </ul>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 24px 0; align-items: start;">
+        <div>
+            <h4 style="margin-bottom: 8px;">CT Afferent Model</h4>
+            <p style="font-size: 0.9rem;">Velocity-tuned affective touch channel found exclusively in hairy skin.
+            The firing rate follows a log-Gaussian inverted-U:</p>
+            <p style="font-size: 0.9rem;"><code>r_CT(v, T) = r_max &middot; exp(-(ln v - ln v*)&sup2; / 2&sigma;&sup2;) &middot; g(T)</code></p>
+            <p style="font-size: 0.85rem; color: var(--text-2);">
+            where v* = 3.0 cm/s (optimal stroking velocity), r_max = 30 Hz, &sigma; = 1.0,
+            and g(T) peaks at skin temperature ~32&deg;C. Based on L&ouml;ken et al. (2009,
+            <em>Nature Neuroscience</em>) and corroborated by rodent C-LTMR electrophysiology
+            (Abraira &amp; Ginty, 2013). This inverted-U captures the preference for gentle,
+            slow stroking that humans rate as most pleasant.</p>
+        </div>
+        <div>
+            <img src="fig/ct_firing_rate_curve.png" alt="CT firing rate curve" style="width: 100%; border-radius: 8px;">
+            <div class="caption" style="margin-top: 8px;">CT afferent firing rate vs. stroking velocity,
+                showing the inverted-U response peaking at ~3 cm/s.</div>
+        </div>
+    </div>
 
     <p>Full implementation available in the repository:
     <a href="https://github.com/uchanable/tactile-lm/blob/main/ct_touch/ct_augmented_touch.py" style="color: var(--accent-2);">
@@ -557,11 +571,8 @@
     <!-- Experiment 1: Sensor Validation -->
     <h3 class="section-sub" id="sensor-validation">Experiment 1: Sensor Validation</h3>
 
-    <div class="figure">
-        <img src="fig/mimo_ct_distribution.png" alt="CT receptor distribution on MIMo body" style="max-width: 70%">
-        <div class="caption">Figure 2. MIMo infant model with CT afferent receptor distribution.
-            Red: hairy skin (CT present); Blue: glabrous skin (no CT).</div>
-    </div>
+    <p>Under random motor babbling (DummyEnv, 1000 steps &times; 3 seeds), we validate that CT-Touch
+       produces biologically consistent outputs and qualitatively richer information than force-only touch.</p>
 
     <div class="figure">
         <img src="fig/fig2_channel_analysis.png" alt="Multi-receptor channel analysis">
@@ -574,17 +585,38 @@
 
     <div class="figure">
         <img src="fig/sm_dummy_pie_heatmap.png" alt="Channel contribution and body-part activation">
-        <div class="caption">Figure 4. (a) Channel contribution breakdown under random motor babbling (DummyEnv):
-            SA-I 17.4%, FA-I 17.4%, FA-II 9.5%, CT 0.01%, Normal 55.7%.
-            (b) Per-body-part activation heatmap across 3 seeds. Red labels indicate hairy skin (CT present),
-            blue labels indicate glabrous skin (no CT).</div>
+        <div class="caption">(a) Channel contribution breakdown. (b) Per-body-part activation heatmap
+            (red labels = hairy skin, blue = glabrous).</div>
     </div>
 
-    <div class="figure">
-        <img src="fig/ct_firing_rate_curve.png" alt="CT firing rate curve" style="max-width: 70%">
-        <div class="caption">Figure 5. CT afferent firing rate as a function of stroking velocity,
-            showing the inverted-U response peaking at ~3 cm/s.</div>
-    </div>
+    <h4 style="margin: 24px 0 12px;">Detailed Interpretation</h4>
+    <ul style="margin: 0 0 16px 24px; color: var(--text-2); font-size: 0.9rem;">
+        <li style="margin-bottom: 8px;"><strong>Normal force dominates (55.7%):</strong> The raw normal
+            force component accounts for over half of total activation because it captures all contact
+            events regardless of dynamics. The remaining 44.3% represents the added information from
+            receptor-type decomposition that is invisible to force-only models.</li>
+        <li style="margin-bottom: 8px;"><strong>SA-I and FA-I are equal (17.4% each):</strong> SA-I
+            responds to sustained pressure while FA-I responds to velocity changes. Their equal
+            contribution under random babbling reflects the mixture of static contacts (leaning,
+            resting) and dynamic contacts (arm swings, collisions).</li>
+        <li style="margin-bottom: 8px;"><strong>FA-II is lower (9.5%):</strong> The acceleration-based
+            Pacinian channel responds primarily to vibration and rapid force changes. Random babbling
+            produces fewer high-frequency vibration events than sustained or velocity-based contacts.</li>
+        <li style="margin-bottom: 8px;"><strong>CT is 0.01%:</strong> This is not a limitation but a
+            feature. CT afferents are tuned to gentle stroking at ~3 cm/s; random motor babbling
+            produces rapid, forceful contacts that rarely match this optimal velocity. Under learned
+            policies (see RL results below), CT activation increases substantially (36-40 vs 0.05),
+            indicating that goal-directed behavior naturally engages CT-rich hairy-skin regions.</li>
+        <li style="margin-bottom: 8px;"><strong>Head and upper body show highest activation</strong>
+            in the heatmap. This is consistent with MIMo's sitting posture in DummyEnv: the head and
+            torso make frequent contact with the floor/ground surface, and random arm movements reach
+            the head and upper body most easily. Seed-to-seed variation reflects the stochastic nature
+            of random babbling.</li>
+        <li style="margin-bottom: 8px;"><strong>Hairy vs. glabrous distinction:</strong> CT activation
+            occurs exclusively on red-labeled (hairy) body parts with zero on blue-labeled (glabrous)
+            parts, confirming that the body-site mapping is correctly integrated into MIMo's contact
+            pipeline end-to-end.</li>
+    </ul>
 
     <!-- ==================== 4. REINFORCEMENT LEARNING ==================== -->
     <h2 id="reinforcement-learning">Reinforcement Learning</h2>
