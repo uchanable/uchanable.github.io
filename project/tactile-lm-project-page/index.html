@@ -332,6 +332,29 @@
        (Meissner), FA-II (Pacinian), and CT afferents, with body-site-specific distributions
        distinguishing hairy and glabrous skin.</p>
 
+    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Mechanoreceptor Response Models</h3>
+    <p>CT-Touch models four mechanoreceptor types. The CT afferent model (detailed in the paper)
+    uses a velocity-tuned log-Gaussian based on Löken et al. (2009). The remaining three
+    discriminative receptors are implemented as follows:</p>
+
+    <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
+        <li style="margin-bottom: 10px;"><strong>SA-I (Merkel):</strong> Sustained pressure response with compressive nonlinearity.
+        Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">log(1 + F)</code> where F is the normal contact force. Models slow-adapting
+        pressure encoding essential for perceiving object shape and weight.</li>
+
+        <li style="margin-bottom: 10px;"><strong>FA-I (Meissner):</strong> Velocity-proportional response capturing dynamic changes
+        in contact force. Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">min(|dF/dt|, 10)</code>. Models rapid adaptation critical for
+        slip and texture detection during manipulation.</li>
+
+        <li style="margin-bottom: 10px;"><strong>FA-II (Pacinian):</strong> Acceleration-based response sensitive to vibration.
+        Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">|d²F/dt²|</code>. Models vibration-tuned detection peaking at ~250 Hz, enabling
+        tool-mediated contact sensing.</li>
+    </ul>
+
+    <p>Full implementation:
+    <a href="https://github.com/uchanable/tactile-lm/blob/main/ct_touch/ct_augmented_touch.py" style="color: var(--accent-2);">
+    ct_augmented_touch.py</a></p>
+
     <div class="figure">
         <img src="fig/mimo_ct_distribution.png" alt="CT receptor distribution on MIMo body" style="max-width: 70%">
         <div class="caption">MIMo infant model with CT afferent receptor distribution.
