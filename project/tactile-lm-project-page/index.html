@@ -333,9 +333,7 @@
        distinguishing hairy and glabrous skin.</p>
 
     <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Mechanoreceptor Response Models</h3>
-    <p>CT-Touch models four mechanoreceptor types. The CT afferent model (detailed in the paper)
-    uses a velocity-tuned log-Gaussian based on Löken et al. (2009). The remaining three
-    discriminative receptors are implemented as follows:</p>
+    <p>CT-Touch models four mechanoreceptor types:</p>
 
     <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
         <li style="margin-bottom: 10px;"><strong>SA-I (Merkel):</strong> Sustained pressure response with compressive nonlinearity.
@@ -349,6 +347,14 @@
         <li style="margin-bottom: 10px;"><strong>FA-II (Pacinian):</strong> Acceleration-based response sensitive to vibration.
         Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">|d²F/dt²|</code>. Models vibration-tuned detection peaking at ~250 Hz, enabling
         tool-mediated contact sensing.</li>
+
+        <li style="margin-bottom: 10px;"><strong>CT (C-tactile):</strong> Velocity-tuned affective touch channel found exclusively in hairy skin.
+        Output: <code style="font-family: var(--mono); background: #f5f5f5; padding: 2px 6px; border-radius: 3px;">r_CT(v, T) = r_max &middot; exp(-(ln v - ln v*)&sup2; / 2&sigma;&sup2;) &middot; g(T)</code>,
+        where v* = 3.0 cm/s (optimal stroking velocity), r_max = 30 Hz, &sigma; = 1.0, and g(T)
+        peaks at skin temperature ~32&deg;C. Based on L&ouml;ken et al. (2009, <em>Nature Neuroscience</em>)
+        and corroborated by rodent C-LTMR electrophysiology (Abraira &amp; Ginty, 2013). This inverted-U
+        response captures the characteristic preference for gentle, slow stroking that humans rate as
+        most pleasant.</li>
     </ul>
 
     <p>Full implementation:
