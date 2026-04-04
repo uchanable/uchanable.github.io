@@ -394,71 +394,87 @@
     </div>
 
     <h2 id="video">Video Demonstration</h2>
-    <p>Best-performing models for each task and condition. CT ON best models achieve comparable or higher
-       rewards with significantly fewer training steps.</p>
+    <p>Representative episodes for each task and condition, showing best, median, and worst
+       performance across seeds. Videos will be updated with 30-seed results.</p>
 
+    <!-- ===== SELF-BODY TASK ===== -->
     <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Self-body Task</h3>
-    <p>MIMo sits and reaches with the right arm to touch randomized body parts. CT ON best model
-       achieved +432.6 reward in only 50K steps (vs CT OFF best +362.2 at 1M steps).</p>
-    <div class="video-grid">
+    <p>MIMo sits and reaches with the right arm to touch randomized body parts.</p>
+
+    <h4 style="margin: 16px 0 8px; color: var(--text-2);">CT OFF (force-only, 3-channel)</h4>
+    <div class="video-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="video-card">
             <video controls muted playsinline preload="auto">
                 <source src="from_mac-studio/selfbody_CT_OFF_1000K_seed7_ep2_h264.mp4" type="video/mp4">
             </video>
-            <div class="video-info">
-                <h4>CT OFF — Best (seed=7, 1M steps)</h4>
-                <p>Reward: +362.2</p>
-            </div>
+            <div class="video-info"><h4>Best</h4><p><!-- TODO: seed, steps, reward --></p></div>
         </div>
+        <div class="video-card">
+            <!-- TODO: median video -->
+            <div class="video-info"><h4>Median</h4><p>Awaiting 30-seed results</p></div>
+        </div>
+        <div class="video-card">
+            <!-- TODO: worst video -->
+            <div class="video-info"><h4>Worst</h4><p>Awaiting 30-seed results</p></div>
+        </div>
+    </div>
+
+    <h4 style="margin: 16px 0 8px; color: var(--text-2);">CT ON (multi-receptor, 7-channel)</h4>
+    <div class="video-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="video-card">
             <video controls muted playsinline preload="auto">
                 <source src="from_mac-studio/selfbody_CT_ON_50K_seed512_ep2_h264.mp4" type="video/mp4">
             </video>
-            <div class="video-info">
-                <h4>CT ON — Best (seed=512, 50K steps)</h4>
-                <p>Reward: +432.6</p>
-            </div>
+            <div class="video-info"><h4>Best</h4><p><!-- TODO: seed, steps, reward --></p></div>
+        </div>
+        <div class="video-card">
+            <!-- TODO: median video -->
+            <div class="video-info"><h4>Median</h4><p>Awaiting 30-seed results</p></div>
+        </div>
+        <div class="video-card">
+            <!-- TODO: worst video -->
+            <div class="video-info"><h4>Worst</h4><p>Awaiting 30-seed results</p></div>
         </div>
     </div>
-    <div class="figure">
-        <img src="from_mac-studio/selfbody_CT_OFF_1000K_seed7_snapshots.png" alt="Self-body CT OFF snapshots" style="max-width: 100%">
-        <div class="caption">Self-body CT OFF — Episode snapshots (seed=7, 1M steps)</div>
-    </div>
-    <div class="figure">
-        <img src="from_mac-studio/selfbody_CT_ON_50K_seed512_snapshots.png" alt="Self-body CT ON snapshots" style="max-width: 100%">
-        <div class="caption">Self-body CT ON — Episode snapshots (seed=512, 50K steps)</div>
-    </div>
 
+    <!-- ===== REACH TASK ===== -->
     <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Reach Task</h3>
-    <p>MIMo extends the right arm toward a hovering ball. CT ON best model achieved -26.9 reward in
-       only 100K steps (vs CT OFF best -38.0 at 1M steps), demonstrating more sample-efficient learning.</p>
-    <div class="video-grid">
+    <p>MIMo extends the right arm toward a hovering ball.</p>
+
+    <h4 style="margin: 16px 0 8px; color: var(--text-2);">CT OFF (force-only, 3-channel)</h4>
+    <div class="video-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="video-card">
             <video controls muted playsinline preload="auto">
                 <source src="from_mac-studio/reach_CT_OFF_1000K_seed42_ep2_h264.mp4" type="video/mp4">
             </video>
-            <div class="video-info">
-                <h4>CT OFF — Best (seed=42, 1M steps)</h4>
-                <p>Reward: -38.0</p>
-            </div>
+            <div class="video-info"><h4>Best</h4><p><!-- TODO: seed, steps, reward --></p></div>
         </div>
+        <div class="video-card">
+            <!-- TODO: median video -->
+            <div class="video-info"><h4>Median</h4><p>Awaiting 30-seed results</p></div>
+        </div>
+        <div class="video-card">
+            <!-- TODO: worst video -->
+            <div class="video-info"><h4>Worst</h4><p>Awaiting 30-seed results</p></div>
+        </div>
+    </div>
+
+    <h4 style="margin: 16px 0 8px; color: var(--text-2);">CT ON (multi-receptor, 7-channel)</h4>
+    <div class="video-grid" style="grid-template-columns: repeat(3, 1fr);">
         <div class="video-card">
             <video controls muted playsinline preload="auto">
                 <source src="from_mac-studio/reach_CT_ON_100K_seed256_ep3_h264.mp4" type="video/mp4">
             </video>
-            <div class="video-info">
-                <h4>CT ON — Best (seed=256, 100K steps)</h4>
-                <p>Reward: -26.9</p>
-            </div>
+            <div class="video-info"><h4>Best</h4><p><!-- TODO: seed, steps, reward --></p></div>
         </div>
-    </div>
-    <div class="figure">
-        <img src="from_mac-studio/reach_CT_OFF_1000K_seed42_snapshots.png" alt="Reach CT OFF snapshots" style="max-width: 100%">
-        <div class="caption">Reach CT OFF — Episode snapshots (seed=42, 1M steps)</div>
-    </div>
-    <div class="figure">
-        <img src="from_mac-studio/reach_CT_ON_100K_seed256_snapshots.png" alt="Reach CT ON snapshots" style="max-width: 100%">
-        <div class="caption">Reach CT ON — Episode snapshots (seed=256, 100K steps)</div>
+        <div class="video-card">
+            <!-- TODO: median video -->
+            <div class="video-info"><h4>Median</h4><p>Awaiting 30-seed results</p></div>
+        </div>
+        <div class="video-card">
+            <!-- TODO: worst video -->
+            <div class="video-info"><h4>Worst</h4><p>Awaiting 30-seed results</p></div>
+        </div>
     </div>
 
     <h2>Acknowledgments</h2>
