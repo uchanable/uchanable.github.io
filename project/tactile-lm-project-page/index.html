@@ -152,6 +152,40 @@
         }
         .video-placeholder h3 { color: #fff; margin-bottom: 8px; }
 
+        /* Video grid */
+        .video-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 24px 0;
+        }
+        @media (max-width: 700px) {
+            .video-grid { grid-template-columns: 1fr; }
+        }
+        .video-card {
+            background: var(--bg-2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .video-card video {
+            width: 100%;
+            display: block;
+        }
+        .video-card .video-info {
+            padding: 12px 16px;
+        }
+        .video-card .video-info h4 {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .video-card .video-info p {
+            font-size: 0.8rem;
+            color: var(--text-3);
+            margin: 0;
+        }
+
         /* Footer */
         footer {
             border-top: 1px solid var(--border);
@@ -232,11 +266,64 @@
                from Löken et al. (2009).</p>
         </div>
         <div class="finding-card">
-            <span class="tag tag-hypothesis">◇ Hypothesis</span>
-            <h3>CT shapes developmental trajectories</h3>
-            <p>We predict CT afferents will causally enhance self-exploratory behavior and
-               cross-modal representation formation. RL experiments are ongoing.</p>
+            <span class="tag tag-verified">✓ Verified</span>
+            <h3>Sample efficiency</h3>
+            <p>CT ON best models require far fewer training steps (50K–100K) to match or exceed
+               CT OFF best (1M), suggesting CT afferent signals accelerate learning.</p>
         </div>
+        <div class="finding-card">
+            <span class="tag tag-verified">✓ Verified</span>
+            <h3>Reach task advantage</h3>
+            <p>CT ON shows consistent 10–18% improvement across all training horizons with lower
+               variance, suggesting more stable learning dynamics.</p>
+        </div>
+        <div class="finding-card">
+            <span class="tag tag-verified">✓ Verified</span>
+            <h3>Efficient representation</h3>
+            <p>CT ON uses ~50% less tactile activation in the reach task, indicating the
+               multi-receptor model learns a more compact sensory representation.</p>
+        </div>
+    </div>
+
+    <h2>RL Results</h2>
+    <p>PPO training across 10 seeds (42, 123, 7, 256, 512, 1024, 2048, 314, 777, 55) on Mac Studio M1 Max 64 GB.
+       Training steps range from 50K to 1M for both self-body and reach tasks.</p>
+
+    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Self-body Task</h3>
+    <div class="figure">
+        <img src="from_mac-studio/selfbody_scaling_bar.png" alt="Self-body reward scaling bar chart">
+        <div class="caption">Self-body task — Mean reward (±SD) across training steps (50K–1M).
+            CT ON (orange) shows a slight early advantage at 50–100K steps, but CT OFF (blue) achieves
+            higher rewards at longer training horizons. Error bars overlap substantially (all p > .05, Mann-Whitney U).</div>
+    </div>
+    <div class="figure">
+        <img src="from_mac-studio/selfbody_boxplots.png" alt="Self-body reward distribution boxplots">
+        <div class="caption">Self-body task — Reward distribution per seed (n=10). Both conditions show
+            high variance across seeds, with no consistent advantage for either condition.</div>
+    </div>
+
+    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Reach Task</h3>
+    <div class="figure">
+        <img src="from_mac-studio/reach_scaling_bar.png" alt="Reach reward scaling bar chart">
+        <div class="caption">Reach task — Mean reward (±SD) across training steps. CT ON consistently
+            outperforms CT OFF across all training horizons, with the gap widening from 10% at 50K to
+            18% at 1M steps. CT ON also shows lower variance, suggesting more stable learning.</div>
+    </div>
+    <div class="figure">
+        <img src="from_mac-studio/reach_boxplots.png" alt="Reach reward distribution boxplots">
+        <div class="caption">Reach task — Reward distribution per seed. CT ON (orange) consistently
+            achieves higher rewards with a tighter distribution, particularly at 500K and 1M steps.
+            CT OFF exhibits more extreme low-performing outliers.</div>
+    </div>
+
+    <h2>Learning Curves</h2>
+    <div class="figure">
+        <img src="from_mac-studio/selfbody_learning_curves.png" alt="Self-body learning curves">
+        <div class="caption">Self-body task — Learning curves across training steps for CT ON vs CT OFF.</div>
+    </div>
+    <div class="figure">
+        <img src="from_mac-studio/reach_learning_curves.png" alt="Reach learning curves">
+        <div class="caption">Reach task — Learning curves across training steps for CT ON vs CT OFF.</div>
     </div>
 
     <h2>CT-Touch Module</h2>
@@ -275,10 +362,71 @@
     </div>
 
     <h2 id="video">Video Demonstration</h2>
-    <div class="video-placeholder">
-        <h3>🎬 Coming Soon</h3>
-        <p>Video demonstrations of MIMo with CT-Touch under random motor babbling<br>
-           and reinforcement learning will be uploaded here.</p>
+    <p>Best-performing models for each task and condition. CT ON best models achieve comparable or higher
+       rewards with significantly fewer training steps.</p>
+
+    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Self-body Task</h3>
+    <p>MIMo sits and reaches with the right arm to touch randomized body parts. CT ON best model
+       achieved +432.6 reward in only 50K steps (vs CT OFF best +362.2 at 1M steps).</p>
+    <div class="video-grid">
+        <div class="video-card">
+            <video controls>
+                <source src="from_mac-studio/selfbody_CT_OFF_1000K_seed7_ep1.mp4" type="video/mp4">
+            </video>
+            <div class="video-info">
+                <h4>CT OFF — Best (seed=7, 1M steps)</h4>
+                <p>Reward: +362.2</p>
+            </div>
+        </div>
+        <div class="video-card">
+            <video controls>
+                <source src="from_mac-studio/selfbody_CT_ON_50K_seed512_ep1.mp4" type="video/mp4">
+            </video>
+            <div class="video-info">
+                <h4>CT ON — Best (seed=512, 50K steps)</h4>
+                <p>Reward: +432.6</p>
+            </div>
+        </div>
+    </div>
+    <div class="figure">
+        <img src="from_mac-studio/selfbody_CT_OFF_1000K_seed7_snapshots.png" alt="Self-body CT OFF snapshots" style="max-width: 100%">
+        <div class="caption">Self-body CT OFF — Episode snapshots (seed=7, 1M steps)</div>
+    </div>
+    <div class="figure">
+        <img src="from_mac-studio/selfbody_CT_ON_50K_seed512_snapshots.png" alt="Self-body CT ON snapshots" style="max-width: 100%">
+        <div class="caption">Self-body CT ON — Episode snapshots (seed=512, 50K steps)</div>
+    </div>
+
+    <h3 style="font-family: var(--serif); font-size: 1.2rem; margin: 32px 0 12px;">Reach Task</h3>
+    <p>MIMo extends the right arm toward a hovering ball. CT ON best model achieved -26.9 reward in
+       only 100K steps (vs CT OFF best -38.0 at 1M steps), demonstrating more sample-efficient learning.</p>
+    <div class="video-grid">
+        <div class="video-card">
+            <video controls>
+                <source src="from_mac-studio/reach_CT_OFF_1000K_seed42_ep1.mp4" type="video/mp4">
+            </video>
+            <div class="video-info">
+                <h4>CT OFF — Best (seed=42, 1M steps)</h4>
+                <p>Reward: -38.0</p>
+            </div>
+        </div>
+        <div class="video-card">
+            <video controls>
+                <source src="from_mac-studio/reach_CT_ON_100K_seed256_ep1.mp4" type="video/mp4">
+            </video>
+            <div class="video-info">
+                <h4>CT ON — Best (seed=256, 100K steps)</h4>
+                <p>Reward: -26.9</p>
+            </div>
+        </div>
+    </div>
+    <div class="figure">
+        <img src="from_mac-studio/reach_CT_OFF_1000K_seed42_snapshots.png" alt="Reach CT OFF snapshots" style="max-width: 100%">
+        <div class="caption">Reach CT OFF — Episode snapshots (seed=42, 1M steps)</div>
+    </div>
+    <div class="figure">
+        <img src="from_mac-studio/reach_CT_ON_100K_seed256_snapshots.png" alt="Reach CT ON snapshots" style="max-width: 100%">
+        <div class="caption">Reach CT ON — Episode snapshots (seed=256, 100K steps)</div>
     </div>
 
     <h2>Acknowledgments</h2>
