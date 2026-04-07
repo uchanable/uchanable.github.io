@@ -354,6 +354,89 @@
             margin-bottom: 2px;
         }
 
+        /* ── Modal popup ── */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 24px;
+        }
+
+        .modal-overlay.active { display: flex; }
+
+        .modal-content {
+            position: relative;
+            max-width: 95vw;
+            max-height: 90vh;
+            overflow: auto;
+            background: white;
+            border-radius: 6px;
+            padding: 20px;
+        }
+
+        .modal-content img {
+            width: 100%;
+            display: block;
+        }
+
+        .modal-close {
+            position: fixed;
+            top: 16px;
+            right: 24px;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            z-index: 1001;
+            line-height: 1;
+            background: none;
+            border: none;
+        }
+
+        .modal-close:hover { opacity: 0.7; }
+
+        .modal-nav {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .modal-nav button {
+            padding: 6px 14px;
+            font-size: 0.82rem;
+            font-family: var(--sans);
+            border: 1px solid var(--border);
+            background: white;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .modal-nav button.active {
+            background: var(--text);
+            color: white;
+            border-color: var(--text);
+        }
+
+        .modal-trigger {
+            display: inline-block;
+            padding: 8px 16px;
+            font-size: 0.88rem;
+            font-family: var(--sans);
+            font-weight: 500;
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            cursor: pointer;
+            background: white;
+            margin: 16px 0;
+            transition: background 0.15s;
+        }
+
+        .modal-trigger:hover { background: var(--bg-2); }
+
         /* ── Generated HTML tables ── */
         .gen-tbl {
             width: 100%;
@@ -1075,6 +1158,10 @@
                 <figure><img src="source/figure/force/MASD_comparison.png" alt="MASD"><figcaption>(f) MASD</figcaption></figure>
             </div>
             <figcaption><strong>Figure 6.</strong> Raincloud plots for all six force metrics. FF+PID (blue) vs PID-only (orange). $^{*}p &lt; 0.05$, $^{**}p &lt; 0.01$.</figcaption>
+
+            <button class="modal-trigger" onclick="document.getElementById('roundtrip-modal').classList.add('active')">
+                View per-participant force profiles (S01&ndash;S20) &rarr;
+            </button>
         </div>
     </details>
 
@@ -1382,12 +1469,34 @@
 </div>
 </section>
 
+<!-- Roundtrip Modal -->
+<div id="roundtrip-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+    <button class="modal-close" onclick="this.parentElement.classList.remove('active')">&times;</button>
+    <div class="modal-content">
+        <p style="font-weight:600; margin-bottom:8px;">Per-participant force profiles: Force (N) vs Y-position (cm). Solid = forward mean, dashed = backward mean, thin lines = individual cycles.</p>
+        <div class="modal-nav">
+            <button class="active" onclick="showRoundtrip(this,'S01_S05')">S01&ndash;S05</button>
+            <button onclick="showRoundtrip(this,'S06_S10')">S06&ndash;S10</button>
+            <button onclick="showRoundtrip(this,'S11_S15')">S11&ndash;S15</button>
+            <button onclick="showRoundtrip(this,'S16_S20')">S16&ndash;S20</button>
+        </div>
+        <img id="roundtrip-img" src="source/figure/force/roundtrip_S01_S05.png" alt="Per-participant roundtrip">
+    </div>
+</div>
+
 <footer>
     <p>&copy; 2026 Anonymous Author(s)</p>
     <p style="margin-top:6px"><a href="#">Back to top</a></p>
 </footer>
 
 <script>
+    // ── Roundtrip modal navigation ──
+    function showRoundtrip(btn, group) {
+        document.getElementById('roundtrip-img').src = 'source/figure/force/roundtrip_' + group + '.png';
+        btn.parentElement.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+    }
+
     // ── Load HTML tables via fetch ──
     document.querySelectorAll('.tbl-html[data-src]').forEach(el => {
         fetch(el.dataset.src)
