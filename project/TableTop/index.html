@@ -257,8 +257,6 @@
         figure img, figure video {
             width: 100%;
             display: block;
-            border-radius: 8px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
         }
 
         /* Video replay overlay */
@@ -354,6 +352,38 @@
 
         .tbl .tbl-note li {
             margin-bottom: 2px;
+        }
+
+        /* ── Generated HTML tables ── */
+        .gen-tbl {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+            margin: 12px 0;
+        }
+
+        .gen-tbl th, .gen-tbl td {
+            padding: 6px 10px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .gen-tbl th {
+            font-weight: 600;
+            border-bottom: 2px solid var(--text);
+            font-size: 0.82rem;
+        }
+
+        .gen-tbl .section-row td {
+            padding-top: 14px;
+            border-bottom: none;
+        }
+
+        .tbl-fn {
+            font-size: 0.78rem;
+            color: var(--text-3);
+            margin-top: 8px;
+            line-height: 1.5;
         }
 
         /* ── Algorithm (as image) ── */
@@ -884,15 +914,10 @@
 
     <h3 id="experiment-pipeline">Data Processing Pipeline</h3>
     <details open>
-        <summary>Three-stage filtering</summary>
+        <summary>Data structure and metric computation</summary>
         <div class="expand-body">
-            <p>The force data were extracted from raw stroking recordings using a three-stage filtering pipeline. Each stroke cycle consists of: stop &rarr; acceleration &rarr; <strong>steady (analyzed)</strong> &rarr; deceleration &rarr; stop.</p>
-            <ol>
-                <li><strong>Stroke direction filter</strong> (<code>stroke &isin; {f, b}</code>): Turnaround segments where the robot is stationary are removed, as static periods are irrelevant to force control evaluation during active stroking.</li>
-                <li><strong>Moving-point filter</strong> (<code>label_moving = 1</code>): Data points where the Y-position is unchanged from adjacent samples are removed. These represent boundary points that are labeled as forward/backward but are still physically stationary.</li>
-                <li><strong>Steady-state filter</strong> (<code>label_steady = 1</code>): Within each continuous moving segment, the first and last data points are excluded to remove acceleration and deceleration transients (one point each).</li>
-            </ol>
-            <p>The resulting data comprise only the constant-velocity, steady-state force samples during active stroking. This pipeline is identical to the pilot study and is implemented in <code>parse_raw_to_master.py</code>.</p>
+            <p>Each stroke cycle consists of: forward &rarr; stop &rarr; backward &rarr; stop = 1 cycle. All data within each cycle are used for metric computation. The turnaround stops are included in the cycle data for all metrics except &Delta;F, which excludes them to separate forward and backward stroke directions (see <a href="#experiment-eval">metric definitions</a>).</p>
+            <p>This pipeline is implemented in <code>parse_raw_to_master.py</code>.</p>
         </div>
     </details>
 
@@ -901,7 +926,7 @@
     <details open>
         <summary>Force metric definitions</summary>
         <div class="expand-body">
-            <p>All metrics computed over steady-state data for each participant&ndash;condition pair (10 cycles pooled). Target force $F_{\text{target}} = 0.4$ N.</p>
+            <p>All metrics computed over complete cycle data for each participant&ndash;condition pair (10 cycles pooled). Target force $F_{\text{target}} = 0.4$ N.</p>
             <div class="def-grid">
                 <div class="def-card">
                     <h4>Mean</h4>
@@ -924,16 +949,17 @@
                     <div class="def-eq">$$\frac{\text{SD}(F)}{\overline{F}} \times 100$$</div>
                 </div>
                 <div class="def-card">
-                    <h4>$\Delta F$ (Hysteresis)</h4>
-                    <div class="def-desc">Absolute difference in mean force between forward and backward strokes. Lower values indicate more consistent bidirectional force delivery.</div>
+                    <h4>$\Delta F$ (Hysteresis)&thinsp;&dagger;</h4>
+                    <div class="def-desc">Hysteresis; forward&ndash;backward force asymmetry, computed from moving-phase data only (excluding turnaround stops) to separate stroke directions.</div>
                     <div class="def-eq">$$|\overline{F}_\text{fwd} - \overline{F}_\text{bwd}|$$</div>
                 </div>
                 <div class="def-card">
                     <h4>MASD</h4>
-                    <div class="def-desc">Force smoothness: average absolute sample-to-sample changes within each cycle, then averaged across $K=10$ cycles. Lower MASD = smoother delivery.</div>
+                    <div class="def-desc">Mean of adjacent-sample force changes per cycle. Lower values indicate temporally smoother force delivery.</div>
                     <div class="def-eq">$$\frac{1}{K}\sum_{k=1}^{K}\!\left(\frac{1}{n_k\!-\!1}\sum_{i=2}^{n_k}|F_i^{(k)}\!-\!F_{i-1}^{(k)}|\right)$$</div>
                 </div>
             </div>
+            <p style="font-size:0.82rem; color:var(--text-3); margin-top:16px;">&dagger; &Delta;F is computed from moving-phase data only (stroke &isin; {f, b}, label_moving = 1), excluding turnaround stops to separate forward and backward stroke directions. All other metrics use the complete cycle data.</p>
         </div>
     </details>
 
@@ -1022,13 +1048,9 @@
     <details>
         <summary>Results</summary>
         <div class="expand-body">
-            <div class="tbl" style="max-width:70%">
+            <div class="tbl">
                 <p class="tbl-cap"><strong>Table 1.</strong> Force control performance ($n=20$): descriptive statistics (M &plusmn; SD) and paired comparisons between FF+PID and PID-only for all force metrics across both stroking directions.</p>
-                <div class="tbl-img"><img src="source/table/1.png" alt="Table 1"></div>
-                <div class="tbl-note"><ul>
-                    <li>Values are M &plusmn; SD.</li>
-                    <li>$t$ = paired $t$-test; $W$ = Wilcoxon signed-rank (Shapiro&ndash;Wilk, $\alpha = .05$).</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table1.html"></div>
             </div>
 
             <h4>Parallel</h4>
@@ -1040,7 +1062,7 @@
             <h4>Force time series</h4>
             <figure>
                 <img src="source/figure/force/force_timeseries.png" alt="Force time series">
-                <figcaption><strong>Figure 5.</strong> Force time series ($n = 20$). Thin lines = individuals, solid = grand mean, shaded = &plusmn;1 SEM. Red dashed = target (0.4 N).</figcaption>
+                <figcaption><strong>Figure 5.</strong> Force time series ($n = 20$, turnaround stops excluded). Thin lines = individuals, solid = grand mean, shaded = &plusmn;1 SEM. Red dashed = target (0.4 N).</figcaption>
             </figure>
 
             <h4>Raincloud plots</h4>
@@ -1079,7 +1101,7 @@
             <h4>Why orthogonal MASD is higher than parallel</h4>
             <p>Despite lower RMSE (i.e., more accurate), orthogonal MASD values are substantially higher than parallel (FF+PID: 0.019 vs 0.007). This is explained by the sampling and structural characteristics of the two directions:</p>
             <ul>
-                <li><strong>Point count difference:</strong> Orthogonal strokes contain ~11 data points per cycle versus ~74 for parallel, because the short 2 cm distance produces a very brief steady-state segment.</li>
+                <li><strong>Point count difference:</strong> Orthogonal strokes contain ~11 data points per cycle versus ~74 for parallel, because the short 2 cm distance produces a very brief stroking segment.</li>
                 <li><strong>Turnaround ratio:</strong> With only 2 cm of travel, turnaround phases constitute a larger proportion of total movement time. Force spikes at turnarounds carry disproportionate weight across fewer data points.</li>
                 <li><strong>Sample interval:</strong> The orthogonal sample interval (258.8 ms) is approximately twice that of parallel (132.5 ms), allowing more force change to accumulate between adjacent samples.</li>
             </ul>
@@ -1413,6 +1435,14 @@
 </footer>
 
 <script>
+    // ── Load HTML tables via fetch ──
+    document.querySelectorAll('.tbl-html[data-src]').forEach(el => {
+        fetch(el.dataset.src)
+            .then(r => r.text())
+            .then(html => { el.innerHTML = html; })
+            .catch(() => { el.innerHTML = '<p style="color:var(--text-3)">Table loading failed.</p>'; });
+    });
+
     const ss = document.querySelectorAll('section[id]');
     const nn = document.querySelectorAll('nav a');
     const ob = new IntersectionObserver(es => {
