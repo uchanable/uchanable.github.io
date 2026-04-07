@@ -1087,15 +1087,11 @@
             <p>Orthogonal MASD is higher than parallel (0.019 vs 0.007) despite lower RMSE, due to ~11 data points per cycle vs ~74. Cross-direction comparison is inappropriate; only within-direction comparisons are meaningful.</p>
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 2.</strong> Sampling characteristics comparison between parallel and orthogonal stroking (FF+PID condition, measured values).</p>
-                <div class="tbl-img"><img src="source/table/2.png" alt="Table 2" style="max-width:70%"></div>
+                <div class="tbl-html" data-src="source/table/html/table2.html"></div>
             </div>
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 3.</strong> Statistical test results for MASD (FF+PID vs PID-only) by direction.</p>
-                <div class="tbl-img"><img src="source/table/3.png" alt="Table 3"></div>
-                <div class="tbl-note"><ul>
-                    <li>Both directions show significantly smoother force delivery under FF+PID.</li>
-                    <li>The larger orthogonal effect ($d = -1.433$) indicates FF is particularly effective in the short-stroke condition.</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table3.html"></div>
             </div>
 
             <h4>Why orthogonal MASD is higher than parallel</h4>
@@ -1114,12 +1110,12 @@
         <div class="expand-body">
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 4.</strong> Forward/Backward Hysteresis Analysis. Paired comparison of $\Delta F$ and RMSE inflation ($n = 20$).</p>
-                <div class="tbl-img"><img src="source/table/11.png" alt="Table 4"></div>
-                <div class="tbl-note"><ul>
-                    <li>$\Delta F = |\overline{F}_{\text{forward}} - \overline{F}_{\text{backward}}|$ (units: N).</li>
-                    <li>$t$ = paired $t$-test; $W$ = Wilcoxon signed-rank; $d$ = Cohen's $d$.</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table4.html"></div>
             </div>
+            <figure>
+                <img src="source/figure/force/fwd_bwd_rmse_comparison.png" alt="Forward/Backward RMSE comparison">
+                <figcaption><strong>Figure 8.</strong> Forward, backward, and combined RMSE for all four conditions. Box plots with individual participant data points.</figcaption>
+            </figure>
             <p>Parallel: FF+PID significantly reduced hysteresis ($p &lt; 0.001$, $d = -1.047$), correcting directional asymmetry from friction, inertia, and backlash.</p>
             <p>Orthogonal: both conditions already exhibited minimal hysteresis (~0.03 N) because the motor axis is perpendicular to the stroking direction. Combined RMSE inflation from hysteresis: max 5.3%.</p>
         </div>
@@ -1183,11 +1179,11 @@
         <div class="expand-body">
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 7.</strong> Cycle Trend Distribution. The balanced distribution confirms no systematic learning or fatigue effects.</p>
-                <div class="tbl-img"><img src="source/table/7.png" alt="Table 7" style="max-width:70%"></div>
+                <div class="tbl-html" data-src="source/table/html/table7.html"></div>
             </div>
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 8.</strong> Spearman $\rho$ frequency distribution across all 80 participant&ndash;condition pairs.</p>
-                <div class="tbl-img"><img src="source/table/8.png" alt="Table 8" style="max-width:70%"></div>
+                <div class="tbl-html" data-src="source/table/html/table8.html"></div>
             </div>
             <figure>
                 <img src="source/figure/force/cycle_trend_distribution.png" alt="Cycle trends" style="max-width:70%">
@@ -1198,19 +1194,11 @@
             <h4>X-axis drift</h4>
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 9.</strong> X-Axis Drift Analysis for the Parallel FF+PID Condition.</p>
-                <div class="tbl-img"><img src="source/table/9.png" alt="Table 9"></div>
-                <div class="tbl-note"><ul>
-                    <li>X drift universal (range: $-0.96$ to $-1.53$ cm), ~0.135 cm/cycle.</li>
-                    <li>Worsening statistically significant ($p = 0.0002$) but practically negligible (SD $= 0.002$ N).</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table9.html"></div>
             </div>
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 10.</strong> Forward/Backward X-Axis Displacement per Half-Cycle.</p>
-                <div class="tbl-img"><img src="source/table/10.png" alt="Table 10"></div>
-                <div class="tbl-note"><ul>
-                    <li>100% of backward half-cycles exhibited negative $\Delta X$; forward positive in nearly all cases.</li>
-                    <li>Asymmetric |BWD|/|FWD| ratio &approx; 3 produces net negative drift per cycle.</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table10.html"></div>
             </div>
 
             <h4>X-axis drift mechanism: heading PID overcorrection</h4>
@@ -1224,18 +1212,15 @@
         <div class="expand-body">
             <div class="tbl" style="max-width:55%">
                 <p class="tbl-cap"><strong>Table 11.</strong> Per-participant BWD[0] turnaround angles for the parallel direction.</p>
-                <div class="tbl-img"><img src="source/table/12.png" alt="Table 11"></div>
-                <div class="tbl-note"><ul>
-                    <li>Mean $= 58.6^\circ$, Median $= 56.0^\circ$, SD $= 20.7^\circ$, Range $= 29.5^\circ$&ndash;$110.0^\circ$.</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table11.html"></div>
             </div>
             <div class="tbl" style="max-width:55%">
                 <p class="tbl-cap"><strong>Table 12.</strong> Correlation between BWD[0] turnaround angle and parallel RMSE.</p>
-                <div class="tbl-img"><img src="source/table/13.png" alt="Table 12"></div>
+                <div class="tbl-html" data-src="source/table/html/table12.html"></div>
             </div>
             <div class="tbl" style="max-width:55%">
                 <p class="tbl-cap"><strong>Table 13.</strong> RMSE comparison: BWD[0] outliers vs remaining participants.</p>
-                <div class="tbl-img"><img src="source/table/14.png" alt="Table 13"></div>
+                <div class="tbl-html" data-src="source/table/html/table13.html"></div>
             </div>
             <h4>Outlier causes</h4>
             <ul>
@@ -1256,11 +1241,7 @@
         <div class="expand-body">
             <div class="tbl" style="max-width:90%">
                 <p class="tbl-cap"><strong>Table 14.</strong> Perceptual Questionnaire Results ($n = 20$, 7-point Likert scale). No significant differences (all $p > 0.05$).</p>
-                <div class="tbl-img"><img src="source/table/15.png" alt="Table 14"></div>
-                <div class="tbl-note"><ul>
-                    <li>Mdn = Median; IQR = Interquartile Range [Q1&ndash;Q3]; $r = Z/\sqrt{N}$ (effect size).</li>
-                    <li>$^\dagger$Marginal trend ($p = 0.081$, medium effect $r = 0.39$).</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table14.html"></div>
             </div>
             <figure>
                 <img src="source/figure/force/questionnaire.png" alt="Questionnaire raincloud">
@@ -1285,20 +1266,12 @@
             <h4>Parallel</h4>
             <div class="tbl" style="max-width:60%">
                 <p class="tbl-cap"><strong>Table 15.</strong> EDA Results, Parallel Direction ($n = 19$; S18 excluded). No significant differences (all $p > 0.4$, $|d| &lt; 0.2$).</p>
-                <div class="tbl-img"><img src="source/table/16.png" alt="Table 15"></div>
-                <div class="tbl-note"><ul>
-                    <li>$t$ = paired $t$-test, $W$ = Wilcoxon. SCL = tonic (raw); SCR = phasic (bandpass 0.05&ndash;3.0 Hz).</li>
-                    <li>SCR AUC baseline-corrected ($-5$ to $0$ s pre-stroking).</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table15.html"></div>
             </div>
             <h4>Orthogonal</h4>
             <div class="tbl" style="max-width:60%">
                 <p class="tbl-cap"><strong>Table 16.</strong> EDA Results, Orthogonal Direction ($n = 19$; S18 excluded). All four SCL metrics significant with medium-to-large effect sizes.</p>
-                <div class="tbl-img"><img src="source/table/17.png" alt="Table 16"></div>
-                <div class="tbl-note"><ul>
-                    <li>Test selection as in Table 15.</li>
-                    <li>The significant SCL differences ($|d| = 0.636$&ndash;$0.787$) align with variance decomposition: orthogonal PID had the highest within-participant SD (0.010 N).</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table16.html"></div>
             </div>
             <h4>Time series</h4>
             <div class="fig-grid">
@@ -1362,12 +1335,7 @@
         <div class="expand-body">
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 17.</strong> Post-hoc Power Analysis for All Force Control Metrics ($n=20$, $\alpha = 0.05$, two-tailed).</p>
-                <div class="tbl-img"><img src="source/table/19.png" alt="Table 17"></div>
-                <div class="tbl-note"><ul>
-                    <li>Power calculated as $\Phi(|d| \sqrt{n} - z_{\alpha/2})$.</li>
-                    <li>All significant metrics achieved power $> 0.85$.</li>
-                    <li>Orthogonal $\Delta F$ ($d = 0.019$): no effect, excluded.</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table17.html"></div>
             </div>
         </div>
     </details>
@@ -1377,10 +1345,7 @@
         <div class="expand-body">
             <div class="tbl" style="max-width:70%">
                 <p class="tbl-cap"><strong>Table 18.</strong> Post-hoc Power Analysis, Perceptual Questionnaire ($n = 20$).</p>
-                <div class="tbl-img"><img src="source/table/20.png" alt="Table 18" style="max-width:70%"></div>
-                <div class="tbl-note"><ul>
-                    <li>Effect sizes small ($r &lt; 0.4$): nonsignificance reflects genuinely minimal differences.</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table18.html"></div>
             </div>
         </div>
     </details>
@@ -1390,11 +1355,7 @@
         <div class="expand-body">
             <div class="tbl" style="max-width:50%">
                 <p class="tbl-cap"><strong>Table 19.</strong> Post-hoc Power Analysis, EDA ($n = 19$; S18 excluded).</p>
-                <div class="tbl-img"><img src="source/table/21.png" alt="Table 19"></div>
-                <div class="tbl-note"><ul>
-                    <li>Significant orthogonal SCL: power $\geq 0.75$. SCL Mean and AUC exceeded 0.80.</li>
-                    <li>$n_{80\%}$: minimum $n$ for 80% power. Dashes = negligible effects.</li>
-                </ul></div>
+                <div class="tbl-html" data-src="source/table/html/table19.html"></div>
             </div>
         </div>
     </details>

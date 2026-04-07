@@ -1,0 +1,24 @@
+<table class="gen-tbl">
+<thead><tr>
+<th>Direction</th><th>Metric</th><th>Test</th><th>Cohen's <em>d</em></th><th>Power (<em>n</em>=20)</th><th><em>n</em> for 80%</th><th><em>n</em> for 95%</th>
+</tr></thead><tbody>
+<tr><td>Parallel</td><td>Mean</td><td><em>t</em></td><td>0.883</td><td>0.977</td><td>11</td><td>17</td></tr>
+<tr><td>Parallel</td><td>RMSE</td><td><em>W</em></td><td>&minus;1.749</td><td>&gt;0.999</td><td>3</td><td>5</td></tr>
+<tr><td>Parallel</td><td>MAE</td><td><em>t</em></td><td>&minus;1.670</td><td>&gt;0.999</td><td>3</td><td>5</td></tr>
+<tr><td>Parallel</td><td>CV</td><td><em>t</em></td><td>&minus;2.476</td><td>&gt;0.999</td><td>2</td><td>3</td></tr>
+<tr><td>Parallel</td><td>&Delta;F</td><td><em>W</em></td><td>&minus;1.047</td><td>0.997</td><td>8</td><td>12</td></tr>
+<tr><td>Parallel</td><td>MASD</td><td><em>t</em></td><td>&minus;0.857</td><td>0.969</td><td>11</td><td>18</td></tr>
+<tr><td colspan="7" style="border-bottom:1px solid var(--border);padding:0"></td></tr>
+<tr><td>Orthogonal</td><td>Mean</td><td><em>t</em></td><td>0.676</td><td>0.856</td><td>18</td><td>29</td></tr>
+<tr><td>Orthogonal</td><td>RMSE</td><td><em>W</em></td><td>&minus;1.271</td><td>&gt;0.999</td><td>5</td><td>9</td></tr>
+<tr><td>Orthogonal</td><td>MAE</td><td><em>t</em></td><td>&minus;1.452</td><td>&gt;0.999</td><td>4</td><td>7</td></tr>
+<tr><td>Orthogonal</td><td>CV</td><td><em>W</em></td><td>&minus;1.130</td><td>&gt;0.999</td><td>7</td><td>11</td></tr>
+<tr><td>Orthogonal</td><td>&Delta;F</td><td><em>t</em></td><td>0.019</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td></tr>
+<tr><td>Orthogonal</td><td>MASD</td><td><em>t</em></td><td>&minus;1.433</td><td>&gt;0.999</td><td>4</td><td>7</td></tr>
+</tbody></table>
+<p class="tbl-fn">
+Power calculated as &Phi;(|<em>d</em>|&radic;<em>n</em> &minus; <em>z</em><sub>&alpha;/2</sub>). 
+<em>t</em> = paired <em>t</em>-test; <em>W</em> = Wilcoxon signed-rank test. 
+All significant metrics achieved power &gt; 0.85. 
+Orthogonal &Delta;F (<em>d</em> = 0.019): no effect, excluded from power calculation.
+</p>
