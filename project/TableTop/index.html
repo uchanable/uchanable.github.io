@@ -1036,8 +1036,8 @@
                     <div class="def-desc">Hysteresis; forward&ndash;backward force asymmetry, computed from moving-phase data only (excluding turnaround stops) to separate stroke directions.</div>
                     <div class="def-eq">$$|\overline{F}_\text{fwd} - \overline{F}_\text{bwd}|$$</div>
                 </div>
-                <div class="def-card">
-                    <h4>MASD</h4>
+                <div class="def-card" style="cursor:pointer;" onclick="document.getElementById('masd-modal').classList.add('active')">
+                    <h4>MASD <span style="font-size:0.7rem; color:var(--text-3);">click for details</span></h4>
                     <div class="def-desc">Mean of adjacent-sample force changes per cycle. Lower values indicate temporally smoother force delivery.</div>
                     <div class="def-eq">$$\frac{1}{K}\sum_{k=1}^{K}\!\left(\frac{1}{n_k\!-\!1}\sum_{i=2}^{n_k}|F_i^{(k)}\!-\!F_{i-1}^{(k)}|\right)$$</div>
                 </div>
@@ -1468,6 +1468,43 @@
     </details>
 </div>
 </section>
+
+<!-- MASD Modal -->
+<div id="masd-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
+    <button class="modal-close" onclick="this.parentElement.classList.remove('active')">&times;</button>
+    <div class="modal-content" style="max-width:720px;">
+        <h3 style="margin:0 0 16px; font-family:var(--serif);">MASD &mdash; Literature Background</h3>
+
+        <p>The Mean Absolute Successive Difference (MASD) is rooted in Von Neumann's successive difference statistics (1941) and is mathematically equivalent to established metrics across multiple disciplines:</p>
+
+        <table class="gen-tbl" style="margin:16px 0;">
+            <thead><tr><th>Field</th><th>Name</th><th>Relationship</th></tr></thead>
+            <tbody>
+                <tr><td>Statistics</td><td>MSSD (Von Neumann, 1941)</td><td>Squared variant; MASD uses absolute values</td></tr>
+                <tr><td>Quality Control</td><td>Average Moving Range (Montgomery, 2019)</td><td>Identical</td></tr>
+                <tr><td>Signal Processing</td><td>Normalized Total Variation</td><td>Identical</td></tr>
+                <tr><td>Biosignal (HRV)</td><td>RMSSD (Task Force ESC/NASPE, 1996)</td><td>L2-norm vs L1-norm</td></tr>
+                <tr><td>Motor Analysis</td><td>Discrete Jerk (Balasubramanian, 2015)</td><td>Same structure, applied to acceleration</td></tr>
+            </tbody>
+        </table>
+
+        <h4 style="border:none; padding:0; margin:16px 0 8px; display:block;">Why MASD for force smoothness?</h4>
+        <ul style="font-size:0.9rem; line-height:1.7;">
+            <li><strong>High-pass filter property</strong> &mdash; Berntson et al. (2005) demonstrated that successive difference metrics capture rapid sample-to-sample fluctuations while remaining insensitive to slow baseline drifts.</li>
+            <li><strong>Novel application</strong> &mdash; No prior study has applied MASD to robot force control. Balasubramanian et al. (2015) noted that "smoothness research for force and impedance is virtually nonexistent."</li>
+            <li><strong>Complementary to RMSE</strong> &mdash; Two signals with identical RMSE can differ substantially in MASD if one varies smoothly while the other exhibits rapid fluctuations.</li>
+        </ul>
+
+        <h4 style="border:none; padding:0; margin:16px 0 8px; display:block;">References</h4>
+        <ul style="font-size:0.78rem; color:var(--text-3); line-height:1.6;">
+            <li>Von Neumann, J., et al. (1941). The mean square successive difference. <em>Annals of Mathematical Statistics</em>, 12(2), 153&ndash;162.</li>
+            <li>Task Force ESC/NASPE (1996). Heart rate variability: Standards of measurement. <em>Circulation</em>, 93(5), 1043&ndash;1065.</li>
+            <li>Berntson, G. G., et al. (2005). Heart rate variability: Origins, methods, and interpretive caveats. <em>Psychophysiology</em>, 34(6), 623&ndash;648.</li>
+            <li>Balasubramanian, S., et al. (2015). Analysis of the smoothness of human movements. <em>J. NeuroEngineering and Rehabilitation</em>, 12, 112.</li>
+            <li>Montgomery, D. C. (2019). <em>Introduction to Statistical Quality Control</em> (8th ed.). Wiley.</li>
+        </ul>
+    </div>
+</div>
 
 <!-- Roundtrip Modal -->
 <div id="roundtrip-modal" class="modal-overlay" onclick="if(event.target===this)this.classList.remove('active')">
