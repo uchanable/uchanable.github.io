@@ -358,7 +358,7 @@ def generate_table7():
     html.append("<thead><tr>")
     html.append('<th colspan="5"><strong>(b) Breakdown by Condition</strong></th>')
     html.append("</tr><tr>")
-    html.append("<th>Condition</th><th>Impr.</th><th>Wors.</th><th>Stable</th><th>Mean &rho;</th>")
+    html.append("<th>Condition</th><th>Impr.</th><th>Stable</th><th>Wors.</th><th>Mean &rho;</th>")
     html.append("</tr></thead><tbody>")
 
     conditions = [
@@ -371,13 +371,13 @@ def generate_table7():
     for label, direction, control in conditions:
         sub = [r for r in rows if r["direction"] == direction and r["control"] == control]
         imp = sum(1 for r in sub if r["trend"] == "improving")
-        wor = sum(1 for r in sub if r["trend"] == "worsening")
         stb = sum(1 for r in sub if r["trend"] == "stable")
+        wor = sum(1 for r in sub if r["trend"] == "worsening")
         mean_rho = statistics.mean([float(r["rho"]) for r in sub])
         sign = "+" if mean_rho >= 0 else "&minus;"
-        html.append(f"<tr><td>{label}</td><td>{imp}</td><td>{'<strong>' + str(wor) + '</strong>' if wor >= 10 else str(wor)}</td><td>{stb}</td><td>{sign}{abs(mean_rho):.3f}</td></tr>")
+        html.append(f"<tr><td>{label}</td><td>{imp}</td><td>{stb}</td><td>{'<strong>' + str(wor) + '</strong>' if wor >= 10 else str(wor)}</td><td>{sign}{abs(mean_rho):.3f}</td></tr>")
 
-    html.append(f'<tr style="border-top:2px solid var(--text)"><td><strong>Total</strong></td><td><strong>{improving}</strong></td><td><strong>{worsening}</strong></td><td><strong>{stable}</strong></td><td>&mdash;</td></tr>')
+    html.append(f'<tr style="border-top:2px solid var(--text)"><td><strong>Total</strong></td><td><strong>{improving}</strong></td><td><strong>{stable}</strong></td><td><strong>{worsening}</strong></td><td>&mdash;</td></tr>')
     html.append("</tbody></table>")
 
     (OUT_DIR / "table7.html").write_text("\n".join(html), encoding="utf-8")
