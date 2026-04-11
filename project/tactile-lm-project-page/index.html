@@ -912,9 +912,65 @@
        that CT signals can exploit. A future experiment with <strong>velocity-sensitive self-touch rewards</strong>
        (e.g., reward proportional to gentle stroking at ~3&nbsp;cm/s) would disambiguate the two:
        if CT then shows an advantage, Hypothesis A is confirmed; if not, Hypothesis B stands alone.
-       Additionally, <strong>body-part contact pattern analysis</strong> &mdash; examining whether CT ON agents
-       preferentially explore hairy-skin regions &mdash; may reveal behavioral differences invisible
-       to the aggregate reward metric.</p>
+       A subsequent <strong>body-part contact pattern analysis</strong> (n&nbsp;=&nbsp;30 seeds, 3&nbsp;episodes &times;&nbsp;1000&nbsp;steps)
+       confirms that CT ON agents do <em>not</em> preferentially explore hairy-skin regions.
+       The hairy-skin contact ratio is virtually identical between conditions for both tasks:
+       self-body (CT&nbsp;ON&nbsp;0.600&nbsp;&plusmn;&nbsp;0.117 vs CT&nbsp;OFF&nbsp;0.606&nbsp;&plusmn;&nbsp;0.142; <em>p</em>&nbsp;=&nbsp;.728)
+       and reach (CT&nbsp;ON&nbsp;0.992 vs CT&nbsp;OFF&nbsp;0.995; <em>p</em>&nbsp;=&nbsp;.796).
+       CT channel activation in hairy-skin regions was notably low (max: left lower leg = 0.111),
+       indicating that under binary reward the CT signal is too weak to drive differential exploration.
+       This further supports <strong>Hypothesis A</strong> (reward structure mismatch):
+       the agent has no incentive to seek CT-optimal contact when any touch is equally rewarded.</p>
+
+    <!-- Body-Part Contact Analysis -->
+    <h3 class="section-sub">Body-Part Contact Analysis</h3>
+    <p style="font-size: 0.88rem; color: var(--text-3); margin-bottom: 16px;">
+        Evaluation of trained agents (n=30 seeds &times; 3 episodes &times; 1000 steps).
+        Hairy-skin regions have CT afferents; glabrous regions (palms, soles) do not.
+    </p>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+        <div>
+            <h4 style="margin-bottom: 8px; font-size: 0.9rem;">Self-body: Contact Frequency</h4>
+            <img src="from_mac-studio/selfbody_contact_freq.png" alt="Self-body contact frequency by body part" style="width: 100%; border-radius: 8px; border: 1px solid #e0e0e0;">
+        </div>
+        <div>
+            <h4 style="margin-bottom: 8px; font-size: 0.9rem;">Reach: Contact Frequency</h4>
+            <img src="from_mac-studio/reach_contact_freq.png" alt="Reach contact frequency by body part" style="width: 100%; border-radius: 8px; border: 1px solid #e0e0e0;">
+        </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+        <div>
+            <h4 style="margin-bottom: 8px; font-size: 0.9rem;">Self-body: Hairy-Skin Ratio</h4>
+            <img src="from_mac-studio/selfbody_hairy_ratio.png" alt="Self-body hairy skin contact ratio" style="width: 100%; border-radius: 8px; border: 1px solid #e0e0e0;">
+        </div>
+        <div>
+            <h4 style="margin-bottom: 8px; font-size: 0.9rem;">Reach: Hairy-Skin Ratio</h4>
+            <img src="from_mac-studio/reach_hairy_ratio.png" alt="Reach hairy skin contact ratio" style="width: 100%; border-radius: 8px; border: 1px solid #e0e0e0;">
+        </div>
+    </div>
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 32px;">
+        <div>
+            <h4 style="margin-bottom: 8px; font-size: 0.9rem;">Self-body: CT Channel Activation</h4>
+            <img src="from_mac-studio/selfbody_ct_activation.png" alt="Self-body CT channel activation" style="width: 100%; border-radius: 8px; border: 1px solid #e0e0e0;">
+        </div>
+        <div>
+            <h4 style="margin-bottom: 8px; font-size: 0.9rem;">Reach: CT Channel Activation</h4>
+            <img src="from_mac-studio/reach_ct_activation.png" alt="Reach CT channel activation" style="width: 100%; border-radius: 8px; border: 1px solid #e0e0e0;">
+        </div>
+    </div>
+
+    <div class="findings" style="margin: 16px 0 24px;">
+        <div class="finding-card">
+            <span class="tag tag-verified">Result</span>
+            <h3>No differential hairy-skin exploration</h3>
+            <p>CT ON agents contact hairy-skin regions at the same rate as CT OFF agents in both tasks
+               (self-body: <em>r</em>&nbsp;=&nbsp;&minus;0.053; reach: <em>r</em>&nbsp;=&nbsp;&minus;0.040).
+               The top contacted body parts are identical across conditions, reflecting task geometry rather
+               than CT-guided preference. Binary reward provides no gradient for the agent to exploit
+               velocity-tuned CT information.</p>
+        </div>
+    </div>
 
     <!-- 30-seed Video Grid -->
     <h3 class="section-sub" id="rl-results">Best / Median / Worst Episodes (1M steps)</h3>
