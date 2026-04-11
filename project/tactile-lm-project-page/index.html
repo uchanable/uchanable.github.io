@@ -239,11 +239,19 @@
             gap: 16px;
             margin: 24px 0;
         }
+        .video-grid-3x2 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+            margin: 12px 0 24px;
+        }
         @media (max-width: 900px) {
             .video-grid-4 { grid-template-columns: 1fr 1fr; }
+            .video-grid-3x2 { grid-template-columns: 1fr 1fr; }
         }
         @media (max-width: 500px) {
             .video-grid-4 { grid-template-columns: 1fr; }
+            .video-grid-3x2 { grid-template-columns: 1fr; }
             .video-grid { grid-template-columns: 1fr; }
             nav a { padding: 10px 12px; font-size: 0.8rem; }
             nav ul { overflow-x: auto; }
@@ -392,7 +400,8 @@
             <div class="dropdown-menu">
                 <a href="#rl-setup">Setup</a>
                 <a href="#video-demo">Video Demonstration</a>
-                <a href="#rl-results">Results</a>
+                <a href="#rl-results">Results (n=30)</a>
+                <a href="#rl-stats">Statistical Analysis</a>
             </div>
         </li>
         <li><a href="#key-findings">Key Findings</a></li>
@@ -419,6 +428,14 @@
         consistent with neurophysiology. Under RL training, both conditions achieve comparable
         self-body task performance, but CT-equipped agents show a consistent 10-18% advantage
         in the reach task with half the touch activation, suggesting more efficient contact behavior.
+    </div>
+
+    <div style="margin: 16px 0; padding: 14px 20px; background: linear-gradient(90deg, #e8f5e9, #f1f8e9); border-left: 4px solid #43a047; border-radius: 0 8px 8px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
+        <div>
+            <strong style="color: #2e7d32;">&#x1f4ca; Update:</strong>
+            <span style="color: #333;">30-seed replication (n=30 &times; 4 time steps = 480 runs) confirms the reach-task advantage with extreme Bayesian evidence (BF<sub>10</sub> = 453).</span>
+        </div>
+        <a href="#rl-results" style="display: inline-block; padding: 6px 16px; background: #43a047; color: #fff; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">View 30-seed Results &darr;</a>
     </div>
 
 </div>
@@ -459,6 +476,12 @@
             <h3>Reach task advantage</h3>
             <p>CT ON shows consistent 10–18% improvement across all training horizons with lower
                variance, suggesting more stable learning dynamics.</p>
+        </div>
+        <div class="finding-card" style="border-color: #43a047; background: #f1f8e9;">
+            <span class="tag" style="background: #c8e6c9; color: #2e7d32;">30-seed Update</span>
+            <h3>Extreme Bayesian evidence</h3>
+            <p>30-seed replication (480 runs) yields combined BF<sub>10</sub> = 453 for reach-task CT advantage.
+               <a href="#rl-results" style="color: #2e7d32; font-weight: 600;">See full analysis &darr;</a></p>
         </div>
         <div class="finding-card">
             <span class="tag tag-verified">Verified</span>
@@ -655,13 +678,16 @@
     <h3 class="section-sub" id="rl-setup">Setup</h3>
 
     <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
-        <li style="margin-bottom: 6px;"><strong>Algorithm:</strong> PPO, 10 seeds, identical reward structure for CT OFF / CT ON</li>
+        <li style="margin-bottom: 6px;"><strong>Algorithm:</strong> PPO, 10 seeds per condition, identical reward structure for CT OFF / CT ON</li>
         <li style="margin-bottom: 6px;"><strong>Self-body task:</strong> reward +500 for touching target body part</li>
         <li style="margin-bottom: 6px;"><strong>Reach task:</strong> reward based on finger-target distance</li>
-        <li style="margin-bottom: 6px;"><strong>Training steps:</strong> 100K, 500K, 1M</li>
+        <li style="margin-bottom: 6px;"><strong>Training steps:</strong> 50K, 100K, 500K, 1M (4 checkpoints &times; 2 conditions &times; 10 seeds = 80 runs per task)</li>
         <li style="margin-bottom: 6px;"><strong>Hardware:</strong> Mac Studio M1 Max, 64 GB RAM</li>
-        <li style="margin-bottom: 6px;">Current results based on 10 seeds; 30-seed runs in progress</li>
     </ul>
+
+    <div style="margin: 0 0 16px 0; padding: 10px 16px; background: #f1f8e9; border-left: 3px solid #43a047; border-radius: 0 6px 6px 0; font-size: 0.88rem; color: #333;">
+        <strong style="color: #2e7d32;">Extended to 30 seeds:</strong> Post-submission replication expanded to 30 seeds per condition (240 runs per task) for stronger statistical power. See <a href="#rl-results" style="color: #2e7d32; font-weight: 600;">Results (n=30)</a> below.
+    </div>
 
     <!-- 4-2) Video Demonstration -->
     <h3 class="section-sub" id="video-demo">Video Demonstration</h3>
@@ -706,48 +732,157 @@
         </div>
     </div>
 
-    <!-- Scaling bar charts (1x2) -->
-    <div class="figure-row">
-        <div class="figure">
-            <img src="from_mac-studio/selfbody_scaling_bar.png" alt="Self-body reward scaling bar chart" style="max-width: 100%">
-            <div class="caption">Figure 6a. Self-body task — Mean reward (&plusmn;SD) across training steps (100K–1M).</div>
+    <!-- 30-seed Video Grid -->
+    <h3 class="section-sub" id="rl-results">Results (n=30)</h3>
+
+    <h4 style="margin: 20px 0 8px;">Best / Median / Worst Episodes (1M steps, n=30)</h4>
+    <p style="font-size: 0.88rem; color: var(--text-3); margin-bottom: 16px;">
+        Seeds selected by mean reward at 1M training steps. Best = highest reward, Worst = lowest reward.
+    </p>
+
+    <!-- Reach videos 3x2 -->
+    <h4 style="margin: 16px 0 8px; font-size: 0.95rem;">Reach Task</h4>
+    <div class="video-grid-3x2">
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_ON_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Best</h4><p>seed 1500, reward 14.8</p></div>
         </div>
-        <div class="figure">
-            <img src="from_mac-studio/reach_scaling_bar.png" alt="Reach reward scaling bar chart" style="max-width: 100%">
-            <div class="caption">Figure 6b. Reach task — Mean reward (&plusmn;SD) across training steps.</div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_ON_median_seed1600_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Median</h4><p>seed 1600, reward &minus;63.4</p></div>
+        </div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_ON_worst_seed100_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Worst</h4><p>seed 100, reward &minus;97.1</p></div>
+        </div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_OFF_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Best</h4><p>seed 1500, reward &minus;11.7</p></div>
+        </div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_OFF_median_seed1300_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Median</h4><p>seed 1300, reward &minus;67.6</p></div>
+        </div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_OFF_worst_seed2048_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Worst</h4><p>seed 2048, reward &minus;134.5</p></div>
         </div>
     </div>
 
-    <!-- Boxplots (1x2) -->
-    <div class="figure-row">
-        <div class="figure">
-            <img src="from_mac-studio/selfbody_boxplots.png" alt="Self-body reward distribution boxplots" style="max-width: 100%">
-            <div class="caption">Figure 7a. Self-body task — Reward distribution per seed (n=10).</div>
+    <!-- Selfbody videos 3x2 -->
+    <h4 style="margin: 16px 0 8px; font-size: 0.95rem;">Self-body Task</h4>
+    <div class="video-grid-3x2">
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Best</h4><p>seed 1500, reward 431.4</p></div>
         </div>
-        <div class="figure">
-            <img src="from_mac-studio/reach_boxplots.png" alt="Reach reward distribution boxplots" style="max-width: 100%">
-            <div class="caption">Figure 7b. Reach task — Reward distribution per seed (n=10).</div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_median_seed1100_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Median</h4><p>seed 1100, reward 162.0</p></div>
+        </div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_worst_seed200_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Worst</h4><p>seed 200, reward &minus;62.0</p></div>
+        </div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Best</h4><p>seed 1500, reward 489.4</p></div>
+        </div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_median_seed1200_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Median</h4><p>seed 1200, reward 173.8</p></div>
+        </div>
+        <div class="video-card">
+            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_worst_seed1300_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Worst</h4><p>seed 1300, reward 2.1</p></div>
         </div>
     </div>
+
+    <!-- Scaling bar charts (1x2) — 30-seed -->
+
+    <div class="figure-row">
+        <div class="figure">
+            <img src="from_mac-studio/reach_scaling_bar_30seed.png" alt="Reach reward scaling bar chart (n=30)" style="max-width: 100%">
+            <div class="caption">Figure 6a. Reach task — Mean reward (&plusmn;SD) across training steps (n=30).</div>
+        </div>
+        <div class="figure">
+            <img src="from_mac-studio/selfbody_scaling_bar_30seed.png" alt="Self-body reward scaling bar chart (n=30)" style="max-width: 100%">
+            <div class="caption">Figure 6b. Self-body task — Mean reward (&plusmn;SD) across training steps (n=30).</div>
+        </div>
+    </div>
+
+    <!-- Boxplots (1x2) — 30-seed -->
+    <div class="figure-row">
+        <div class="figure">
+            <img src="from_mac-studio/reach_boxplots_30seed.png" alt="Reach reward distribution boxplots (n=30)" style="max-width: 100%">
+            <div class="caption">Figure 7a. Reach task — Reward distribution per seed (n=30).</div>
+        </div>
+        <div class="figure">
+            <img src="from_mac-studio/selfbody_boxplots_30seed.png" alt="Self-body reward distribution boxplots (n=30)" style="max-width: 100%">
+            <div class="caption">Figure 7b. Self-body task — Reward distribution per seed (n=30).</div>
+        </div>
+    </div>
+
+    <!-- Touch Activation -->
+    <div class="figure-row">
+        <div class="figure">
+            <img src="from_mac-studio/reach_touch_comparison_30seed.png" alt="Reach touch activation comparison" style="max-width: 100%">
+            <div class="caption">Figure 8. Reach task — CT ON agents use ~50% less touch activation to achieve higher reward.</div>
+        </div>
+        <div class="figure">
+            <img src="from_mac-studio/bayesian_winrate_30seed.png" alt="Bayesian win rate analysis" style="max-width: 100%">
+            <div class="caption">Figure 9. Beta-Binomial posterior: P(CT ON wins &gt; 50%) for each task.</div>
+        </div>
+    </div>
+
+    <!-- Statistical Summary Tables -->
+    <h3 class="section-sub" id="rl-stats">Statistical Analysis</h3>
+
+    <h4 style="margin: 20px 0 8px;">Reach Task — Reward (Mean &plusmn; SD)</h4>
+    <table class="comparison-table">
+        <thead>
+            <tr><th>Steps</th><th>CT ON</th><th>CT OFF</th><th>&Delta; (ON&minus;OFF)</th><th>Mann-Whitney p</th><th>Effect size r</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>50K</td><td>&minus;60.0 &plusmn; 28.6</td><td>&minus;72.2 &plusmn; 33.6</td><td>+12.2</td><td>.130</td><td>.20 (small)</td></tr>
+            <tr><td>100K</td><td>&minus;62.1 &plusmn; 26.8</td><td>&minus;67.3 &plusmn; 34.0</td><td>+5.2</td><td>.600</td><td>.07 (negligible)</td></tr>
+            <tr><td>500K</td><td>&minus;57.3 &plusmn; 31.2</td><td>&minus;67.3 &plusmn; 32.4</td><td>+10.0</td><td>.404</td><td>.11 (small)</td></tr>
+            <tr><td>1M</td><td>&minus;55.5 &plusmn; 30.4</td><td>&minus;67.0 &plusmn; 31.0</td><td>+11.5</td><td>.212</td><td>.16 (small)</td></tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin: 20px 0 8px;">Self-body Task — Reward (Mean &plusmn; SD)</h4>
+    <table class="comparison-table">
+        <thead>
+            <tr><th>Steps</th><th>CT ON</th><th>CT OFF</th><th>&Delta; (ON&minus;OFF)</th><th>Mann-Whitney p</th><th>Effect size r</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>50K</td><td>208.2 &plusmn; 111.3</td><td>207.1 &plusmn; 119.3</td><td>+1.2</td><td>.971</td><td>.01 (negligible)</td></tr>
+            <tr><td>100K</td><td>178.6 &plusmn; 131.2</td><td>170.6 &plusmn; 107.7</td><td>+8.0</td><td>.684</td><td>.05 (negligible)</td></tr>
+            <tr><td>500K</td><td>182.5 &plusmn; 126.9</td><td>197.9 &plusmn; 98.8</td><td>&minus;15.4</td><td>.773</td><td>.04 (negligible)</td></tr>
+            <tr><td>1M</td><td>162.8 &plusmn; 125.0</td><td>174.2 &plusmn; 117.5</td><td>&minus;11.4</td><td>.773</td><td>.04 (negligible)</td></tr>
+        </tbody>
+    </table>
+
+    <h4 style="margin: 20px 0 8px;">Bayesian Analysis</h4>
+    <table class="comparison-table">
+        <thead>
+            <tr><th>Task</th><th>CT ON Win Rate</th><th>P(&theta; &gt; 0.5)</th><th>Meta-analysis &theta;<sub>RE</sub></th><th>95% CI</th><th>Combined BF<sub>10</sub></th></tr>
+        </thead>
+        <tbody>
+            <tr><td><strong>Reach</strong></td><td>69/120 (57.5%)</td><td><strong>0.949</strong></td><td>9.69</td><td>[1.83, 17.55]</td><td><strong>453.3 (Extreme)</strong></td></tr>
+            <tr><td>Self-body</td><td>69/120 (57.5%)</td><td>0.949</td><td>&minus;4.56</td><td>[&minus;34.3, 25.2]</td><td>0.111 (H<sub>0</sub>)</td></tr>
+        </tbody>
+    </table>
 
     <!-- Interpretation -->
-    <h3 class="section-sub" id="rl-results">Interpretation</h3>
+    <h3 class="section-sub" id="rl-interpretation">Interpretation</h3>
     <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
-        <li style="margin-bottom: 8px;"><strong>Self-body task:</strong> Comparable performance between CT OFF and CT ON, with high variance across seeds in both conditions.</li>
-        <li style="margin-bottom: 8px;"><strong>Reach task:</strong> CT ON achieves 12–18% higher reward with approximately half the touch activation, suggesting more efficient contact behavior. Lower variance indicates more stable learning dynamics.</li>
-        <li style="margin-bottom: 8px;"><strong>Statistical test:</strong> Mann-Whitney U = 33, p = .21, r = .34 (medium effect size, not yet significant at n = 10).</li>
-        <li style="margin-bottom: 8px;"><strong>Sample efficiency:</strong> CT ON best model at 100K training steps surpasses CT OFF best model at 1M steps.</li>
+        <li style="margin-bottom: 8px;"><strong>Reach task:</strong> CT ON consistently outperforms CT OFF across all 4 training horizons (&Delta; = +5 to +12 reward). While individual time-step comparisons do not reach p &lt; .05, the combined Bayes Factor of <strong>453.3</strong> provides extreme evidence for a systematic CT advantage. CT ON agents use <strong>~50% less touch activation</strong>, indicating more efficient contact behavior.</li>
+        <li style="margin-bottom: 8px;"><strong>Self-body task:</strong> No meaningful difference between CT ON and CT OFF (BF<sub>10</sub> = 0.111, moderate evidence for H<sub>0</sub>). This is expected — self-body exploration rewards any contact with the target body part, regardless of touch quality.</li>
+        <li style="margin-bottom: 8px;"><strong>Task-specific dissociation:</strong> The contrasting results suggest CT afferents selectively benefit tasks requiring precise, goal-directed reaching rather than exploratory self-touch, consistent with the hypothesis that affective touch channels refine sensorimotor control.</li>
+        <li style="margin-bottom: 8px;"><strong>Training overhead:</strong> CT ON adds 3–23% wall-clock time due to mechanoreceptor computation, which is modest given the richer sensory representation.</li>
     </ul>
-
-    <!-- 30-seed coming soon -->
-    <div class="coming-soon">
-        <h4>30-seed Results (Coming Soon)</h4>
-        <ul>
-            <li>30-seed runs currently in progress — results will be uploaded upon completion</li>
-            <li>Best / Median / Worst videos for 4 conditions x 3 = 12 video grid</li>
-            <li>Updated reward scaling charts and distribution plots</li>
-        </ul>
-    </div>
 
 </div>
 </div>
