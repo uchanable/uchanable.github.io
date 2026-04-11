@@ -609,16 +609,18 @@
 
     <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
         <li style="margin-bottom: 10px;"><strong>SA-I (Merkel):</strong> Sustained pressure response with compressive nonlinearity.
-        Output: <code>log(1 + F)</code> where F is the normal contact force. Models slow-adapting
-        pressure encoding essential for perceiving object shape and weight.</li>
+        Output: <code>sign(F) &middot; log(1 + |F|)</code> applied per-axis to the 3D contact force vector,
+        producing 3 channels. Models slow-adapting pressure encoding essential for perceiving
+        object shape and weight.</li>
 
         <li style="margin-bottom: 10px;"><strong>FA-I (Meissner):</strong> Velocity-proportional response capturing dynamic changes
-        in contact force. Output: <code>min(|dF/dt|, 10)</code>. Models rapid adaptation critical for
+        in contact force. Output: <code>min(v &middot; 100, 10)</code> where v is the estimated contact
+        velocity (tangential force change &times; dt &times; 10). Models rapid adaptation critical for
         slip and texture detection during manipulation.</li>
 
-        <li style="margin-bottom: 10px;"><strong>FA-II (Pacinian):</strong> Acceleration-based response sensitive to vibration.
-        Output: <code>|d&sup2;F/dt&sup2;|</code>. Models vibration-tuned detection peaking at ~250 Hz, enabling
-        tool-mediated contact sensing.</li>
+        <li style="margin-bottom: 10px;"><strong>FA-II (Pacinian):</strong> Rate-of-force-change response sensitive to rapid transients.
+        Output: <code>min(|dF<sub>n</sub>/dt| &middot; 0.01, 5.0)</code> where F<sub>n</sub> is the normal
+        force magnitude. Models detection of sudden contact onset/offset.</li>
 
         <li style="margin-bottom: 10px;"><strong>CT (C-tactile):</strong> See detailed model below.</li>
     </ul>
@@ -627,14 +629,20 @@
         <div>
             <h4 style="margin-bottom: 8px;">CT Afferent Model</h4>
             <p style="font-size: 0.9rem;">Velocity-tuned affective touch channel found exclusively in hairy skin.
-            The firing rate follows a log-Gaussian inverted-U:</p>
-            <p style="font-size: 0.9rem;"><code>r_CT(v, T) = r_max &middot; exp(-(ln v - ln v*)&sup2; / 2&sigma;&sup2;) &middot; g(T)</code></p>
+            The firing rate follows a log-Gaussian inverted-U with force-dependent gating:</p>
+            <p style="font-size: 0.9rem;"><code>r_CT(v, F) = r_max &middot; exp(-(ln v - ln v*)&sup2; / 2&sigma;&sup2;) &middot; gate(F)</code></p>
             <p style="font-size: 0.85rem; color: var(--text-2);">
-            where v* = 3.0 cm/s (optimal stroking velocity), r_max = 30 Hz, &sigma; = 1.0,
-            and g(T) peaks at skin temperature ~32&deg;C. Based on L&ouml;ken et al. (2009,
-            <em>Nature Neuroscience</em>) and corroborated by rodent C-LTMR electrophysiology
-            (Abraira &amp; Ginty, 2013). This inverted-U captures the preference for gentle,
-            slow stroking that humans rate as most pleasant.</p>
+            where v* = 0.03 m/s (3 cm/s optimal stroking velocity), r_max = 1.0 (normalized),
+            &sigma; = 0.7, and gate(F) = min(1, F/2) &middot; exp(&minus;F/10) ensures CT responds only
+            to gentle forces. Minimum force threshold = 0.1 N.
+            Based on L&ouml;ken et al. (2009, <em>Nature Neuroscience</em>) and corroborated
+            by rodent C-LTMR electrophysiology (Abraira &amp; Ginty, 2013).
+            This inverted-U captures the preference for gentle, slow stroking that humans
+            rate as most pleasant.</p>
+            <p style="font-size: 0.82rem; color: var(--text-3); margin-top: 8px;">
+            <strong>Note:</strong> The original L&ouml;ken model includes a temperature modulation term g(T)
+            peaking at ~32&deg;C. Since MuJoCo does not simulate thermal physics, we replace g(T)
+            with a force-dependent gate that serves an analogous role of filtering non-gentle contacts.</p>
         </div>
         <div>
             <img src="fig/ct_firing_rate_curve.png" alt="CT firing rate curve" style="width: 85%; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.12);">
@@ -697,6 +705,26 @@
             pipeline end-to-end.</li>
     </ul>
 
+    <h4 style="margin: 24px 0 12px;">Modeling Limitations</h4>
+    <ul style="margin: 0 0 16px 24px; color: var(--text-2); font-size: 0.9rem;">
+        <li style="margin-bottom: 8px;"><strong>Simplified receptor models:</strong> SA-I, FA-I, and FA-II
+            use first-order approximations (log compression, velocity scaling, rate-of-force-change)
+            rather than detailed biophysical models. FA-II in particular captures force transients
+            rather than true vibration-frequency tuning (~250 Hz Pacinian response).</li>
+        <li style="margin-bottom: 8px;"><strong>No thermal simulation:</strong> MuJoCo lacks thermal physics,
+            so the CT temperature modulation term g(T) from L&ouml;ken et al. is replaced by a
+            force-dependent gate. This is a reasonable proxy for thermoneutral environments but
+            cannot model temperature-dependent affective touch modulation.</li>
+        <li style="margin-bottom: 8px;"><strong>Developmental maturation not applied:</strong> CT-Touch
+            includes a developmental trajectory model (0&ndash;24 months) with myelination progression
+            and receptor maturation schedules (&tau;<sub>A&beta;</sub>, &tau;<sub>CT</sub>), but all
+            experiments reported here use adult-level responses. The maturation parameters are
+            first approximations awaiting empirical calibration.</li>
+        <li style="margin-bottom: 8px;"><strong>Single platform:</strong> All experiments use MIMo + MuJoCo.
+            However, the receptor models process generic contact forces and are portable to other
+            physics engines (Isaac Gym, PyBullet, etc.).</li>
+    </ul>
+
 </div>
 </div>
 
@@ -715,6 +743,11 @@
         <li style="margin-bottom: 6px;"><strong>Reach task:</strong> reward based on finger-target distance</li>
         <li style="margin-bottom: 6px;"><strong>Training steps:</strong> 50K, 100K, 500K, 1M (4 checkpoints &times; 2 conditions &times; 10 seeds = 80 runs per task)</li>
         <li style="margin-bottom: 6px;"><strong>Hardware:</strong> Mac Studio M1 Max, 64 GB RAM</li>
+        <li style="margin-bottom: 6px;"><strong>Developmental scaling:</strong> Disabled (adult-level receptor responses).
+            CT-Touch includes a developmental maturation model (0&ndash;24 months) but all RL experiments
+            use full adult sensitivity to isolate the effect of CT afferents without confounding age-related changes.</li>
+        <li style="margin-bottom: 6px;"><strong>Temperature:</strong> Fixed at 32&deg;C (optimal for CT). MuJoCo has no thermal simulation;
+            the force-dependent gate substitutes for the temperature modulation term.</li>
     </ul>
 
     <!-- 4-2) Video Demonstration -->
