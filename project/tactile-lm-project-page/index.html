@@ -437,6 +437,7 @@
                 <a href="#rl-stats">Statistical Analysis</a>
             </div>
         </li>
+        <li><a href="#som-architecture">SOM (Ongoing)</a></li>
         <li><a href="#acknowledgments">Acknowledgments</a></li>
     </ul>
 </nav>
@@ -1179,10 +1180,123 @@
 </div>
 </div>
 
+<!-- ==================== 5. SOM + HEBBIAN CROSS-MODAL ARCHITECTURE ==================== -->
+<div class="section-wrap" style="background: linear-gradient(180deg, #e3f2fd 0%, var(--bg-2) 100%);">
+<div class="content">
+
+    <h2 id="som-architecture" style="display: flex; align-items: center; gap: 10px;">
+        <i data-lucide="brain-circuit" style="width: 24px; height: 24px; color: #1565c0;"></i>
+        SOM + Hebbian Cross-Modal Architecture (Ongoing)
+    </h2>
+
+    <!-- Motivation -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">Motivation</h3>
+    <p>The 30-seed PPO replication confirmed a small but reliable CT advantage in the reach task
+       (BF<sub>10</sub>&nbsp;=&nbsp;453). However, the effect size remains modest (g&nbsp;&asymp;&nbsp;0.3),
+       suggesting that PPO alone struggles to fully exploit the high-dimensional tactile space.
+       We hypothesized that a <strong>body-topographic intermediate representation</strong> could
+       bridge this gap: a Self-Organizing Map (SOM) that learns the spatial structure of tactile
+       input before it reaches the RL policy.</p>
+    <p>This idea was proposed in the ICDL submission (Section&nbsp;III-E) as the
+       <strong>SOM + Hebbian cross-modal architecture</strong>, but was not implemented at the time
+       of submission &mdash; a point noted by Reviewer&nbsp;W4. We have since completed the
+       implementation and are currently running the full factorial experiment.</p>
+
+    <!-- Architecture -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">Architecture</h3>
+    <p>The SOM module is implemented as a <strong>Gym observation wrapper</strong>, requiring
+       no modifications to the MIMo codebase. It consists of three components:</p>
+
+    <div class="findings">
+        <div class="finding-card" style="border-color: #90caf9;">
+            <span class="tag" style="background: #bbdefb; color: #0d47a1;">Discriminative SOM</span>
+            <h3>Body-topographic map</h3>
+            <p>13&nbsp;bodies &times; 6&nbsp;channels = 78-dimensional input.
+               Learns a spatial map that preserves body topology, encoding the
+               full discriminative tactile signal (SA-I, FA-I, FA-II, force).</p>
+        </div>
+        <div class="finding-card" style="border-color: #90caf9;">
+            <span class="tag" style="background: #bbdefb; color: #0d47a1;">Affective SOM</span>
+            <h3>CT-specific map</h3>
+            <p>13&nbsp;bodies &times; 1&nbsp;CT channel = 13-dimensional input.
+               A dedicated map for the CT afferent signal, capturing
+               velocity-tuned affective touch patterns across body regions.</p>
+        </div>
+        <div class="finding-card" style="border-color: #90caf9;">
+            <span class="tag" style="background: #bbdefb; color: #0d47a1;">Hebbian Binding</span>
+            <h3>Cross-modal connection</h3>
+            <p>Discriminative &harr; Affective SOM are linked via Hebbian learning:
+               co-active neurons strengthen their connection, enabling the agent to
+               associate discriminative and affective touch representations.</p>
+        </div>
+    </div>
+
+    <ul style="margin: 0 0 16px 24px; color: var(--text-2); font-size: 0.9rem;">
+        <li style="margin-bottom: 8px;"><strong>Critical period scheduler:</strong> SOM plasticity
+            (learning rate + neighborhood radius) is high during early training and decays gradually,
+            mimicking the developmental critical period for somatotopic map formation.</li>
+        <li style="margin-bottom: 8px;"><strong>Overhead:</strong> 2.2&nbsp;ms/step &mdash; negligible
+            compared to MuJoCo simulation and PPO update costs.</li>
+        <li style="margin-bottom: 8px;"><strong>Zero MIMo modification:</strong> The entire SOM pipeline
+            lives in a Gym wrapper; MIMo source code is untouched.</li>
+    </ul>
+
+    <!-- 2x2 Factorial Experiment Design -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">2&times;2 Factorial Experiment Design</h3>
+    <p>To isolate the contributions of CT afferents and SOM representation, we run a full
+       2&times;2 factorial design:</p>
+
+    <table class="comparison-table">
+        <thead>
+            <tr><th></th><th>CT OFF</th><th>CT ON</th></tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>PPO (baseline)</strong></td>
+                <td style="color: #2e7d32;">&#x2705; 30-seed complete</td>
+                <td style="color: #2e7d32;">&#x2705; 30-seed complete</td>
+            </tr>
+            <tr>
+                <td><strong>SOM + PPO</strong></td>
+                <td style="color: #1565c0;">&#x1F504; 30-seed in progress</td>
+                <td style="color: #1565c0;">&#x1F504; 30-seed in progress</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul style="margin: 16px 0 16px 24px; color: var(--text-2); font-size: 0.9rem;">
+        <li style="margin-bottom: 6px;"><strong>Task:</strong> Reach, 1M steps, 30 seeds per condition</li>
+        <li style="margin-bottom: 6px;"><strong>PPO baseline data:</strong> Reused from the 30-seed replication above (no redundant runs)</li>
+        <li style="margin-bottom: 6px;"><strong>Hypothesis:</strong> SOM + CT&nbsp;ON achieves the highest reward &mdash;
+            SOM provides the representational structure, CT provides the affective signal,
+            and the Hebbian binding integrates them</li>
+    </ul>
+
+    <!-- Results Placeholder -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">Results</h3>
+    <div class="coming-soon" style="border-color: #90caf9; background: #e3f2fd;">
+        <h4 style="display: flex; align-items: center; gap: 8px;">
+            <i data-lucide="clock" style="width: 18px; height: 18px; color: #1565c0;"></i>
+            Coming Soon
+        </h4>
+        <p style="margin-bottom: 12px; color: var(--text-2);">
+            SOM 2&times;2 factorial results will be added upon completion of the ongoing 30-seed experiment.
+        </p>
+        <ul>
+            <li>Reward comparison: PPO vs SOM+PPO &times; CT OFF vs CT ON</li>
+            <li>SOM topographic quality (topographic error, quantization error)</li>
+            <li>Hebbian binding strength and cross-modal activation patterns</li>
+            <li>Critical period ablation: effect of plasticity schedule on final performance</li>
+        </ul>
+    </div>
+
+</div>
+</div>
+
 <div class="section-wrap">
 <div class="content">
 
-    <!-- ==================== 5. ACKNOWLEDGMENTS ==================== -->
+    <!-- ==================== 6. ACKNOWLEDGMENTS ==================== -->
     <h2 id="acknowledgments">Acknowledgments</h2>
     <p>This work was supported by JSPS KAKENHI Grant Number 25K24420.
        CT-Touch builds upon the <a href="https://github.com/trieschlab/MIMo">MIMo</a> platform
