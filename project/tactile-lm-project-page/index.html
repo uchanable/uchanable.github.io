@@ -1223,11 +1223,19 @@
                velocity-tuned affective touch patterns across body regions.</p>
         </div>
         <div class="finding-card" style="border-color: #90caf9;">
+            <span class="tag" style="background: #bbdefb; color: #0d47a1;">Proprioceptive SOM</span>
+            <h3>Joint-angle map</h3>
+            <p>MIMo&rsquo;s proprioceptive observation (joint angles + velocities).
+               Provides the motor context that links tactile sensation to body posture,
+               enabling coordinated sensorimotor representation.</p>
+        </div>
+        <div class="finding-card" style="border-color: #90caf9;">
             <span class="tag" style="background: #bbdefb; color: #0d47a1;">Hebbian Binding</span>
-            <h3>Cross-modal connection</h3>
-            <p>Discriminative &harr; Affective SOM are linked via Hebbian learning:
-               co-active neurons strengthen their connection, enabling the agent to
-               associate discriminative and affective touch representations.</p>
+            <h3>3-pair cross-modal network</h3>
+            <p>Three fully-connected Hebbian links bind the SOMs:
+               Disc&harr;Aff, Disc&harr;Proprio, Aff&harr;Proprio.
+               Co-active neurons strengthen connections; weight decay prevents saturation.
+               Cross-modal prediction accuracy: 96% in unit tests.</p>
         </div>
     </div>
 
@@ -1235,10 +1243,12 @@
         <li style="margin-bottom: 8px;"><strong>Critical period scheduler:</strong> SOM plasticity
             (learning rate + neighborhood radius) is high during early training and decays gradually,
             mimicking the developmental critical period for somatotopic map formation.</li>
+        <li style="margin-bottom: 8px;"><strong>Intrinsic motivation:</strong> Curiosity-driven exploration
+            via SOM prediction error + CT reward signal.</li>
         <li style="margin-bottom: 8px;"><strong>Overhead:</strong> 2.2&nbsp;ms/step &mdash; negligible
             compared to MuJoCo simulation and PPO update costs.</li>
         <li style="margin-bottom: 8px;"><strong>Zero MIMo modification:</strong> The entire SOM pipeline
-            lives in a Gym wrapper; MIMo source code is untouched.</li>
+            lives in a Gym wrapper (<code>som_wrapper.py</code>); MIMo source code is untouched.</li>
     </ul>
 
     <!-- 2x2 Factorial Experiment Design -->
