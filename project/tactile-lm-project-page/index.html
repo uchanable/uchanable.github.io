@@ -651,6 +651,30 @@
         </div>
     </div>
 
+    <h4 style="margin: 24px 0 8px;">CT Model: Theoretical vs. Implementation</h4>
+    <p style="font-size: 0.9rem; color: var(--text-2);">
+        The ICDL submission described the theoretical CT model using the original parameters from
+        L&ouml;ken et al. (2009). The implementation adapts these for the RL pipeline.
+        Both share the same log-Gaussian structure; the differences are in parameterization:</p>
+
+    <table class="comparison-table" style="font-size: 0.85rem;">
+        <thead>
+            <tr><th>Parameter</th><th>ICDL Paper (L&ouml;ken original)</th><th>Code (RL-adapted)</th><th>Rationale</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>r<sub>max</sub></td><td>30 Hz</td><td>1.0 (normalized)</td><td>Scale-compatible with other observation channels</td></tr>
+            <tr><td>&sigma;</td><td>1.0</td><td>0.7</td><td>Tighter velocity selectivity around 3 cm/s</td></tr>
+            <tr><td>v*</td><td>3.0 cm/s</td><td>3.0 cm/s</td><td>Identical</td></tr>
+            <tr><td>Gating</td><td>g(T): temperature-dependent Gaussian<br>(T*=32&deg;C, &sigma;<sub>T</sub>=3&deg;C)</td>
+                <td>gate(F) = min(1, F/2) &middot; e<sup>&minus;F/10</sup><br>(force-dependent)</td>
+                <td>MuJoCo has no thermal simulation; force gate filters non-gentle contacts</td></tr>
+        </tbody>
+    </table>
+    <p style="font-size: 0.85rem; color: var(--text-3);">
+        The qualitative behavior is preserved: an inverted-U peaking at 3 cm/s gentle stroking,
+        active only on hairy skin. The normalized output and tighter &sigma; improve signal utility
+        as an RL observation without changing the fundamental biological model.</p>
+
     <p>Full implementation available in the repository:
     <a href="https://github.com/uchanable/tactile-lm/blob/main/ct_touch/ct_augmented_touch.py" style="color: var(--accent-2);">
     ct_augmented_touch.py</a></p>
