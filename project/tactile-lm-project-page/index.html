@@ -816,34 +816,6 @@
         Seeds selected by mean reward at 1M training steps across 30 seeds.
     </p>
 
-    <h4 style="margin: 16px 0 8px; font-size: 0.95rem;">Reach Task</h4>
-    <div class="video-grid-3x2">
-        <div class="video-card">
-            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_best_seed1500_h264.mp4" type="video/mp4"></video>
-            <div class="video-info"><h4>CT ON — Best</h4><p>seed 1500, reward 14.8</p></div>
-        </div>
-        <div class="video-card">
-            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_median_seed1600_h264.mp4" type="video/mp4"></video>
-            <div class="video-info"><h4>CT ON — Median</h4><p>seed 1600, reward &minus;63.4</p></div>
-        </div>
-        <div class="video-card">
-            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_worst_seed100_h264.mp4" type="video/mp4"></video>
-            <div class="video-info"><h4>CT ON — Worst</h4><p>seed 100, reward &minus;97.1</p></div>
-        </div>
-        <div class="video-card">
-            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_best_seed1500_h264.mp4" type="video/mp4"></video>
-            <div class="video-info"><h4>CT OFF — Best</h4><p>seed 1500, reward &minus;11.7</p></div>
-        </div>
-        <div class="video-card">
-            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_median_seed1300_h264.mp4" type="video/mp4"></video>
-            <div class="video-info"><h4>CT OFF — Median</h4><p>seed 1300, reward &minus;67.6</p></div>
-        </div>
-        <div class="video-card">
-            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_worst_seed2048_h264.mp4" type="video/mp4"></video>
-            <div class="video-info"><h4>CT OFF — Worst</h4><p>seed 2048, reward &minus;134.5</p></div>
-        </div>
-    </div>
-
     <h4 style="margin: 16px 0 8px; font-size: 0.95rem;">Self-body Task</h4>
     <div class="video-grid-3x2">
         <div class="video-card">
@@ -872,28 +844,56 @@
         </div>
     </div>
 
+    <h4 style="margin: 16px 0 8px; font-size: 0.95rem;">Reach Task</h4>
+    <div class="video-grid-3x2">
+        <div class="video-card">
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Best</h4><p>seed 1500, reward 14.8</p></div>
+        </div>
+        <div class="video-card">
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_median_seed1600_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Median</h4><p>seed 1600, reward &minus;63.4</p></div>
+        </div>
+        <div class="video-card">
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_worst_seed100_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT ON — Worst</h4><p>seed 100, reward &minus;97.1</p></div>
+        </div>
+        <div class="video-card">
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Best</h4><p>seed 1500, reward &minus;11.7</p></div>
+        </div>
+        <div class="video-card">
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_median_seed1300_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Median</h4><p>seed 1300, reward &minus;67.6</p></div>
+        </div>
+        <div class="video-card">
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_worst_seed2048_h264.mp4" type="video/mp4"></video>
+            <div class="video-info"><h4>CT OFF — Worst</h4><p>seed 2048, reward &minus;134.5</p></div>
+        </div>
+    </div>
+
     <!-- 30-seed Charts -->
     <h3 class="section-sub" id="rl-charts-30">Reward Distribution (n=30)</h3>
 
     <div class="figure-row">
         <div class="figure">
-            <img src="from_mac-studio/reach_scaling_bar_30seed.png" alt="Reach reward scaling bar chart (n=30)" style="max-width: 100%">
-            <div class="caption">Figure 8a. Reach task — Mean reward (&plusmn;SD) across training steps (n=30).</div>
+            <img src="from_mac-studio/selfbody_scaling_bar_30seed.png" alt="Self-body reward scaling bar chart (n=30)" style="max-width: 100%">
+            <div class="caption">Figure 8a. Self-body task — Mean reward (&plusmn;SD) across training steps (n=30).</div>
         </div>
         <div class="figure">
-            <img src="from_mac-studio/selfbody_scaling_bar_30seed.png" alt="Self-body reward scaling bar chart (n=30)" style="max-width: 100%">
-            <div class="caption">Figure 8b. Self-body task — Mean reward (&plusmn;SD) across training steps (n=30).</div>
+            <img src="from_mac-studio/reach_scaling_bar_30seed.png" alt="Reach reward scaling bar chart (n=30)" style="max-width: 100%">
+            <div class="caption">Figure 8b. Reach task — Mean reward (&plusmn;SD) across training steps (n=30).</div>
         </div>
     </div>
 
     <div class="figure-row">
         <div class="figure">
-            <img src="from_mac-studio/reach_boxplots_30seed.png" alt="Reach reward distribution boxplots (n=30)" style="max-width: 100%">
-            <div class="caption">Figure 9a. Reach task — Reward distribution per seed (n=30).</div>
+            <img src="from_mac-studio/selfbody_boxplots_30seed.png" alt="Self-body reward distribution boxplots (n=30)" style="max-width: 100%">
+            <div class="caption">Figure 9a. Self-body task — Reward distribution per seed (n=30).</div>
         </div>
         <div class="figure">
-            <img src="from_mac-studio/selfbody_boxplots_30seed.png" alt="Self-body reward distribution boxplots (n=30)" style="max-width: 100%">
-            <div class="caption">Figure 9b. Self-body task — Reward distribution per seed (n=30).</div>
+            <img src="from_mac-studio/reach_boxplots_30seed.png" alt="Reach reward distribution boxplots (n=30)" style="max-width: 100%">
+            <div class="caption">Figure 9b. Reach task — Reward distribution per seed (n=30).</div>
         </div>
     </div>
 
@@ -911,19 +911,6 @@
     <!-- 30-seed Statistical Summary Tables -->
     <h3 class="section-sub" id="rl-stats">Statistical Analysis (n=30)</h3>
 
-    <h4 style="margin: 20px 0 8px;">Reach Task — Reward (Mean &plusmn; SD)</h4>
-    <table class="comparison-table">
-        <thead>
-            <tr><th>Steps</th><th>CT ON</th><th>CT OFF</th><th>&Delta; (ON&minus;OFF)</th><th>Mann-Whitney p</th><th>Effect size r</th></tr>
-        </thead>
-        <tbody>
-            <tr><td>50K</td><td>&minus;60.0 &plusmn; 28.6</td><td>&minus;72.2 &plusmn; 33.6</td><td>+12.2</td><td>.130</td><td>.20 (small)</td></tr>
-            <tr><td>100K</td><td>&minus;62.1 &plusmn; 26.8</td><td>&minus;67.3 &plusmn; 34.0</td><td>+5.2</td><td>.600</td><td>.07 (negligible)</td></tr>
-            <tr><td>500K</td><td>&minus;57.3 &plusmn; 31.2</td><td>&minus;67.3 &plusmn; 32.4</td><td>+10.0</td><td>.404</td><td>.11 (small)</td></tr>
-            <tr><td>1M</td><td>&minus;55.5 &plusmn; 30.4</td><td>&minus;67.0 &plusmn; 31.0</td><td>+11.5</td><td>.212</td><td>.16 (small)</td></tr>
-        </tbody>
-    </table>
-
     <h4 style="margin: 20px 0 8px;">Self-body Task — Reward (Mean &plusmn; SD)</h4>
     <table class="comparison-table">
         <thead>
@@ -937,22 +924,35 @@
         </tbody>
     </table>
 
+    <h4 style="margin: 20px 0 8px;">Reach Task — Reward (Mean &plusmn; SD)</h4>
+    <table class="comparison-table">
+        <thead>
+            <tr><th>Steps</th><th>CT ON</th><th>CT OFF</th><th>&Delta; (ON&minus;OFF)</th><th>Mann-Whitney p</th><th>Effect size r</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>50K</td><td>&minus;60.0 &plusmn; 28.6</td><td>&minus;72.2 &plusmn; 33.6</td><td>+12.2</td><td>.130</td><td>.20 (small)</td></tr>
+            <tr><td>100K</td><td>&minus;62.1 &plusmn; 26.8</td><td>&minus;67.3 &plusmn; 34.0</td><td>+5.2</td><td>.600</td><td>.07 (negligible)</td></tr>
+            <tr><td>500K</td><td>&minus;57.3 &plusmn; 31.2</td><td>&minus;67.3 &plusmn; 32.4</td><td>+10.0</td><td>.404</td><td>.11 (small)</td></tr>
+            <tr><td>1M</td><td>&minus;55.5 &plusmn; 30.4</td><td>&minus;67.0 &plusmn; 31.0</td><td>+11.5</td><td>.212</td><td>.16 (small)</td></tr>
+        </tbody>
+    </table>
+
     <h4 style="margin: 20px 0 8px;">Bayesian Analysis</h4>
     <table class="comparison-table">
         <thead>
             <tr><th>Task</th><th>CT ON Win Rate</th><th>P(&theta; &gt; 0.5)</th><th>Meta-analysis &theta;<sub>RE</sub></th><th>95% CI</th><th>Combined BF<sub>10</sub></th></tr>
         </thead>
         <tbody>
-            <tr><td><strong>Reach</strong></td><td>69/120 (57.5%)</td><td><strong>0.949</strong></td><td>9.69</td><td>[1.83, 17.55]</td><td><strong>453.3 (Extreme)</strong></td></tr>
             <tr><td>Self-body</td><td>69/120 (57.5%)</td><td>0.949</td><td>&minus;4.56</td><td>[&minus;34.3, 25.2]</td><td>0.111 (H<sub>0</sub>)</td></tr>
+            <tr><td><strong>Reach</strong></td><td>69/120 (57.5%)</td><td><strong>0.949</strong></td><td>9.69</td><td>[1.83, 17.55]</td><td><strong>453.3 (Extreme)</strong></td></tr>
         </tbody>
     </table>
 
     <!-- 30-seed Interpretation -->
     <h3 class="section-sub" id="rl-interpretation">Interpretation</h3>
     <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
+        <li style="margin-bottom: 8px;"><strong>Self-body task:</strong> No meaningful difference between CT ON and CT OFF (BF<sub>10</sub> = 0.111, moderate evidence for H<sub>0</sub>), consistent with the 10-seed results. This is expected &mdash; self-body exploration rewards any contact with the target body part, regardless of touch quality.</li>
         <li style="margin-bottom: 8px;"><strong>Reach task:</strong> The 10-seed trend is confirmed at n=30. CT ON consistently outperforms CT OFF across all 4 training horizons (&Delta; = +5 to +12 reward). While individual time-step comparisons do not reach p &lt; .05, the combined Bayes Factor of <strong>453.3</strong> provides extreme evidence for a systematic CT advantage. CT ON agents use <strong>~50% less touch activation</strong>, confirming the more efficient contact behavior observed at n=10.</li>
-        <li style="margin-bottom: 8px;"><strong>Self-body task:</strong> No meaningful difference between CT ON and CT OFF (BF<sub>10</sub> = 0.111, moderate evidence for H<sub>0</sub>), consistent with the 10-seed results.</li>
         <li style="margin-bottom: 8px;"><strong>Task-specific dissociation:</strong> The contrasting results suggest CT afferents selectively benefit tasks requiring precise, goal-directed reaching rather than exploratory self-touch, consistent with the hypothesis that affective touch channels refine sensorimotor control.</li>
         <li style="margin-bottom: 8px;"><strong>Training overhead:</strong> CT ON adds 3&ndash;23% wall-clock time due to mechanoreceptor computation, which is modest given the richer sensory representation.</li>
     </ul>
