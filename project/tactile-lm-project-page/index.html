@@ -880,8 +880,41 @@
        Bayesian model comparison (BF<sub>10</sub>&nbsp;=&nbsp;453, extreme), and a consistent 67% win rate.
        Individual pairwise tests remain non-significant because power is only 21% at this sample size &mdash;
        but the combined evidence leaves little doubt that CT afferents provide a systematic, task-specific
-       advantage for goal-directed reaching. The effect is absent in self-body exploration (BF<sub>10</sub>&nbsp;=&nbsp;0.111),
-       indicating that CT signals selectively benefit precision tasks rather than general motor behavior.</p>
+       advantage for goal-directed reaching.</p>
+
+    <h4 style="margin: 24px 0 8px;">Why is the effect task-specific?</h4>
+    <p>The CT advantage is absent in self-body exploration (BF<sub>10</sub>&nbsp;=&nbsp;0.111,
+       moderate evidence for H<sub>0</sub>). Two complementary hypotheses explain this dissociation:</p>
+
+    <div class="findings" style="margin: 16px 0 24px;">
+        <div class="finding-card">
+            <span class="tag tag-verified">Hypothesis A</span>
+            <h3>Reward structure mismatch</h3>
+            <p>The self-body task uses a <strong>binary reward</strong> (+500 for any contact with the target body part).
+               This reward is orthogonal to <em>contact quality</em> &mdash; it cannot distinguish a slow, gentle touch
+               from a fast collision. Even if CT provides richer velocity-tuned information, the reward signal
+               has no gradient to exploit it. Under this view, the null result reflects a
+               <strong>measurement limitation</strong>, not absence of CT utility.</p>
+        </div>
+        <div class="finding-card">
+            <span class="tag tag-hypothesis">Hypothesis B</span>
+            <h3>CT benefits precision control</h3>
+            <p>The reach task requires <strong>precise finger-to-target coordination</strong> where approach velocity
+               and contact dynamics matter. CT afferents provide exactly this &mdash; a velocity-tuned signal
+               that helps the policy learn efficient approach trajectories. Self-body exploration, by contrast,
+               rewards <em>any</em> contact regardless of finesse, making CT&rsquo;s additional information
+               redundant. Under this view, CT is genuinely <strong>task-specific</strong>.</p>
+        </div>
+    </div>
+
+    <p>These hypotheses are not mutually exclusive. The binary reward likely masks any CT contribution
+       in the self-body task, while the reach task&rsquo;s distance-based reward creates a gradient
+       that CT signals can exploit. A future experiment with <strong>velocity-sensitive self-touch rewards</strong>
+       (e.g., reward proportional to gentle stroking at ~3&nbsp;cm/s) would disambiguate the two:
+       if CT then shows an advantage, Hypothesis A is confirmed; if not, Hypothesis B stands alone.
+       Additionally, <strong>body-part contact pattern analysis</strong> &mdash; examining whether CT ON agents
+       preferentially explore hairy-skin regions &mdash; may reveal behavioral differences invisible
+       to the aggregate reward metric.</p>
 
     <!-- 30-seed Video Grid -->
     <h3 class="section-sub" id="rl-results">Best / Median / Worst Episodes (1M steps)</h3>
