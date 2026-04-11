@@ -263,9 +263,33 @@
             border-radius: 8px;
             overflow: hidden;
         }
+        .video-card .video-wrap {
+            position: relative;
+            cursor: pointer;
+        }
         .video-card video {
             width: 100%;
             display: block;
+        }
+        .video-card .replay-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.2s;
+            pointer-events: none;
+        }
+        .video-card .video-wrap:hover .replay-overlay {
+            opacity: 1;
+        }
+        .replay-overlay svg {
+            width: 36px;
+            height: 36px;
+            color: #fff;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
         }
         .video-card .video-info {
             padding: 12px 16px;
@@ -699,7 +723,7 @@
 
     <div class="video-grid-4">
         <div class="video-card">
-            <video controls muted playsinline preload="auto">
+            <video muted playsinline loop preload="auto">
                 <source src="from_mac-studio/selfbody_CT_OFF_1000K_seed7_ep2_h264.mp4" type="video/mp4">
             </video>
             <div class="video-info">
@@ -708,7 +732,7 @@
             </div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="auto">
+            <video muted playsinline loop preload="auto">
                 <source src="from_mac-studio/selfbody_CT_ON_50K_seed512_ep2_h264.mp4" type="video/mp4">
             </video>
             <div class="video-info">
@@ -717,7 +741,7 @@
             </div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="auto">
+            <video muted playsinline loop preload="auto">
                 <source src="from_mac-studio/reach_CT_OFF_1000K_seed42_ep2_h264.mp4" type="video/mp4">
             </video>
             <div class="video-info">
@@ -726,7 +750,7 @@
             </div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="auto">
+            <video muted playsinline loop preload="auto">
                 <source src="from_mac-studio/reach_CT_ON_100K_seed256_ep3_h264.mp4" type="video/mp4">
             </video>
             <div class="video-info">
@@ -795,27 +819,27 @@
     <h4 style="margin: 16px 0 8px; font-size: 0.95rem;">Reach Task</h4>
     <div class="video-grid-3x2">
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_ON_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_best_seed1500_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT ON — Best</h4><p>seed 1500, reward 14.8</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_ON_median_seed1600_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_median_seed1600_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT ON — Median</h4><p>seed 1600, reward &minus;63.4</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_ON_worst_seed100_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_ON_worst_seed100_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT ON — Worst</h4><p>seed 100, reward &minus;97.1</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_OFF_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_best_seed1500_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT OFF — Best</h4><p>seed 1500, reward &minus;11.7</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_OFF_median_seed1300_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_median_seed1300_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT OFF — Median</h4><p>seed 1300, reward &minus;67.6</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/reach_CT_OFF_worst_seed2048_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/reach_CT_OFF_worst_seed2048_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT OFF — Worst</h4><p>seed 2048, reward &minus;134.5</p></div>
         </div>
     </div>
@@ -823,27 +847,27 @@
     <h4 style="margin: 16px 0 8px; font-size: 0.95rem;">Self-body Task</h4>
     <div class="video-grid-3x2">
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_best_seed1500_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT ON — Best</h4><p>seed 1500, reward 431.4</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_median_seed1100_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_median_seed1100_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT ON — Median</h4><p>seed 1100, reward 162.0</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_worst_seed200_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/selfbody_CT_ON_worst_seed200_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT ON — Worst</h4><p>seed 200, reward &minus;62.0</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_best_seed1500_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_best_seed1500_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT OFF — Best</h4><p>seed 1500, reward 489.4</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_median_seed1200_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_median_seed1200_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT OFF — Median</h4><p>seed 1200, reward 173.8</p></div>
         </div>
         <div class="video-card">
-            <video controls muted playsinline preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_worst_seed1300_h264.mp4" type="video/mp4"></video>
+            <video muted playsinline loop preload="metadata"><source src="from_mac-studio/selfbody_CT_OFF_worst_seed1300_h264.mp4" type="video/mp4"></video>
             <div class="video-info"><h4>CT OFF — Worst</h4><p>seed 1300, reward 2.1</p></div>
         </div>
     </div>
@@ -970,6 +994,46 @@
 
     // Initialize Lucide icons
     lucide.createIcons();
+
+    // ── Video: wrap with overlay + autoplay on scroll ──
+    const replaySVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+        <path d="M3 3v5h5"/><path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/>
+        <path d="M16 16h5v5"/></svg>`;
+
+    document.querySelectorAll('.video-card video').forEach(video => {
+        // Wrap video in .video-wrap with replay overlay
+        const wrap = document.createElement('div');
+        wrap.className = 'video-wrap';
+        video.parentNode.insertBefore(wrap, video);
+        wrap.appendChild(video);
+
+        const overlay = document.createElement('div');
+        overlay.className = 'replay-overlay';
+        overlay.innerHTML = replaySVG;
+        wrap.appendChild(overlay);
+
+        // Click overlay → restart from beginning
+        wrap.addEventListener('click', () => {
+            video.currentTime = 0;
+            video.play();
+        });
+    });
+
+    // Autoplay when scrolled into view, pause when out
+    const videoObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            const video = entry.target;
+            if (entry.isIntersecting) {
+                video.play().catch(() => {});
+            } else {
+                video.pause();
+            }
+        });
+    }, { threshold: 0.3 });
+
+    document.querySelectorAll('.video-card video').forEach(v => videoObserver.observe(v));
 </script>
 
 </body>
