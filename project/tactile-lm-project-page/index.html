@@ -438,7 +438,7 @@
                 <a href="#rl-stats">Statistical Analysis</a>
             </div>
         </li>
-        <li><a href="#som-architecture">SOM (Ongoing)</a></li>
+        <li><a href="#som-architecture">SOM (n=30)</a></li>
     </ul>
 </nav>
 
@@ -473,10 +473,10 @@
 
     <div style="margin: 4px 0 16px; padding: 14px 20px; background: linear-gradient(90deg, #e3f2fd, #e8eaf6); border-left: 4px solid #1565c0; border-radius: 0 8px 8px 0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
         <div>
-            <strong style="color: #0d47a1; display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="brain-circuit" style="width: 16px; height: 16px;"></i> Ongoing:</strong>
-            <span style="color: #333;">SOM + Hebbian cross-modal architecture now implemented (3 SOMs, 3 Hebbian link pairs, critical periods). 2&times;2 factorial experiment (PPO/SOM &times; CT OFF/ON, n=30) in progress.</span>
+            <strong style="color: #0d47a1; display: inline-flex; align-items: center; gap: 5px;"><i data-lucide="brain-circuit" style="width: 16px; height: 16px;"></i> Unexpected finding:</strong>
+            <span style="color: #333;">SOM + Hebbian architecture implemented and tested (2&times;2 factorial, n=30). CT effect is <em>architecture-invariant</em> &mdash; the SOM forms structured cross-modal bindings, but this does not amplify the CT benefit beyond PPO.</span>
         </div>
-        <a href="#som-architecture" style="display: inline-block; padding: 6px 16px; background: #1565c0; color: #fff; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">View SOM Architecture &darr;</a>
+        <a href="#som-architecture" style="display: inline-block; padding: 6px 16px; background: #1565c0; color: #fff; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: 600; white-space: nowrap;">View SOM Results &darr;</a>
     </div>
 
 </div>
@@ -1194,7 +1194,7 @@
 
     <h2 id="som-architecture" style="display: flex; align-items: center; gap: 10px;">
         <i data-lucide="brain-circuit" style="width: 24px; height: 24px; color: #1565c0;"></i>
-        SOM + Hebbian Cross-Modal Architecture (Ongoing)
+        SOM + Hebbian Cross-Modal Architecture (n=30)
     </h2>
 
     <!-- Motivation -->
@@ -1261,52 +1261,110 @@
 
     <!-- 2x2 Factorial Experiment Design -->
     <h3 class="section-sub" style="border-left-color: #1565c0;">2&times;2 Factorial Experiment Design</h3>
-    <p>To isolate the contributions of CT afferents and SOM representation, we run a full
-       2&times;2 factorial design:</p>
+    <p>To isolate the contributions of CT afferents and SOM representation, we ran a full
+       2&times;2 factorial design (Reach task, 1M steps, 30 seeds per condition, 120 runs total).
+       PPO baseline data was reused from the 30-seed replication above.</p>
 
+    <p><strong>Original hypothesis:</strong> SOM + CT&nbsp;ON would achieve the highest reward &mdash;
+       the SOM was expected to provide the representational structure that lets the agent exploit
+       the CT signal, producing a super-additive interaction.</p>
+
+    <!-- Descriptive stats -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">Results: Reward (Mean &plusmn; SD)</h3>
     <table class="comparison-table">
         <thead>
-            <tr><th></th><th>CT OFF</th><th>CT ON</th></tr>
+            <tr><th>Condition</th><th>N</th><th>Reward</th><th>Touch activation</th></tr>
         </thead>
         <tbody>
-            <tr>
-                <td><strong>PPO (baseline)</strong></td>
-                <td style="color: #2e7d32;">&#x2705; 30-seed complete</td>
-                <td style="color: #2e7d32;">&#x2705; 30-seed complete</td>
-            </tr>
-            <tr>
-                <td><strong>SOM + PPO</strong></td>
-                <td style="color: #1565c0;">&#x1F504; 30-seed in progress</td>
-                <td style="color: #1565c0;">&#x1F504; 30-seed in progress</td>
-            </tr>
+            <tr><td>PPO + CT OFF</td><td>30</td><td>&minus;67.0 &plusmn; 31.0</td><td>28,250</td></tr>
+            <tr><td>PPO + CT ON</td><td>30</td><td><strong>&minus;55.5 &plusmn; 30.4</strong></td><td><strong>13,815</strong></td></tr>
+            <tr><td>SOM + CT OFF</td><td>30</td><td>&minus;68.1 &plusmn; 33.8</td><td>28,350</td></tr>
+            <tr><td>SOM + CT ON</td><td>30</td><td>&minus;59.4 &plusmn; 35.7</td><td>13,368</td></tr>
         </tbody>
     </table>
 
-    <ul style="margin: 16px 0 16px 24px; color: var(--text-2); font-size: 0.9rem;">
-        <li style="margin-bottom: 6px;"><strong>Task:</strong> Reach, 1M steps, 30 seeds per condition</li>
-        <li style="margin-bottom: 6px;"><strong>PPO baseline data:</strong> Reused from the 30-seed replication above (no redundant runs)</li>
-        <li style="margin-bottom: 6px;"><strong>Hypothesis:</strong> SOM + CT&nbsp;ON achieves the highest reward &mdash;
-            SOM provides the representational structure, CT provides the affective signal,
-            and the Hebbian binding integrates them</li>
+    <!-- Main effects -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">Main Effects &amp; Interaction</h3>
+    <table class="comparison-table">
+        <thead>
+            <tr><th>Effect</th><th>Mann-Whitney p</th><th>Hedges' g</th><th>95% CI</th><th>Size</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>Architecture (PPO vs SOM)</td><td>.78</td><td>&minus;0.08</td><td>[&minus;0.43, 0.28]</td><td>negligible</td></tr>
+            <tr><td>CT (OFF vs ON)</td><td>.16</td><td>+0.31</td><td>[&minus;0.05, 0.67]</td><td>small</td></tr>
+            <tr><td>Architecture &times; CT</td><td>.75</td><td>&minus;0.13</td><td>[&minus;0.63, 0.38]</td><td>negligible</td></tr>
+        </tbody>
+    </table>
+
+    <div style="margin: 16px 0 24px; padding: 16px 20px; background: #fff8e1; border-left: 4px solid #f9a825; border-radius: 0 8px 8px 0;">
+        <strong style="color: #e65100;">Hypothesis rejected.</strong>
+        <span style="color: #333;"> The interaction is negligible (p&nbsp;=&nbsp;.75, g&nbsp;=&nbsp;&minus;0.13).
+        SOM and PPO achieve statistically indistinguishable performance at both CT&nbsp;OFF and CT&nbsp;ON.
+        If anything, PPO shows a slightly <em>larger</em> CT benefit (g&nbsp;=&nbsp;0.37) than SOM (g&nbsp;=&nbsp;0.25).
+        Adding a body-topographic representation did not amplify the CT advantage.</span>
+    </div>
+
+    <!-- Hebbian dynamics -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">Hebbian Binding Dynamics</h3>
+    <p>Despite the null architectural effect on reward, the SOM <strong>did form structured cross-modal
+       bindings as designed</strong>. The discriminative&harr;affective Hebbian link traces a clear
+       developmental trajectory:</p>
+
+    <table class="comparison-table">
+        <thead>
+            <tr><th>Training Steps</th><th>Binding Strength</th><th>Specificity</th><th>Phase</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>100K</td><td>0.911</td><td>0.007</td><td>Diffuse (over-saturation)</td></tr>
+            <tr><td>250K</td><td>0.481</td><td>0.065</td><td>Disambiguation begins</td></tr>
+            <tr><td>500K</td><td>0.439</td><td>0.072</td><td>Selective pruning</td></tr>
+            <tr><td>750K</td><td>0.441</td><td>0.074</td><td>Stable structure</td></tr>
+            <tr><td>1M</td><td>0.416</td><td>0.073</td><td>Specialized binding</td></tr>
+        </tbody>
+    </table>
+
+    <p>Binding strength drops from 0.91 to 0.42 as the SOM refines its initially diffuse connections
+       into a sparse, specific structure. Specificity rises 10&times; over the same period. This is exactly
+       what a functioning Hebbian cross-modal network should look like &mdash; but this representational
+       structure <strong>does not translate into reward improvement</strong>. SOM and policy learning
+       dissociate.</p>
+
+    <!-- Tactile efficiency -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">Tactile Efficiency Reproduced</h3>
+    <p>The ~50% reduction in touch activation under CT&nbsp;ON, first observed in the PPO replication,
+       <strong>replicates exactly in the SOM condition</strong>:</p>
+    <ul style="margin: 0 0 16px 24px; color: var(--text-2); font-size: 0.9rem;">
+        <li style="margin-bottom: 6px;">PPO: CT ON uses 13,815 vs CT OFF 28,250 touch activations (ratio 0.49)</li>
+        <li style="margin-bottom: 6px;">SOM: CT ON uses 13,368 vs CT OFF 28,350 touch activations (ratio 0.47)</li>
+        <li style="margin-bottom: 6px;">Both architectures: <strong>CT&nbsp;ON agents achieve equivalent or better reward with half the touch</strong></li>
     </ul>
 
-    <!-- Results Placeholder -->
-    <h3 class="section-sub" style="border-left-color: #1565c0;">Results</h3>
-    <div class="coming-soon" style="border-color: #90caf9; background: #e3f2fd;">
-        <h4 style="display: flex; align-items: center; gap: 8px;">
-            <i data-lucide="clock" style="width: 18px; height: 18px; color: #1565c0;"></i>
-            Coming Soon
-        </h4>
-        <p style="margin-bottom: 12px; color: var(--text-2);">
-            SOM 2&times;2 factorial results will be added upon completion of the ongoing 30-seed experiment.
-        </p>
-        <ul>
-            <li>Reward comparison: PPO vs SOM+PPO &times; CT OFF vs CT ON</li>
-            <li>SOM topographic quality (topographic error, quantization error)</li>
-            <li>Hebbian binding strength and cross-modal activation patterns</li>
-            <li>Critical period ablation: effect of plasticity schedule on final performance</li>
-        </ul>
-    </div>
+    <!-- Interpretation -->
+    <h3 class="section-sub" style="border-left-color: #1565c0;">Key Insight: CT Acts Implicitly, Not Instrumentally</h3>
+    <p>Why does SOM fail to amplify CT? Three converging observations suggest a
+       <strong>reframing of what CT information does</strong>:</p>
+
+    <ul style="margin: 0 0 16px 24px; color: var(--text-2);">
+        <li style="margin-bottom: 10px;"><strong>Signal dilution.</strong> At evaluation time, the CT channel
+            in the SOM condition measures near zero, despite being 23.58 in raw PPO observations.
+            SOM body-part pooling + running normalization washes out the already-sparse CT signal
+            when concatenated with much larger discriminative channels.</li>
+        <li style="margin-bottom: 10px;"><strong>Task irrelevance of contact quality.</strong> The reach task&rsquo;s
+            reward is distance-based &mdash; it scores how accurately the finger touches the target,
+            not <em>how</em> it touches. CT encodes contact quality, but this task offers no decision
+            structure where contact quality is instrumental to reward.</li>
+        <li style="margin-bottom: 10px;"><strong>CT shapes exploration implicitly.</strong> Both architectures
+            show the same ~50% touch reduction under CT ON. This effect is architecture-invariant
+            and does not flow through the reward signal &mdash; it suggests CT information influences
+            sensorimotor exploration strategies directly, before policy gradients ever see it.</li>
+    </ul>
+
+    <p>Together, these findings reframe the research question. CT information is not a
+       <em>task-instrumental reward signal</em> that a better architecture can amplify &mdash;
+       it is a <em>regularizer on sensorimotor exploration</em> that emerges regardless of
+       architectural sophistication. Validating CT&rsquo;s functional role will require tasks where
+       contact quality is itself reward-relevant: social touch, caregiver interaction, self-soothing.
+       This is the next direction for the project.</p>
 
 </div>
 </div>
